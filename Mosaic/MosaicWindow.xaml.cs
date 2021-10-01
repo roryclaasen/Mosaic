@@ -14,6 +14,7 @@ namespace Mosaic
     public partial class MosaicWindow : Window, IDisposable
     {
         private readonly MosaicManager mosaicManager;
+        private readonly DispatcherTimer swapTimer;
 
         public MosaicWindow()
         {
@@ -25,28 +26,21 @@ namespace Mosaic
             this.Closing += MosaicView_Closing;
             this.KeyUp += MosaicView_KeyUp;
 
-            DispatcherTimer timer = new DispatcherTimer
+            swapTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(1)
+                Interval = TimeSpan.FromSeconds(5)
             };
-            timer.Tick += (o, e) =>
-            {
-                this.mosaicManager.Update();
-            };
-            timer.IsEnabled = true;
+            swapTimer.Tick += (o, e) => this.mosaicManager.SwapViews();
+            swapTimer.IsEnabled = true;
         }
 
         public void InitializeSources(IEnumerable<string> sources) => this.mosaicManager.Initialize(sources);
 
+        private IEnumerable<VideoView> GetVideoViews() => this.VideoGrid.Children.OfType<VideoView>();
+
         private void MosaicView_Closing(object sender, CancelEventArgs e) => this.Dispose();
 
         private void MosaicView_KeyUp(object sender, KeyEventArgs e) => this.mosaicManager.TogglePause();
-
-
-        private IEnumerable<VideoView> GetVideoViews()
-        {
-            return this.VideoGrid.Children.OfType<VideoView>();
-        }
 
         public void Dispose()
         {

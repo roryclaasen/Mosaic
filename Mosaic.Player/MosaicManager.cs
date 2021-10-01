@@ -8,78 +8,63 @@ namespace Mosaic.Player
 
     public sealed class MosaicManager
     {
-        private readonly LibVLC libVLC;
-        private IEnumerable<IVideoView> videoViews;
+        private readonly LibVLC LlibVLC;
+        private IEnumerable<IVideoView> VideoViews;
 
         public bool Paused { get; private set; } = false;
 
-
-
-
-
-        private Queue<Media> MediaList;
-
-
+        private QueueSwapper<Media> QueueSwapper;
 
         public MosaicManager(LibVLC libVLC, IEnumerable<IVideoView> videoViews)
         {
-            this.libVLC = libVLC ?? throw new ArgumentNullException(nameof(libVLC));
-            this.videoViews = videoViews ?? throw new ArgumentNullException(nameof(videoViews));
+            this.LlibVLC = libVLC ?? throw new ArgumentNullException(nameof(libVLC));
+            this.VideoViews = videoViews ?? throw new ArgumentNullException(nameof(videoViews));
         }
 
         public void Initialize(IEnumerable<string> sources)
         {
             this.SetupVideoViews();
 
-            this.MediaList = new Queue<Media>(sources.Select(source => new Media(this.libVLC, source, FromType.FromLocation)));
+            var views = this.VideoViews.ToArray();
 
-            var views = this.videoViews.ToArray();
+            this.QueueSwapper = new QueueSwapper<Media>(views.Length, sources.Select(source => new Media(this.LlibVLC, source, FromType.FromLocation)));
+
             for (var i = 0; i < views.Length; i++)
             {
-                if (this.MediaList.TryDequeue(out var media))
+                if (this.QueueSwapper.TryDequeue(out var media))
                 {
                     views[i].MediaPlayer.Play(media);
                 }
             }
-
-            this.LastTime = DateTime.UtcNow;
         }
 
         private void SetupVideoViews()
         {
-            foreach (var view in this.videoViews)
+            foreach (var view in this.VideoViews)
             {
-                var mediaPlayer = new MediaPlayer(this.libVLC);
+                var mediaPlayer = new MediaPlayer(this.LlibVLC);
                 mediaPlayer.Mute = true;
                 view.MediaPlayer = mediaPlayer;
             }
         }
 
-        private DateTime LastTime;
-        private TimeSpan Length = TimeSpan.FromSeconds(10);
-        private int SwapIndex = 0;
-
-        public void Update()
+        public void SwapViews()
         {
-            if (DateTime.UtcNow - this.LastTime > Length && this.MediaList.Count > 0)
-            {
-                var views = this.videoViews.ToArray();
-                var view = views[this.SwapIndex];
+            var viewIndex = this.QueueSwapper.NextSwapIndex;
 
-                this.MediaList.Enqueue(view.MediaPlayer.Media.Duplicate());
-                view.MediaPlayer.Play(this.MediaList.Dequeue());
+            var view = this.VideoViews.ToArray()[viewIndex];
 
-                this.SwapIndex++;
-                if (this.SwapIndex >= views.Length) this.SwapIndex = 0;
-                this.LastTime = DateTime.UtcNow;
-            }
+            var oldMedia = view.MediaPlayer.Media.Duplicate();
+            var newMedia = this.QueueSwapper.Swap(oldMedia);
+
+            view.MediaPlayer.Play(newMedia);
         }
 
         public void Pause()
         {
             this.Paused = true;
 
-            foreach (var view in this.videoViews)
+            foreach (var view in this.VideoViews)
             {
                 view.MediaPlayer.Pause();
             }
@@ -89,7 +74,7 @@ namespace Mosaic.Player
         {
             this.Paused = false;
 
-            foreach (var view in this.videoViews)
+            foreach (var view in this.VideoViews)
             {
                 view.MediaPlayer.Play();
             }
