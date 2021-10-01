@@ -55,11 +55,8 @@ namespace Mosaic.Player
             }
         }
 
-
-
-
         private DateTime LastTime;
-        private TimeSpan Length = TimeSpan.FromSeconds(5);
+        private TimeSpan Length = TimeSpan.FromSeconds(10);
         private int SwapIndex = 0;
 
         public void Update()
@@ -70,17 +67,13 @@ namespace Mosaic.Player
                 var view = views[this.SwapIndex];
 
                 this.MediaList.Enqueue(view.MediaPlayer.Media.Duplicate());
-                view.MediaPlayer.Media = this.MediaList.Dequeue();
+                view.MediaPlayer.Play(this.MediaList.Dequeue());
 
                 this.SwapIndex++;
                 if (this.SwapIndex >= views.Length) this.SwapIndex = 0;
+                this.LastTime = DateTime.UtcNow;
             }
         }
-
-
-
-
-
 
         public void Pause()
         {
