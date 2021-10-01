@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shared="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" mc:Ignorable="d" Title="Mosaic" Height="900" Width="1600">
-    <Grid x:Name="VideoGrid">
+    <Grid x:Name="VideoGrid" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>

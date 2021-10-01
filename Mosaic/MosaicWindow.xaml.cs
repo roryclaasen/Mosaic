@@ -13,34 +13,38 @@ namespace Mosaic
 
     public partial class MosaicWindow : Window, IDisposable
     {
-        private readonly MosaicManager mosaicManager;
-        private readonly DispatcherTimer swapTimer;
+        private readonly MosaicManager MosaicManager;
+        private readonly DispatcherTimer SwapTimer;
 
         public MosaicWindow()
         {
             InitializeComponent();
             Core.Initialize();
 
-            this.mosaicManager = new MosaicManager(new LibVLC(), this.GetVideoViews());
+            this.MosaicManager = new MosaicManager(new LibVLC(), this.GetVideoViews());
 
-            this.Closing += MosaicView_Closing;
-            this.KeyUp += MosaicView_KeyUp;
-
-            swapTimer = new DispatcherTimer
+            this.SwapTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
-            swapTimer.Tick += (o, e) => this.mosaicManager.SwapViews();
-            swapTimer.IsEnabled = true;
+            this.SwapTimer.Tick += (o, e) => this.MosaicManager.SwapViews();
+            this.SwapTimer.IsEnabled = true;
+
+            this.KeyUp += MosaicView_KeyUp;
+            this.Closing += MosaicView_Closing;
         }
 
-        public void InitializeSources(IEnumerable<string> sources) => this.mosaicManager.Initialize(sources);
+        public void InitializeSources(IEnumerable<string> sources) => this.MosaicManager.Initialize(sources);
 
         private IEnumerable<VideoView> GetVideoViews() => this.VideoGrid.Children.OfType<VideoView>();
 
-        private void MosaicView_Closing(object sender, CancelEventArgs e) => this.Dispose();
+        private void MosaicView_KeyUp(object sender, KeyEventArgs e)
+        {
+            this.MosaicManager.TogglePause();
+            this.SwapTimer.IsEnabled = this.MosaicManager.Paused;
+        }
 
-        private void MosaicView_KeyUp(object sender, KeyEventArgs e) => this.mosaicManager.TogglePause();
+        private void MosaicView_Closing(object sender, CancelEventArgs e) => this.Dispose();
 
         public void Dispose()
         {
