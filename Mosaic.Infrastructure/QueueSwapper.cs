@@ -1,4 +1,4 @@
-namespace Mosaic.Player
+namespace Mosaic.Infrastructure
 {
     using System;
     using System.Collections.Generic;

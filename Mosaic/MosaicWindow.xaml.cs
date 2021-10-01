@@ -9,7 +9,7 @@ namespace Mosaic
     using System.Windows.Threading;
     using LibVLCSharp.Shared;
     using LibVLCSharp.WPF;
-    using Mosaic.Player;
+    using Mosaic.Infrastructure;
 
     public partial class MosaicWindow : Window, IDisposable
     {
