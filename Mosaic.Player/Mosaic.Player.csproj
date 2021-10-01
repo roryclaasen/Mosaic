@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="LibVLCSharp" Version="3.6.1" />
+  </ItemGroup>
+</Project>

@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-
 namespace Mosaic
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    using System.Windows;
+
     public partial class App : Application
     {
+        private string[] Args;
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            this.Args = e.Args;
+
+            var view = new MosaicWindow();
+            view.Show();
+            view.InitializeSources(this.Args);
+        }
     }
 }
