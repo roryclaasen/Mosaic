@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Label="Generic Properties">
+    <TargetFrameworks>net5.0-windows</TargetFrameworks>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>x64</Platforms>
+    <DebugType>full</DebugType>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <IsPublishable>false</IsPublishable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="UI Includes">
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Assembly Properties">
+    <Authors>Rory Claasen (contact@roryclaasen.dev)</Authors>
+    <Company>Rory Claasen</Company>
+    <Copyright>All rights reserved.</Copyright>
+    <Product>Mosaic</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.240" PrivateAssets="All" />
+  </ItemGroup>
+</Project>
