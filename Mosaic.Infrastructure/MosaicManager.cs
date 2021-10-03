@@ -6,7 +6,7 @@ namespace Mosaic.Infrastructure
     using System.Text;
     using LibVLCSharp.Shared;
 
-    public class MosaicManager
+    public partial class MosaicManager
     {
         private readonly LibVLC LlibVLC;
         private readonly IVideoView[] VideoTiles;
@@ -15,8 +15,6 @@ namespace Mosaic.Infrastructure
 
         private MosaicConfig Config;
         private QueueSwapper<SourceConfig> QueueSwapper;
-
-        public event EventHandler TileChanged;
 
         public MosaicManager(LibVLC libVLC, IEnumerable<IVideoView> videoTiles)
         {
@@ -101,14 +99,6 @@ namespace Mosaic.Infrastructure
         {
             if (this.Paused) this.Resume();
             else this.Pause();
-        }
-
-        protected void OnTileChanged(object sender, TileSwapEventArgs args)
-        {
-            if (this.TileChanged != null)
-            {
-                this.TileChanged(sender, args);
-            }
         }
     }
 }
