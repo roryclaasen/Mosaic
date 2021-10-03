@@ -4,7 +4,7 @@ namespace Mosaic.Infrastructure
     using System.Collections.Generic;
     using System.Text;
 
-    internal class QueueSwapper<T> where T : class
+    public sealed class QueueSwapper<T> where T : class
     {
         private readonly int GridSize;
         private readonly Queue<T> Entries;

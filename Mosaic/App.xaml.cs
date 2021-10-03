@@ -1,28 +1,24 @@
 namespace Mosaic
 {
     using System;
+    using System.Linq;
     using System.Windows;
+    using Mosaic.Infrastructure;
+    using Newtonsoft.Json;
 
     public partial class App : Application
     {
-        private string[] Args;
-
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            if (e.Args.Length == 0) throw new ArgumentException($"{nameof(e.Args)} cannot be empty", nameof(e.Args));
-
-            this.Args = e.Args;
-            // TODO Validate Args
-            // Prompt of Args
-
-            this.CreateAndShowMosaic();
-        }
-
+        private void Application_Startup(object sender, StartupEventArgs e) => this.CreateAndShowMosaic();
+        
         private void CreateAndShowMosaic()
         {
+            var configLoader = new ConfigLoader<ApplicationConfig>(new JsonSerializer());
+            var config = configLoader.LoadConfigFile("config.json");
+            // TODO Catch any file errors
+
             var view = new MosaicWindow();
             view.Show();
-            view.InitializeSources(this.Args);
+            view.InitializeConfig(config);
         }
     }
 }

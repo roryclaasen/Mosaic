@@ -16,12 +16,14 @@ namespace Mosaic
         private readonly MosaicManager MosaicManager;
         private readonly DispatcherTimer SwapTimer;
 
+        private ApplicationConfig Config;
+
         public MosaicWindow()
         {
             InitializeComponent();
             Core.Initialize();
 
-            this.MosaicManager = new MosaicManager(new LibVLC(), this.GetVideoViews());
+            this.MosaicManager = new MosaicManager(new LibVLC(), this.GetVideoTiles());
 
             this.SwapTimer = new DispatcherTimer
             {
@@ -34,21 +36,57 @@ namespace Mosaic
             this.Closing += MosaicView_Closing;
         }
 
-        public void InitializeSources(IEnumerable<string> sources) => this.MosaicManager.Initialize(sources);
+        public void InitializeConfig(ApplicationConfig config)
+        {
+            this.Config = config;
+            this.MosaicManager.Initialize(config.Sources.Select(s => s.Source));
 
-        private IEnumerable<VideoView> GetVideoViews() => this.VideoGrid.Children.OfType<VideoView>();
+            this.SetFullScreen();
+        }
+
+        private IEnumerable<VideoView> GetVideoTiles() => this.VideoGrid.Children.OfType<VideoView>();
 
         private void MosaicView_KeyUp(object sender, KeyEventArgs e)
         {
-            this.MosaicManager.TogglePause();
-            this.SwapTimer.IsEnabled = this.MosaicManager.Paused;
+            switch (e.Key)
+            {
+                case Key.Space:
+                    this.MosaicManager.TogglePause();
+                    this.SwapTimer.IsEnabled = this.MosaicManager.Paused;
+                    break;
+                case Key.F:
+                    this.SetFullScreen(!this.Config.FullScreen);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void MosaicView_Closing(object sender, CancelEventArgs e) => this.Dispose();
 
+        private void SetFullScreen(bool fullScreen)
+        {
+            this.Config.FullScreen = fullScreen;
+            this.SetFullScreen();
+        }
+
+        private void SetFullScreen()
+        {
+            if (this.Config.FullScreen)
+            {
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+            }
+        }
+
         public void Dispose()
         {
-            foreach (var view in this.GetVideoViews())
+            foreach (var view in this.GetVideoTiles())
             {
                 view.Dispose();
             }
