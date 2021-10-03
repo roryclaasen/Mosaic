@@ -3,7 +3,7 @@ namespace Mosaic.Infrastructure
     using System.IO;
     using Newtonsoft.Json;
 
-    public class ConfigLoader<T> where T : LibraryConfig
+    public class ConfigLoader<T> where T : MosaicConfig
     {
         private readonly JsonSerializer Serializer;
 

@@ -16,7 +16,7 @@ namespace Mosaic
         private readonly MosaicManager MosaicManager;
         private readonly DispatcherTimer SwapTimer;
 
-        private ApplicationConfig Config;
+        private MosaicApplicationConfig Config;
 
         public MosaicWindow()
         {
@@ -36,7 +36,7 @@ namespace Mosaic
             this.Closing += MosaicView_Closing;
         }
 
-        public void InitializeConfig(ApplicationConfig config)
+        public void InitializeConfig(MosaicApplicationConfig config)
         {
             this.Config = config;
             this.MosaicManager.Initialize(config.Sources.Select(s => s.Source));

@@ -2,7 +2,7 @@ namespace Mosaic
 {
     using Mosaic.Infrastructure;
 
-    public class ApplicationConfig : LibraryConfig
+    public class MosaicApplicationConfig : MosaicConfig
     {
         public bool FullScreen { get; set; }
     }

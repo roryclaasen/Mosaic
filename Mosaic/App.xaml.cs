@@ -8,17 +8,24 @@ namespace Mosaic
 
     public partial class App : Application
     {
-        private void Application_Startup(object sender, StartupEventArgs e) => this.CreateAndShowMosaic();
-        
-        private void CreateAndShowMosaic()
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var configLoader = new ConfigLoader<ApplicationConfig>(new JsonSerializer());
-            var config = configLoader.LoadConfigFile("config.json");
-            // TODO Catch any file errors
+            this.CreateAndShowMosaic(e.Args.FirstOrDefault() ?? "config.json");
+        }
+
+        private void CreateAndShowMosaic(string file)
+        {
+            var config = this.LoadConfig(file);
 
             var view = new MosaicWindow();
             view.Show();
             view.InitializeConfig(config);
+        }
+
+        private MosaicApplicationConfig LoadConfig(string file)
+        {
+            var configLoader = new ConfigLoader<MosaicApplicationConfig>(new JsonSerializer());
+            return configLoader.LoadConfigFile(file);
         }
     }
 }
