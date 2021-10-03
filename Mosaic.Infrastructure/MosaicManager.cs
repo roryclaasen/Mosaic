@@ -6,14 +6,17 @@ namespace Mosaic.Infrastructure
     using System.Text;
     using LibVLCSharp.Shared;
 
-    public sealed class MosaicManager
+    public class MosaicManager
     {
         private readonly LibVLC LlibVLC;
         private readonly IVideoView[] VideoTiles;
 
         public bool Paused { get; private set; } = false;
 
-        private QueueSwapper<Media> QueueSwapper;
+        private MosaicConfig Config;
+        private QueueSwapper<SourceConfig> QueueSwapper;
+
+        public event EventHandler TileChanged;
 
         public MosaicManager(LibVLC libVLC, IEnumerable<IVideoView> videoTiles)
         {
@@ -21,24 +24,14 @@ namespace Mosaic.Infrastructure
             this.VideoTiles = videoTiles?.ToArray() ?? throw new ArgumentNullException(nameof(videoTiles));
         }
 
-        public void Initialize(IEnumerable<string> sources)
+        public void Initialize(MosaicConfig config)
         {
-            this.SetupVideoViews();
-
-            var tiles = this.VideoTiles;
-
-            this.QueueSwapper = new QueueSwapper<Media>(tiles.Length, sources.Select(source => new Media(this.LlibVLC, source, FromType.FromLocation)));
-
-            for (var i = 0; i < tiles.Length; i++)
-            {
-                if (this.QueueSwapper.TryDequeue(out var media))
-                {
-                    tiles[i].MediaPlayer.Play(media);
-                }
-            }
+            this.Config = config;
+            this.QueueSwapper = new QueueSwapper<SourceConfig>(this.VideoTiles.Length, config.Sources);
+            this.SetupVideoTiles();
         }
 
-        private void SetupVideoViews()
+        private void SetupVideoTiles()
         {
             foreach (var tile in this.VideoTiles)
             {
@@ -46,21 +39,43 @@ namespace Mosaic.Infrastructure
                 {
                     Mute = true
                 };
+
+                if (this.QueueSwapper.TryDequeue(out var source))
+                {
+                    using (var media = this.CreateMedia(source))
+                    {
+                        tile.MediaPlayer.Play(media);
+                    }
+                }
             }
         }
 
-        public void SwapViews()
+        public void SwapTiles()
         {
-            var currentTitle = this.VideoTiles[this.QueueSwapper.NextSwapIndex];
-
-            var oldMedia = currentTitle.MediaPlayer.Media;
-            var newMedia = this.QueueSwapper.Swap(oldMedia);
-
-            if (newMedia != null)
+            if (this.QueueSwapper.CanSwap())
             {
-                currentTitle.MediaPlayer.Play(newMedia);
+                var currentTileIndex = this.QueueSwapper.NextSwapIndex;
+                var currentTile = this.VideoTiles[currentTileIndex];
+
+                var oldMedia = currentTile.MediaPlayer.Media;
+                var oldSource = this.Config.Sources.FirstOrDefault(s => s.Source.Equals(oldMedia.Mrl));
+                if (oldSource != null)
+                {
+                    var newSource = this.QueueSwapper.Swap(oldSource);
+                    if (newSource != null)
+                    {
+                        using (var media = this.CreateMedia(newSource))
+                        {
+                            currentTile.MediaPlayer.Play(media);
+                        }
+
+                        this.OnTileChanged(this, new TileSwapEventArgs(currentTileIndex, newSource));
+                    }
+                }
             }
         }
+
+        private Media CreateMedia(SourceConfig config) => new Media(this.LlibVLC, config.Source, FromType.FromLocation);
 
         public void Pause()
         {
@@ -86,6 +101,14 @@ namespace Mosaic.Infrastructure
         {
             if (this.Paused) this.Resume();
             else this.Pause();
+        }
+
+        protected void OnTileChanged(object sender, TileSwapEventArgs args)
+        {
+            if (this.TileChanged != null)
+            {
+                this.TileChanged(sender, args);
+            }
         }
     }
 }

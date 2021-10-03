@@ -1,8 +1,9 @@
 namespace Mosaic.Infrastructure
 {
+    using System;
     using System.Collections.Generic;
 
-    public sealed class QueueSwapper<T> where T : class
+    public class QueueSwapper<T> where T : class
     {
         private readonly int GridSize;
         private readonly Queue<T> Entries;
@@ -24,7 +25,9 @@ namespace Mosaic.Infrastructure
 
         public T Swap(T item)
         {
-            if (this.Entries.TryPeek(out _))
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
+            if (this.CanSwap())
             {
                 this.Entries.Enqueue(item);
 
@@ -35,5 +38,7 @@ namespace Mosaic.Infrastructure
 
             return null;
         }
+
+        public bool CanSwap() => this.Entries.TryPeek(out _);
     }
 }

@@ -5,7 +5,9 @@ namespace Mosaic
     using System.ComponentModel;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Input;
+    using System.Windows.Media;
     using System.Windows.Threading;
     using LibVLCSharp.Shared;
     using LibVLCSharp.WPF;
@@ -24,12 +26,13 @@ namespace Mosaic
             Core.Initialize();
 
             this.MosaicManager = new MosaicManager(new LibVLC(), this.GetVideoTiles());
+            this.MosaicManager.TileChanged += MosaicManager_TileChanged;
 
             this.SwapTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
-            this.SwapTimer.Tick += (o, e) => this.MosaicManager.SwapViews();
+            this.SwapTimer.Tick += (o, e) => this.MosaicManager.SwapTiles();
             this.SwapTimer.IsEnabled = true;
 
             this.KeyUp += MosaicView_KeyUp;
@@ -39,7 +42,7 @@ namespace Mosaic
         public void InitializeConfig(MosaicApplicationConfig config)
         {
             this.Config = config;
-            this.MosaicManager.Initialize(config.Sources.Select(s => s.Source));
+            this.MosaicManager.Initialize(config);
 
             this.SetFullScreen();
         }
@@ -59,6 +62,20 @@ namespace Mosaic
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void MosaicManager_TileChanged(object sender, EventArgs e)
+        {
+            if (e is TileSwapEventArgs tileSwap)
+            {
+                // FIXME Text does not appear in correct location 
+                //var tile = this.GetVideoTiles().ToArray()[tileSwap.TileIndex];
+                //tile.Content = new TextBlock
+                //{
+                //    Text = tileSwap.SourceConfig.DisplayName,
+                //    Foreground = Brushes.Yellow
+                //};
             }
         }
 
@@ -86,9 +103,9 @@ namespace Mosaic
 
         public void Dispose()
         {
-            foreach (var view in this.GetVideoTiles())
+            foreach (var tile in this.GetVideoTiles())
             {
-                view.Dispose();
+                tile.Dispose();
             }
         }
     }
