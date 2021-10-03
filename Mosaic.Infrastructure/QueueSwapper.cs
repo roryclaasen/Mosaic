@@ -1,8 +1,6 @@
 namespace Mosaic.Infrastructure
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     public sealed class QueueSwapper<T> where T : class
     {
@@ -26,16 +24,16 @@ namespace Mosaic.Infrastructure
 
         public T Swap(T item)
         {
-            if (this.Entries.Count == 0)
+            if (this.Entries.TryPeek(out _))
             {
-                return null;
+                this.Entries.Enqueue(item);
+
+                this.NextSwapIndex++;
+                if (this.NextSwapIndex >= this.GridSize) this.NextSwapIndex = 0;
+                return this.Entries.Dequeue();
             }
 
-            this.Entries.Enqueue(item);
-
-            this.NextSwapIndex++;
-            if (this.NextSwapIndex >= this.GridSize) this.NextSwapIndex = 0;
-            return this.Entries.Dequeue();
+            return null;
         }
     }
 }

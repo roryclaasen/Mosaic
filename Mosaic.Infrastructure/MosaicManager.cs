@@ -42,31 +42,33 @@ namespace Mosaic.Infrastructure
         {
             foreach (var tile in this.VideoTiles)
             {
-                var mediaPlayer = new MediaPlayer(this.LlibVLC);
-                mediaPlayer.Mute = true;
-                tile.MediaPlayer = mediaPlayer;
+                tile.MediaPlayer = new MediaPlayer(this.LlibVLC)
+                {
+                    Mute = true
+                };
             }
         }
 
         public void SwapViews()
         {
-            var tileIndex = this.QueueSwapper.NextSwapIndex;
+            var currentTitle = this.VideoTiles[this.QueueSwapper.NextSwapIndex];
 
-            var tile = this.VideoTiles[tileIndex];
-
-            var oldMedia = tile.MediaPlayer.Media.Duplicate();
+            var oldMedia = currentTitle.MediaPlayer.Media;
             var newMedia = this.QueueSwapper.Swap(oldMedia);
 
-            tile.MediaPlayer.Play(newMedia);
+            if (newMedia != null)
+            {
+                currentTitle.MediaPlayer.Play(newMedia);
+            }
         }
 
         public void Pause()
         {
             this.Paused = true;
 
-            foreach (var view in this.VideoTiles)
+            foreach (var title in this.VideoTiles)
             {
-                view.MediaPlayer.Pause();
+                title.MediaPlayer.Pause();
             }
         }
 
