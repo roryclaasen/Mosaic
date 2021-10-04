@@ -12,11 +12,6 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
-  <PropertyGroup Label="UI Includes">
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
-
   <PropertyGroup Label="Assembly Properties">
     <Authors>Rory Claasen (contact@roryclaasen.dev)</Authors>
     <Copyright>All rights reserved.</Copyright>
