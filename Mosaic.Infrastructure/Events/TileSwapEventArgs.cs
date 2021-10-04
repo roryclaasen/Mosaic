@@ -4,9 +4,10 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure
+namespace Mosaic.Infrastructure.Events
 {
     using System;
+    using Mosaic.Infrastructure.Config;
 
     public class TileSwapEventArgs : EventArgs
     {

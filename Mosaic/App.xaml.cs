@@ -9,7 +9,8 @@ namespace Mosaic
     using System;
     using System.Linq;
     using System.Windows;
-    using Mosaic.Infrastructure;
+    using Mosaic.Infrastructure.Config;
+    using Mosaic.Infrastructure.Config.Loader;
     using Newtonsoft.Json;
 
     public partial class App : Application

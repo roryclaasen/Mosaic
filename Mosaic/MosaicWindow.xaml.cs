@@ -11,13 +11,13 @@ namespace Mosaic
     using System.ComponentModel;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Input;
-    using System.Windows.Media;
     using System.Windows.Threading;
     using LibVLCSharp.Shared;
     using LibVLCSharp.WPF;
     using Mosaic.Infrastructure;
+    using Mosaic.Infrastructure.Config;
+    using Mosaic.Infrastructure.Events;
 
     public partial class MosaicWindow : Window, IDisposable
     {

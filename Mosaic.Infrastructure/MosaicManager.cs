@@ -11,6 +11,8 @@ namespace Mosaic.Infrastructure
     using System.Linq;
     using System.Text;
     using LibVLCSharp.Shared;
+    using Mosaic.Infrastructure.Config;
+    using Mosaic.Infrastructure.Events;
 
     public partial class MosaicManager
     {

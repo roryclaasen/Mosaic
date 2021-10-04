@@ -7,6 +7,7 @@
 namespace Mosaic.Infrastructure
 {
     using System;
+    using Mosaic.Infrastructure.Events;
 
     public partial class MosaicManager
     {
