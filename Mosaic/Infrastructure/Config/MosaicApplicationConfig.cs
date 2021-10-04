@@ -12,5 +12,8 @@ namespace Mosaic.Infrastructure.Config
     {
         [JsonProperty("fullScreen")]
         public bool FullScreen { get; set; }
+
+        [JsonProperty("showTitles")]
+        public bool ShowTitles { get; set; }
     }
 }

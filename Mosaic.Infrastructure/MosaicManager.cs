@@ -48,6 +48,8 @@ namespace Mosaic.Infrastructure
                     {
                         tile.MediaPlayer.Play(media);
                     }
+
+                    this.OnTileStarted(this, tile, source);
                 }
             }
         }
@@ -71,7 +73,9 @@ namespace Mosaic.Infrastructure
                             currentTile.MediaPlayer.Play(media);
                         }
 
-                        this.OnTileChanged(this, new TileSwapEventArgs(currentTileIndex, newSource));
+                        var eventArgs = new TileSourceEventArgs(currentTileIndex, newSource);
+                        this.OnTileStarted(this, eventArgs);
+                        this.OnTileChanged(this, eventArgs);
                     }
                 }
             }
@@ -81,9 +85,9 @@ namespace Mosaic.Infrastructure
         {
             this.Paused = true;
 
-            foreach (var title in this.videoTiles)
+            foreach (var tile in this.videoTiles)
             {
-                title.MediaPlayer.Pause();
+                tile.MediaPlayer.Pause();
             }
         }
 

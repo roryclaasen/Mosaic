@@ -11,6 +11,7 @@ namespace Mosaic
     using System.ComponentModel;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Threading;
     using LibVLCSharp.Shared;
@@ -32,14 +33,13 @@ namespace Mosaic
             Core.Initialize();
 
             this.mosaicManager = new MosaicManager(new LibVLC(), this.GetVideoTiles());
-            this.mosaicManager.TileChanged += this.MosaicManager_TileChanged;
+            this.mosaicManager.TileStarted += this.MosaicManager_TileStarted;
 
             this.swapTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
             this.swapTimer.Tick += (o, e) => this.mosaicManager.SwapTiles();
-            this.swapTimer.IsEnabled = true;
 
             this.KeyUp += this.MosaicView_KeyUp;
             this.Closing += this.MosaicView_Closing;
@@ -59,9 +59,14 @@ namespace Mosaic
             this.mosaicManager.Initialize(config);
 
             this.SetFullScreen();
+            this.SetShowTitles();
+
+            this.swapTimer.IsEnabled = true;
         }
 
         private IEnumerable<VideoView> GetVideoTiles() => this.VideoGrid.Children.OfType<VideoView>();
+
+        private IEnumerable<TextBlock> GetTextTiles() => this.VideoGrid.Children.OfType<TextBlock>();
 
         private void MosaicView_KeyUp(object sender, KeyEventArgs e)
         {
@@ -74,22 +79,19 @@ namespace Mosaic
                 case Key.F:
                     this.SetFullScreen(!this.config.FullScreen);
                     break;
+                case Key.T:
+                    this.SetShowTitles(!this.config.ShowTitles);
+                    break;
                 default:
                     break;
             }
         }
 
-        private void MosaicManager_TileChanged(object sender, EventArgs e)
+        private void MosaicManager_TileStarted(object sender, EventArgs e)
         {
-            if (e is TileSwapEventArgs tileSwap)
+            if (e is TileSourceEventArgs tileSwap)
             {
-                // FIXME Text does not appear in correct location
-                // var tile = this.GetVideoTiles().ToArray()[tileSwap.TileIndex];
-                // tile.Content = new TextBlock
-                // {
-                //     Text = tileSwap.SourceConfig.DisplayName,
-                //     Foreground = Brushes.Yellow
-                // };
+                this.SetTileTitle(tileSwap.TileIndex, tileSwap.SourceConfig);
             }
         }
 
@@ -113,6 +115,26 @@ namespace Mosaic
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.WindowState = WindowState.Normal;
             }
+        }
+
+        private void SetShowTitles(bool showTitles)
+        {
+            this.config.ShowTitles = showTitles;
+            this.SetShowTitles();
+        }
+
+        private void SetShowTitles()
+        {
+            foreach (var title in this.GetTextTiles())
+            {
+                title.Visibility = this.config.ShowTitles ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private void SetTileTitle(int tileIndex, SourceConfig sourceConfig)
+        {
+            var tile = this.GetTextTiles().ToArray()[tileIndex];
+            tile.Text = !string.IsNullOrWhiteSpace(sourceConfig.DisplayName) ? sourceConfig.DisplayName : sourceConfig.Source;
         }
     }
 }

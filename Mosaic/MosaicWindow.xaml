@@ -7,22 +7,34 @@
     <Grid x:Name="VideoGrid" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <shared:VideoView x:Name="VideoView0" Grid.Row="0" Grid.Column="0" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView1" Grid.Row="0" Grid.Column="1" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView2" Grid.Row="0" Grid.Column="2" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView3" Grid.Row="1" Grid.Column="0" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView4" Grid.Row="1" Grid.Column="1" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView5" Grid.Row="1" Grid.Column="2" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView6" Grid.Row="2" Grid.Column="0" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView7" Grid.Row="2" Grid.Column="1" Foreground="{x:Null}" />
-        <shared:VideoView x:Name="VideoView8" Grid.Row="2" Grid.Column="2" Foreground="{x:Null}" />
+        <shared:VideoView x:Name="VideoView0" Grid.Row="0" Grid.Column="0" />
+        <shared:VideoView x:Name="VideoView1" Grid.Row="0" Grid.Column="1" />
+        <shared:VideoView x:Name="VideoView2" Grid.Row="0" Grid.Column="2" />
+        <TextBlock x:Name="VideoText0" Grid.Row="1" Grid.Column="0" Foreground="Yellow" TextAlignment="Center" />
+        <TextBlock x:Name="VideoText1" Grid.Row="1" Grid.Column="1" Foreground="Yellow" TextAlignment="Center" />
+        <TextBlock x:Name="VideoText2" Grid.Row="1" Grid.Column="2" Foreground="Yellow" TextAlignment="Center" />
+        <shared:VideoView x:Name="VideoView3" Grid.Row="2" Grid.Column="0" />
+        <shared:VideoView x:Name="VideoView4" Grid.Row="2" Grid.Column="1" />
+        <shared:VideoView x:Name="VideoView5" Grid.Row="2" Grid.Column="2" />
+        <TextBlock x:Name="VideoText3" Grid.Row="3" Grid.Column="0" Foreground="Yellow" TextAlignment="Center" />
+        <TextBlock x:Name="VideoText4" Grid.Row="3" Grid.Column="1" Foreground="Yellow" TextAlignment="Center" />
+        <TextBlock x:Name="VideoText5" Grid.Row="3" Grid.Column="2" Foreground="Yellow" TextAlignment="Center" />
+        <shared:VideoView x:Name="VideoView6" Grid.Row="4" Grid.Column="0" />
+        <shared:VideoView x:Name="VideoView7" Grid.Row="4" Grid.Column="1" />
+        <shared:VideoView x:Name="VideoView8" Grid.Row="4" Grid.Column="2" />
+        <TextBlock x:Name="VideoText6" Grid.Row="5" Grid.Column="0" Foreground="Yellow" TextAlignment="Center" />
+        <TextBlock x:Name="VideoText7" Grid.Row="5" Grid.Column="1" Foreground="Yellow" TextAlignment="Center" />
+        <TextBlock x:Name="VideoText8" Grid.Row="5" Grid.Column="2" Foreground="Yellow" TextAlignment="Center" />
     </Grid>
 </Window>
