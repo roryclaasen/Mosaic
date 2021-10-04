@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup Label="Generic Properties">
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <Configurations>Debug;Release</Configurations>
     <Platforms>x64</Platforms>
     <DebugType>full</DebugType>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <IsPublishable>false</IsPublishable>
-    <LangVersion>latest</LangVersion>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
@@ -18,9 +15,13 @@
     <Product>Mosaic</Product>
   </PropertyGroup>
 
-  <ItemGroup Label="StyleCop">
+  <PropertyGroup Label="Code Quality">
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <ItemGroup Label="Code Quality">
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354"  PrivateAssets="All" />
-    
+
     <AdditionalFiles Include="$(SolutionDir)\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>

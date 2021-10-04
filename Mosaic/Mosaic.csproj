@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>WinExe</OutputType>
     <StartupObject>Mosaic.App</StartupObject>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+    <UseWPF>true</UseWPF>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Optimize>true</Optimize>
-  </PropertyGroup>
-  
-  <PropertyGroup Label="UI Includes">
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>

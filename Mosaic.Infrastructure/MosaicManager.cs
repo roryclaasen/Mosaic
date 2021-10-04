@@ -14,58 +14,39 @@ namespace Mosaic.Infrastructure
 
     public partial class MosaicManager
     {
-        private readonly LibVLC LlibVLC;
-        private readonly IVideoView[] VideoTiles;
+        private readonly LibVLC libVLC;
+        private readonly IVideoView[] videoTiles;
 
-        public bool Paused { get; private set; } = false;
-
-        private MosaicConfig Config;
-        private QueueSwapper<SourceConfig> QueueSwapper;
+        private MosaicConfig config;
+        private QueueSwapper<SourceConfig> queueSwapper;
 
         public MosaicManager(LibVLC libVLC, IEnumerable<IVideoView> videoTiles)
         {
-            this.LlibVLC = libVLC ?? throw new ArgumentNullException(nameof(libVLC));
-            this.VideoTiles = videoTiles?.ToArray() ?? throw new ArgumentNullException(nameof(videoTiles));
+            this.libVLC = libVLC ?? throw new ArgumentNullException(nameof(libVLC));
+            this.videoTiles = videoTiles?.ToArray() ?? throw new ArgumentNullException(nameof(videoTiles));
         }
+
+        public bool Paused { get; private set; } = false;
 
         public void Initialize(MosaicConfig config)
         {
-            this.Config = config;
-            this.QueueSwapper = new QueueSwapper<SourceConfig>(this.VideoTiles.Length, config.Sources);
+            this.config = config;
+            this.queueSwapper = new QueueSwapper<SourceConfig>(this.videoTiles.Length, config.Sources);
             this.SetupVideoTiles();
-        }
-
-        private void SetupVideoTiles()
-        {
-            foreach (var tile in this.VideoTiles)
-            {
-                tile.MediaPlayer = new MediaPlayer(this.LlibVLC)
-                {
-                    Mute = true
-                };
-
-                if (this.QueueSwapper.TryDequeue(out var source))
-                {
-                    using (var media = this.CreateMedia(source))
-                    {
-                        tile.MediaPlayer.Play(media);
-                    }
-                }
-            }
         }
 
         public void SwapTiles()
         {
-            if (this.QueueSwapper.CanSwap())
+            if (this.queueSwapper.CanSwap())
             {
-                var currentTileIndex = this.QueueSwapper.NextSwapIndex;
-                var currentTile = this.VideoTiles[currentTileIndex];
+                var currentTileIndex = this.queueSwapper.NextSwapIndex;
+                var currentTile = this.videoTiles[currentTileIndex];
 
                 var oldMedia = currentTile.MediaPlayer.Media;
-                var oldSource = this.Config.Sources.FirstOrDefault(s => s.Source.Equals(oldMedia.Mrl));
+                var oldSource = this.config.Sources.FirstOrDefault(s => s.Source.Equals(oldMedia.Mrl));
                 if (oldSource != null)
                 {
-                    var newSource = this.QueueSwapper.Swap(oldSource);
+                    var newSource = this.queueSwapper.Swap(oldSource);
                     if (newSource != null)
                     {
                         using (var media = this.CreateMedia(newSource))
@@ -79,13 +60,11 @@ namespace Mosaic.Infrastructure
             }
         }
 
-        private Media CreateMedia(SourceConfig config) => new Media(this.LlibVLC, config.Source, FromType.FromLocation);
-
         public void Pause()
         {
             this.Paused = true;
 
-            foreach (var title in this.VideoTiles)
+            foreach (var title in this.videoTiles)
             {
                 title.MediaPlayer.Pause();
             }
@@ -95,7 +74,7 @@ namespace Mosaic.Infrastructure
         {
             this.Paused = false;
 
-            foreach (var tile in this.VideoTiles)
+            foreach (var tile in this.videoTiles)
             {
                 tile.MediaPlayer.Play();
             }
@@ -103,8 +82,35 @@ namespace Mosaic.Infrastructure
 
         public void TogglePause()
         {
-            if (this.Paused) this.Resume();
-            else this.Pause();
+            if (this.Paused)
+            {
+                this.Resume();
+            }
+            else
+            {
+                this.Pause();
+            }
+        }
+
+        private Media CreateMedia(SourceConfig config) => new Media(this.libVLC, config.Source, FromType.FromLocation);
+
+        private void SetupVideoTiles()
+        {
+            foreach (var tile in this.videoTiles)
+            {
+                tile.MediaPlayer = new MediaPlayer(this.libVLC)
+                {
+                    Mute = true
+                };
+
+                if (this.queueSwapper.TryDequeue(out var source))
+                {
+                    using (var media = this.CreateMedia(source))
+                    {
+                        tile.MediaPlayer.Play(media);
+                    }
+                }
+            }
         }
     }
 }

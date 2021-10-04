@@ -9,12 +9,11 @@ namespace Mosaic.Infrastructure
     using System;
     using System.Collections.Generic;
 
-    public class QueueSwapper<T> where T : class
+    public class QueueSwapper<T>
+        where T : class
     {
-        private readonly int GridSize;
-        private readonly Queue<T> Entries;
-
-        public int NextSwapIndex { get; private set; } = 0;
+        private readonly int gridSize;
+        private readonly Queue<T> entries;
 
         public QueueSwapper(int gridSize, IEnumerable<T> entries)
             : this(gridSize, new Queue<T>(entries))
@@ -23,28 +22,37 @@ namespace Mosaic.Infrastructure
 
         public QueueSwapper(int gridSize, Queue<T> entries)
         {
-            this.GridSize = gridSize;
-            this.Entries = entries;
+            this.gridSize = gridSize;
+            this.entries = entries;
         }
 
-        public bool TryDequeue(out T result) => this.Entries.TryDequeue(out result);
+        public int NextSwapIndex { get; private set; } = 0;
+
+        public bool TryDequeue(out T result) => this.entries.TryDequeue(out result);
 
         public T Swap(T item)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
 
             if (this.CanSwap())
             {
-                this.Entries.Enqueue(item);
+                this.entries.Enqueue(item);
 
                 this.NextSwapIndex++;
-                if (this.NextSwapIndex >= this.GridSize) this.NextSwapIndex = 0;
-                return this.Entries.Dequeue();
+                if (this.NextSwapIndex >= this.gridSize)
+                {
+                    this.NextSwapIndex = 0;
+                }
+
+                return this.entries.Dequeue();
             }
 
             return null;
         }
 
-        public bool CanSwap() => this.Entries.TryPeek(out _);
+        public bool CanSwap() => this.entries.TryPeek(out _);
     }
 }

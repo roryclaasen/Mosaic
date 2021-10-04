@@ -54,6 +54,7 @@
           "Newtonsoft.Json": "13.0.1"
         }
       }
-    }
+    },
+    ".NETCoreApp,Version=v3.1/win10-x64": {}
   }
 }

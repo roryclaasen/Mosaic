@@ -9,13 +9,14 @@ namespace Mosaic.Infrastructure
     using System.IO;
     using Newtonsoft.Json;
 
-    public class ConfigLoader<T> where T : MosaicConfig
+    public class ConfigLoader<T>
+        where T : MosaicConfig
     {
-        private readonly JsonSerializer Serializer;
+        private readonly JsonSerializer serializer;
 
         public ConfigLoader(JsonSerializer serializer)
         {
-            this.Serializer = serializer;
+            this.serializer = serializer;
         }
 
         public T LoadConfigFile(string file)
@@ -24,7 +25,7 @@ namespace Mosaic.Infrastructure
             using (var streamReader = new StreamReader(stream))
             using (var jsonReader = new JsonTextReader(streamReader))
             {
-                return this.Serializer.Deserialize<T>(jsonReader);
+                return this.serializer.Deserialize<T>(jsonReader);
             }
         }
     }

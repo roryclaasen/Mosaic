@@ -21,34 +21,42 @@ namespace Mosaic
 
     public partial class MosaicWindow : Window, IDisposable
     {
-        private readonly MosaicManager MosaicManager;
-        private readonly DispatcherTimer SwapTimer;
+        private readonly MosaicManager mosaicManager;
+        private readonly DispatcherTimer swapTimer;
 
-        private MosaicApplicationConfig Config;
+        private MosaicApplicationConfig config;
 
         public MosaicWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             Core.Initialize();
 
-            this.MosaicManager = new MosaicManager(new LibVLC(), this.GetVideoTiles());
-            this.MosaicManager.TileChanged += MosaicManager_TileChanged;
+            this.mosaicManager = new MosaicManager(new LibVLC(), this.GetVideoTiles());
+            this.mosaicManager.TileChanged += this.MosaicManager_TileChanged;
 
-            this.SwapTimer = new DispatcherTimer
+            this.swapTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
-            this.SwapTimer.Tick += (o, e) => this.MosaicManager.SwapTiles();
-            this.SwapTimer.IsEnabled = true;
+            this.swapTimer.Tick += (o, e) => this.mosaicManager.SwapTiles();
+            this.swapTimer.IsEnabled = true;
 
-            this.KeyUp += MosaicView_KeyUp;
-            this.Closing += MosaicView_Closing;
+            this.KeyUp += this.MosaicView_KeyUp;
+            this.Closing += this.MosaicView_Closing;
+        }
+
+        public void Dispose()
+        {
+            foreach (var tile in this.GetVideoTiles())
+            {
+                tile.Dispose();
+            }
         }
 
         public void InitializeConfig(MosaicApplicationConfig config)
         {
-            this.Config = config;
-            this.MosaicManager.Initialize(config);
+            this.config = config;
+            this.mosaicManager.Initialize(config);
 
             this.SetFullScreen();
         }
@@ -60,11 +68,11 @@ namespace Mosaic
             switch (e.Key)
             {
                 case Key.Space:
-                    this.MosaicManager.TogglePause();
-                    this.SwapTimer.IsEnabled = this.MosaicManager.Paused;
+                    this.mosaicManager.TogglePause();
+                    this.swapTimer.IsEnabled = this.mosaicManager.Paused;
                     break;
                 case Key.F:
-                    this.SetFullScreen(!this.Config.FullScreen);
+                    this.SetFullScreen(!this.config.FullScreen);
                     break;
                 default:
                     break;
@@ -75,13 +83,13 @@ namespace Mosaic
         {
             if (e is TileSwapEventArgs tileSwap)
             {
-                // FIXME Text does not appear in correct location 
-                //var tile = this.GetVideoTiles().ToArray()[tileSwap.TileIndex];
-                //tile.Content = new TextBlock
-                //{
-                //    Text = tileSwap.SourceConfig.DisplayName,
-                //    Foreground = Brushes.Yellow
-                //};
+                // FIXME Text does not appear in correct location
+                // var tile = this.GetVideoTiles().ToArray()[tileSwap.TileIndex];
+                // tile.Content = new TextBlock
+                // {
+                //     Text = tileSwap.SourceConfig.DisplayName,
+                //     Foreground = Brushes.Yellow
+                // };
             }
         }
 
@@ -89,13 +97,13 @@ namespace Mosaic
 
         private void SetFullScreen(bool fullScreen)
         {
-            this.Config.FullScreen = fullScreen;
+            this.config.FullScreen = fullScreen;
             this.SetFullScreen();
         }
 
         private void SetFullScreen()
         {
-            if (this.Config.FullScreen)
+            if (this.config.FullScreen)
             {
                 this.WindowStyle = WindowStyle.None;
                 this.WindowState = WindowState.Maximized;
@@ -104,14 +112,6 @@ namespace Mosaic
             {
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.WindowState = WindowState.Normal;
-            }
-        }
-
-        public void Dispose()
-        {
-            foreach (var tile in this.GetVideoTiles())
-            {
-                tile.Dispose();
             }
         }
     }
