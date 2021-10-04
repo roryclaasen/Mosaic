@@ -1,17 +1,19 @@
 // ------------------------------------------------------------------------------
-// <copyright file="MosaicConfig.cs" company="Rory Claasen">
+// <copyright file="IQueueSwapper{T}.cs" company="Rory Claasen">
 // Copyright (c) Rory Claasen. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------------
 
 namespace Mosaic.Infrastructure
 {
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
-
-    public class MosaicConfig
+    public interface IQueueSwapper<T>
     {
-        [JsonProperty("sources")]
-        public IEnumerable<SourceConfig> Sources { get; set; }
+        int NextSwapIndex { get; }
+
+        bool TryDequeue(out T result);
+
+        T Swap(T item);
+
+        bool CanSwap();
     }
 }

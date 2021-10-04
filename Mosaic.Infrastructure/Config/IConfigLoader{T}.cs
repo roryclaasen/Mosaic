@@ -1,17 +1,13 @@
 // ------------------------------------------------------------------------------
-// <copyright file="MosaicConfig.cs" company="Rory Claasen">
+// <copyright file="IConfigLoader{T}.cs" company="Rory Claasen">
 // Copyright (c) Rory Claasen. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------------
 
 namespace Mosaic.Infrastructure
 {
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
-
-    public class MosaicConfig
+    public interface IConfigLoader<T>
     {
-        [JsonProperty("sources")]
-        public IEnumerable<SourceConfig> Sources { get; set; }
+        T LoadConfigFile(string file);
     }
 }

@@ -7,9 +7,11 @@
 namespace Mosaic
 {
     using Mosaic.Infrastructure;
+    using Newtonsoft.Json;
 
     public class MosaicApplicationConfig : MosaicConfig
     {
+        [JsonProperty("fullScreen")]
         public bool FullScreen { get; set; }
     }
 }

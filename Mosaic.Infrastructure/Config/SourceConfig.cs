@@ -6,10 +6,14 @@
 
 namespace Mosaic.Infrastructure
 {
+    using Newtonsoft.Json;
+
     public class SourceConfig
     {
+        [JsonProperty("source")]
         public string Source { get; set; }
 
+        [JsonProperty("displayName")]
         public string DisplayName { get; set; }
     }
 }

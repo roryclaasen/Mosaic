@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------------------
-// <copyright file="QueueSwapper.cs" company="Rory Claasen">
+// <copyright file="QueueSwapper{T}.cs" company="Rory Claasen">
 // Copyright (c) Rory Claasen. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ namespace Mosaic.Infrastructure
     using System;
     using System.Collections.Generic;
 
-    public class QueueSwapper<T>
+    public class QueueSwapper<T> : IQueueSwapper<T>
         where T : class
     {
         private readonly int gridSize;

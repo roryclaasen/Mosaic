@@ -18,7 +18,7 @@ namespace Mosaic.Infrastructure
         private readonly IVideoView[] videoTiles;
 
         private MosaicConfig config;
-        private QueueSwapper<SourceConfig> queueSwapper;
+        private IQueueSwapper<SourceConfig> queueSwapper;
 
         public MosaicManager(LibVLC libVLC, IEnumerable<IVideoView> videoTiles)
         {
@@ -32,7 +32,22 @@ namespace Mosaic.Infrastructure
         {
             this.config = config;
             this.queueSwapper = new QueueSwapper<SourceConfig>(this.videoTiles.Length, config.Sources);
-            this.SetupVideoTiles();
+
+            foreach (var tile in this.videoTiles)
+            {
+                tile.MediaPlayer = new MediaPlayer(this.libVLC)
+                {
+                    Mute = true
+                };
+
+                if (this.queueSwapper.TryDequeue(out var source))
+                {
+                    using (var media = this.CreateMedia(source))
+                    {
+                        tile.MediaPlayer.Play(media);
+                    }
+                }
+            }
         }
 
         public void SwapTiles()
@@ -93,24 +108,5 @@ namespace Mosaic.Infrastructure
         }
 
         private Media CreateMedia(SourceConfig config) => new Media(this.libVLC, config.Source, FromType.FromLocation);
-
-        private void SetupVideoTiles()
-        {
-            foreach (var tile in this.videoTiles)
-            {
-                tile.MediaPlayer = new MediaPlayer(this.libVLC)
-                {
-                    Mute = true
-                };
-
-                if (this.queueSwapper.TryDequeue(out var source))
-                {
-                    using (var media = this.CreateMedia(source))
-                    {
-                        tile.MediaPlayer.Play(media);
-                    }
-                }
-            }
-        }
     }
 }
