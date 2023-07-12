@@ -8,13 +8,16 @@ on:
 
 jobs:
   build:
-    name: Build
     runs-on: windows-latest
+    strategy:
+      matrix:
+        platform: [ 'x86', 'x64', 'ARM64' ]
+    name: Build ${{ matrix.platform }}
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Setup .NET
@@ -25,8 +28,8 @@ jobs:
           cache-dependency-path: |
             **/packages.lock.json
       - name: Restore dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore --locked-mode /p:PublishReadyToRun=false
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration Release /p:PublishReadyToRun=false /p:Platform=${{ matrix.platform }}
       # - name: Test
       #   run: dotnet test --no-build --verbosity normal
