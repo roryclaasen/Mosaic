@@ -39,7 +39,7 @@ namespace Mosaic
 
             this.Closed += this.MainWindow_Closed;
 
-            this.mosaicManager = new MosaicManager(this.GetVideoTiles());
+            this.mosaicManager = new MosaicManager(this.VideoTiles);
             this.mosaicManager.TileStarted += this.MosaicWindow_TileStarted;
 
             this.swapTimer = new DispatcherTimer
@@ -48,7 +48,7 @@ namespace Mosaic
             };
             this.swapTimer.Tick += (o, e) => this.mosaicManager.SwapTiles(this.GetLibVLC);
 
-            foreach (var tile in this.GetVideoTiles())
+            foreach (var tile in this.VideoTiles)
             {
                 tile.Initialized += this.ViewView_Initailized;
             }
@@ -81,9 +81,9 @@ namespace Mosaic
             }
         }
 
-        private IEnumerable<VideoView> GetVideoTiles() => this.VideoGrid.Children.OfType<VideoView>();
+        private IEnumerable<VideoView> VideoTiles => this.VideoGrid.Children.OfType<VideoView>();
 
-        private IEnumerable<TextBlock> GetTextTiles() => this.VideoGrid.Children.OfType<TextBlock>();
+        private IEnumerable<TextBlock> VideoLables => this.VideoGrid.Children.OfType<TextBlock>();
 
         private void MosaicView_KeyUp(object sender, KeyEventArgs e)
         {
@@ -114,7 +114,7 @@ namespace Mosaic
 
         private void MainWindow_Closed(object sender, WindowEventArgs e)
         {
-            foreach (var tile in this.GetVideoTiles())
+            foreach (var tile in this.VideoTiles)
             {
                 if (tile.MediaPlayer is not null)
                 {
@@ -152,7 +152,7 @@ namespace Mosaic
 
         private void SetShowTitles()
         {
-            foreach (var title in this.GetTextTiles())
+            foreach (var title in this.VideoLables)
             {
                 title.Visibility = this.config.ShowTitles ? Visibility.Visible : Visibility.Collapsed;
             }
@@ -160,7 +160,7 @@ namespace Mosaic
 
         private void SetTileTitle(int tileIndex, SourceConfig sourceConfig)
         {
-            var tile = this.GetTextTiles().ToArray()[tileIndex];
+            var tile = this.VideoLables.ToArray()[tileIndex];
             tile.Text = !string.IsNullOrWhiteSpace(sourceConfig.DisplayName) ? sourceConfig.DisplayName : sourceConfig.Source;
         }
 
