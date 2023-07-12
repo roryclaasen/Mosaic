@@ -1,9 +1,14 @@
-<Window x:Class="Mosaic.MosaicWindow"
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Mosaic.MosaicWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Mosaic"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shared="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" mc:Ignorable="d" Title="Video Mosaic" Height="900" Width="1200">
+    xmlns:lvs="using:LibVLCSharp.Platforms.Windows"
+    mc:Ignorable="d">
+
     <Grid x:Name="VideoGrid" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -18,23 +23,25 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <shared:VideoView x:Name="VideoView0" Grid.Row="0" Grid.Column="0" />
-        <shared:VideoView x:Name="VideoView1" Grid.Row="0" Grid.Column="1" />
-        <shared:VideoView x:Name="VideoView2" Grid.Row="0" Grid.Column="2" />
+        
+        <lvs:VideoView x:Name="VideoView0" Grid.Row="0" Grid.Column="0" />
+        <lvs:VideoView x:Name="VideoView1" Grid.Row="0" Grid.Column="1" />
+        <lvs:VideoView x:Name="VideoView2" Grid.Row="0" Grid.Column="2" />
         <TextBlock x:Name="VideoText0" Grid.Row="1" Grid.Column="0" Foreground="Yellow" TextAlignment="Center" />
         <TextBlock x:Name="VideoText1" Grid.Row="1" Grid.Column="1" Foreground="Yellow" TextAlignment="Center" />
         <TextBlock x:Name="VideoText2" Grid.Row="1" Grid.Column="2" Foreground="Yellow" TextAlignment="Center" />
-        <shared:VideoView x:Name="VideoView3" Grid.Row="2" Grid.Column="0" />
-        <shared:VideoView x:Name="VideoView4" Grid.Row="2" Grid.Column="1" />
-        <shared:VideoView x:Name="VideoView5" Grid.Row="2" Grid.Column="2" />
+        <lvs:VideoView x:Name="VideoView3" Grid.Row="2" Grid.Column="0" />
+        <lvs:VideoView x:Name="VideoView4" Grid.Row="2" Grid.Column="1" />
+        <lvs:VideoView x:Name="VideoView5" Grid.Row="2" Grid.Column="2" />
         <TextBlock x:Name="VideoText3" Grid.Row="3" Grid.Column="0" Foreground="Yellow" TextAlignment="Center" />
         <TextBlock x:Name="VideoText4" Grid.Row="3" Grid.Column="1" Foreground="Yellow" TextAlignment="Center" />
         <TextBlock x:Name="VideoText5" Grid.Row="3" Grid.Column="2" Foreground="Yellow" TextAlignment="Center" />
-        <shared:VideoView x:Name="VideoView6" Grid.Row="4" Grid.Column="0" />
-        <shared:VideoView x:Name="VideoView7" Grid.Row="4" Grid.Column="1" />
-        <shared:VideoView x:Name="VideoView8" Grid.Row="4" Grid.Column="2" />
+        <lvs:VideoView x:Name="VideoView6" Grid.Row="4" Grid.Column="0" />
+        <lvs:VideoView x:Name="VideoView7" Grid.Row="4" Grid.Column="1" />
+        <lvs:VideoView x:Name="VideoView8" Grid.Row="4" Grid.Column="2" />
         <TextBlock x:Name="VideoText6" Grid.Row="5" Grid.Column="0" Foreground="Yellow" TextAlignment="Center" />
         <TextBlock x:Name="VideoText7" Grid.Row="5" Grid.Column="1" Foreground="Yellow" TextAlignment="Center" />
         <TextBlock x:Name="VideoText8" Grid.Row="5" Grid.Column="2" Foreground="Yellow" TextAlignment="Center" />
     </Grid>
+
 </Window>

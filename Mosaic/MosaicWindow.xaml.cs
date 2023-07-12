@@ -4,24 +4,31 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
 namespace Mosaic
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Input;
-    using System.Windows.Threading;
+    using System.Runtime.InteropServices.WindowsRuntime;
+    using LibVLCSharp.Platforms.Windows;
     using LibVLCSharp.Shared;
-    using LibVLCSharp.WPF;
+    using Microsoft.UI.Xaml;
+    using Microsoft.UI.Xaml.Controls;
     using Mosaic.Infrastructure;
     using Mosaic.Infrastructure.Config;
     using Mosaic.Infrastructure.Events;
+    using Windows.UI.Core;
 
-    public partial class MosaicWindow : Window, IDisposable
+    /// <summary>
+    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class MosaicWindow : Window
     {
+        private readonly ConcurrentDictionary<IVideoView, LibVLC> libVlcDictionary = new();
         private readonly MosaicManager mosaicManager;
         private readonly DispatcherTimer swapTimer;
 
@@ -32,24 +39,23 @@ namespace Mosaic
             this.InitializeComponent();
             Core.Initialize();
 
-            this.mosaicManager = new MosaicManager(new LibVLC(), this.GetVideoTiles());
-            this.mosaicManager.TileStarted += this.MosaicManager_TileStarted;
+            this.Closed += this.MainWindow_Closed;
+
+            this.mosaicManager = new MosaicManager(this.GetVideoTiles());
+            this.mosaicManager.TileStarted += this.MosaicWindow_TileStarted;
 
             this.swapTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
-            this.swapTimer.Tick += (o, e) => this.mosaicManager.SwapTiles();
+            this.swapTimer.Tick += (o, e) => this.mosaicManager.SwapTiles(this.GetLibVLC);
 
-            this.KeyUp += this.MosaicView_KeyUp;
-            this.Closing += this.MosaicView_Closing;
-        }
+            // this.KeyUp += this.MosaicView_KeyUp;
+            // this.Closing += this.MosaicView_Closing;
 
-        public void Dispose()
-        {
             foreach (var tile in this.GetVideoTiles())
             {
-                tile.Dispose();
+                tile.Initialized += this.ViewView_Initailized;
             }
         }
 
@@ -61,7 +67,23 @@ namespace Mosaic
             this.SetFullScreen();
             this.SetShowTitles();
 
-            this.swapTimer.IsEnabled = true;
+            this.swapTimer.Start();
+        }
+
+        private void ViewView_Initailized(object sender, InitializedEventArgs e)
+        {
+            if (sender is VideoView videoView)
+            {
+                var libVlc = new LibVLC(e.SwapChainOptions);
+                videoView.MediaPlayer = new MediaPlayer(libVlc)
+                {
+                    Mute = true,
+                    EnableHardwareDecoding = true
+                };
+
+                this.libVlcDictionary.AddOrUpdate(videoView, libVlc, (k, v) => libVlc);
+                this.mosaicManager.StartTile(libVlc, videoView);
+            }
         }
 
         private IEnumerable<VideoView> GetVideoTiles() => this.VideoGrid.Children.OfType<VideoView>();
@@ -70,24 +92,24 @@ namespace Mosaic
 
         private void MosaicView_KeyUp(object sender, KeyEventArgs e)
         {
-            switch (e.Key)
-            {
-                case Key.Space:
-                    this.mosaicManager.TogglePause();
-                    this.swapTimer.IsEnabled = this.mosaicManager.Paused;
-                    break;
-                case Key.F:
-                    this.SetFullScreen(!this.config.FullScreen);
-                    break;
-                case Key.T:
-                    this.SetShowTitles(!this.config.ShowTitles);
-                    break;
-                default:
-                    break;
-            }
+            //switch (e.Key)
+            //{
+            //    case Key.Space:
+            //        this.mosaicManager.TogglePause();
+            //        this.swapTimer.IsEnabled = this.mosaicManager.Paused;
+            //        break;
+            //    case Key.F:
+            //        this.SetFullScreen(!this.config.FullScreen);
+            //        break;
+            //    case Key.T:
+            //        this.SetShowTitles(!this.config.ShowTitles);
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
 
-        private void MosaicManager_TileStarted(object sender, EventArgs e)
+        private void MosaicWindow_TileStarted(object sender, EventArgs e)
         {
             if (e is TileSourceEventArgs tileSwap)
             {
@@ -95,7 +117,17 @@ namespace Mosaic
             }
         }
 
-        private void MosaicView_Closing(object sender, CancelEventArgs e) => this.Dispose();
+        private void MainWindow_Closed(object sender, WindowEventArgs e)
+        {
+            foreach (var tile in this.GetVideoTiles())
+            {
+                if (tile.MediaPlayer is not null)
+                {
+                    tile.MediaPlayer.Stopped += (s, e) => this.VideoGrid.Children.Remove(tile);
+                    tile.MediaPlayer.Stop();
+                }
+            }
+        }
 
         private void SetFullScreen(bool fullScreen)
         {
@@ -107,13 +139,13 @@ namespace Mosaic
         {
             if (this.config.FullScreen)
             {
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Maximized;
+                // this.WindowStyle = WindowStyle.None;
+                // this.WindowState = WindowState.Maximized;
             }
             else
             {
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
-                this.WindowState = WindowState.Normal;
+                // this.WindowStyle = WindowStyle.SingleBorderWindow;
+                // this.WindowState = WindowState.Normal;
             }
         }
 
@@ -135,6 +167,16 @@ namespace Mosaic
         {
             var tile = this.GetTextTiles().ToArray()[tileIndex];
             tile.Text = !string.IsNullOrWhiteSpace(sourceConfig.DisplayName) ? sourceConfig.DisplayName : sourceConfig.Source;
+        }
+
+        private LibVLC GetLibVLC(IVideoView videoView)
+        {
+            if (this.libVlcDictionary.TryGetValue(videoView, out var libVlc))
+            {
+                return libVlc;
+            }
+
+            return null;
         }
     }
 }

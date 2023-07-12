@@ -8,11 +8,11 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="f9b13475-220c-45a2-be5e-19234eb58dc1"
+    Name="e6657e6a-d189-4452-895a-1aa605011ea8"
     Publisher="CN=roryclaasen"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="f9b13475-220c-45a2-be5e-19234eb58dc1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="e6657e6a-d189-4452-895a-1aa605011ea8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Mosaic</DisplayName>

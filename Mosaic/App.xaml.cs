@@ -4,35 +4,57 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
 namespace Mosaic
 {
-    using System;
-    using System.Linq;
-    using System.Windows;
+    using System.IO;
+    using Microsoft.UI.Xaml;
     using Mosaic.Infrastructure.Config;
     using Mosaic.Infrastructure.Config.Loader;
     using Newtonsoft.Json;
+    using Windows.ApplicationModel;
 
+    /// <summary>
+    /// Provides application-specific behavior to supplement the default Application class.
+    /// </summary>
     public partial class App : Application
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private MosaicWindow window;
+
+        /// <summary>
+        /// Initializes the singleton application object.  This is the first line of authored code
+        /// executed, and as such is the logical equivalent of main() or WinMain().
+        /// </summary>
+        public App()
         {
-            this.CreateAndShowMosaic(e.Args.FirstOrDefault() ?? "config.json");
+            this.InitializeComponent();
         }
 
-        private void CreateAndShowMosaic(string file)
+        /// <summary>
+        /// Invoked when the application is launched.
+        /// </summary>
+        /// <param name="args">Details about the launch request and process.</param>
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var config = this.LoadConfig(file);
-
-            var view = new MosaicWindow();
-            view.Show();
-            view.InitializeConfig(config);
+            this.window = new MosaicWindow();
+            this.window.Activate();
+            this.window.InitializeConfig(this.LoadConfig());
         }
 
-        private MosaicApplicationConfig LoadConfig(string file)
+        private MosaicApplicationConfig LoadConfig()
         {
+            var file = this.GetConfigFilePath();
             var configLoader = new ConfigLoader<MosaicApplicationConfig>(new JsonSerializer());
             return configLoader.LoadConfigFile(file);
+        }
+
+        private string GetConfigFilePath()
+        {
+            var configFile = "config.json"; // TODO: Can we load it via other means?
+
+            return Path.Combine(Package.Current.InstalledLocation.Path, configFile);
         }
     }
 }
