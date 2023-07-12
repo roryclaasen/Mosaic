@@ -13,6 +13,11 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\MosaicMainPage.xaml" />
+    <None Remove="Pages\NavigationRootPage.xaml" />
+  </ItemGroup>
   
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -37,6 +42,18 @@
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\MosaicMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\NavigationRootPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

@@ -9,51 +9,68 @@
 
 namespace Mosaic
 {
+    using System;
     using System.IO;
     using Microsoft.UI.Xaml;
+    using Microsoft.UI.Xaml.Controls;
+    using Microsoft.UI.Xaml.Navigation;
+    using Mosaic.Helper;
     using Mosaic.Infrastructure;
+    using Mosaic.Pages;
     using Newtonsoft.Json;
     using Windows.ApplicationModel;
 
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
     public partial class App : Application
     {
-        private MosaicWindow window;
+        public static Window StartupWindow { get; private set; }
 
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
         public App()
         {
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            this.window = new MosaicWindow();
-            this.window.Activate();
-            this.window.InitializeConfig(this.LoadConfig());
+            StartupWindow = WindowHelper.CreateWindow();
+            StartupWindow.ExtendsContentIntoTitleBar = true;
+
+            var rootFrame = this.GetRootFrame();
+            
+            NavigationRootPage rootPage = StartupWindow.Content as NavigationRootPage;
+            rootPage.Navigate(typeof(MosaicMainPage), string.Empty);
+
+            StartupWindow.Activate();
         }
 
-        private MosaicApplicationConfig LoadConfig()
+        public Frame GetRootFrame()
         {
-            var file = this.GetConfigFilePath();
-            var configLoader = new ConfigLoader<MosaicApplicationConfig>(new JsonSerializer());
-            return configLoader.LoadConfigFile(file);
+            Frame rootFrame;
+            NavigationRootPage rootPage = StartupWindow.Content as NavigationRootPage;
+            if (rootPage == null)
+            {
+                rootPage = new NavigationRootPage();
+                rootFrame = (Frame)rootPage.FindName("rootFrame");
+                if (rootFrame == null)
+                {
+                    throw new Exception("Root frame not found");
+                }
+
+                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+                rootFrame.NavigationFailed += this.OnNavigationFailed;
+
+                StartupWindow.Content = rootPage;
+            }
+            else
+            {
+                rootFrame = (Frame)rootPage.FindName("rootFrame");
+            }
+
+            return rootFrame;
         }
 
-        private string GetConfigFilePath()
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            var configFile = "config.json"; // TODO: Can we load it via other means?
-
-            return Path.Combine(Package.Current.InstalledLocation.Path, configFile);
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
     }
 }
