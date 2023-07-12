@@ -39,7 +39,8 @@ namespace Mosaic.Infrastructure
             {
                 tile.MediaPlayer = new MediaPlayer(this.libVLC)
                 {
-                    Mute = true
+                    Mute = true,
+                    EnableHardwareDecoding = true
                 };
 
                 if (this.queueSwapper.TryDequeue(out var source))
