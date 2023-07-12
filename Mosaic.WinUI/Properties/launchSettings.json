@@ -1,10 +1,12 @@
 {
   "profiles": {
     "Mosaic.WinUI (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "commandLineArgs": ""
     },
     "Mosaic.WinUI (Unpackaged)": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": null
     }
   }
 }

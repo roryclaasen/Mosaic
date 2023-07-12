@@ -9,29 +9,20 @@
 
 namespace Mosaic
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Runtime.InteropServices.WindowsRuntime;
     using Microsoft.UI.Xaml;
-    using Microsoft.UI.Xaml.Controls;
-    using Microsoft.UI.Xaml.Controls.Primitives;
-    using Microsoft.UI.Xaml.Data;
-    using Microsoft.UI.Xaml.Input;
-    using Microsoft.UI.Xaml.Media;
-    using Microsoft.UI.Xaml.Navigation;
-    using Microsoft.UI.Xaml.Shapes;
+    using Mosaic.Infrastructure.Config;
+    using Mosaic.Infrastructure.Config.Loader;
+    using Newtonsoft.Json;
     using Windows.ApplicationModel;
-    using Windows.ApplicationModel.Activation;
-    using Windows.Foundation;
-    using Windows.Foundation.Collections;
 
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     public partial class App : Application
     {
+        private MosaicWindow window;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -45,12 +36,25 @@ namespace Mosaic
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
-            m_window.Activate();
+            this.window = new MosaicWindow();
+            this.window.Activate();
+            this.window.InitializeConfig(this.LoadConfig());
         }
 
-        private Window m_window;
+        private MosaicApplicationConfig LoadConfig()
+        {
+            var file = this.GetConfigFilePath();
+            var configLoader = new ConfigLoader<MosaicApplicationConfig>(new JsonSerializer());
+            return configLoader.LoadConfigFile(file);
+        }
+
+        private string GetConfigFilePath()
+        {
+            var configFile = "config.json"; // TODO: Can we load it via other means?
+
+            return Path.Combine(Package.Current.InstalledLocation.Path, configFile);
+        }
     }
 }

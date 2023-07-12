@@ -16,15 +16,13 @@ namespace Mosaic.Infrastructure
 
     public partial class MosaicManager
     {
-        private readonly LibVLC libVLC;
         private readonly IVideoView[] videoTiles;
 
         private MosaicConfig config;
         private IQueueSwapper<SourceConfig> queueSwapper;
 
-        public MosaicManager(LibVLC libVLC, IEnumerable<IVideoView> videoTiles)
+        public MosaicManager(IEnumerable<IVideoView> videoTiles)
         {
-            this.libVLC = libVLC ?? throw new ArgumentNullException(nameof(libVLC));
             this.videoTiles = videoTiles?.ToArray() ?? throw new ArgumentNullException(nameof(videoTiles));
         }
 
@@ -34,42 +32,37 @@ namespace Mosaic.Infrastructure
         {
             this.config = config;
             this.queueSwapper = new QueueSwapper<SourceConfig>(this.videoTiles.Length, config.Sources);
+        }
 
-            foreach (var tile in this.videoTiles)
+        public void StartTile(LibVLC libVLC, IVideoView tile)
+        {
+            if (this.queueSwapper.TryDequeue(out var source))
             {
-                tile.MediaPlayer = new MediaPlayer(this.libVLC)
+                using (var media = this.CreateMedia(libVLC, source))
                 {
-                    Mute = true,
-                    EnableHardwareDecoding = true
-                };
-
-                if (this.queueSwapper.TryDequeue(out var source))
-                {
-                    using (var media = this.CreateMedia(source))
-                    {
-                        tile.MediaPlayer.Play(media);
-                    }
-
-                    this.OnTileStarted(this, tile, source);
+                    tile.MediaPlayer.Play(media);
                 }
+
+                this.OnTileStarted(this, tile, source);
             }
         }
 
-        public void SwapTiles()
+        public void SwapTiles(Func<IVideoView, LibVLC> getLibVlc)
         {
             if (this.queueSwapper.CanSwap())
             {
                 var currentTileIndex = this.queueSwapper.NextSwapIndex;
                 var currentTile = this.videoTiles.ElementAt(currentTileIndex);
+                var libVlc = getLibVlc(currentTile);
 
                 var oldMedia = currentTile.MediaPlayer.Media;
                 var oldSource = this.config.Sources.FirstOrDefault(s => s.Source.Equals(oldMedia.Mrl));
-                if (oldSource != null)
+                if (oldSource is not null)
                 {
                     var newSource = this.queueSwapper.Swap(oldSource);
-                    if (newSource != null)
+                    if (newSource is not null)
                     {
-                        using (var media = this.CreateMedia(newSource))
+                        using (var media = this.CreateMedia(libVlc, newSource))
                         {
                             currentTile.MediaPlayer.Play(media);
                         }
@@ -114,6 +107,6 @@ namespace Mosaic.Infrastructure
             }
         }
 
-        private Media CreateMedia(SourceConfig config) => new(this.libVLC, config.Source, FromType.FromLocation);
+        private Media CreateMedia(LibVLC libVLC, SourceConfig config) => new(libVLC, config.Source, FromType.FromLocation);
     }
 }

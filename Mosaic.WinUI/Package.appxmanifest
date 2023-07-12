@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="f9b13475-220c-45a2-be5e-19234eb58dc1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Mosaic.WinUI</DisplayName>
+    <DisplayName>Mosaic</DisplayName>
     <PublisherDisplayName>roryclaasen</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -34,8 +34,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Mosaic.WinUI"
-        Description="Mosaic.WinUI"
+        DisplayName="Mosaic"
+        Description="Mosaic"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
@@ -47,5 +47,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClient"/>
   </Capabilities>
 </Package>
