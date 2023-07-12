@@ -9,7 +9,7 @@ namespace Mosaic.Infrastructure.Config
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class MosaicConfig
+    public record MosaicConfig
     {
         [JsonProperty("sources")]
         public IEnumerable<SourceConfig> Sources { get; set; }
