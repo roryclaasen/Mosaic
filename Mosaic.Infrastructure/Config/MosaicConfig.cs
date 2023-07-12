@@ -14,4 +14,13 @@ namespace Mosaic.Infrastructure
         [JsonProperty("sources")]
         public IEnumerable<SourceConfig> Sources { get; set; }
     }
+
+    public record SourceConfig
+    {
+        [JsonProperty("source")]
+        public string Source { get; set; }
+
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; }
+    }
 }
