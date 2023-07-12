@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
+
   <PropertyGroup Label="Generic Properties">
     <Configurations>Debug;Release</Configurations>
     <Platforms>x64</Platforms>
     <DebugType>full</DebugType>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <IsPublishable>false</IsPublishable>
-    <LangVersion>8.0</LangVersion>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Label="Assembly Properties">
@@ -20,8 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup Label="Code Quality">
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354"  PrivateAssets="All" />
-
     <AdditionalFiles Include="$(SolutionDir)\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
@@ -31,7 +29,4 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.240" PrivateAssets="All" />
-  </ItemGroup>
 </Project>

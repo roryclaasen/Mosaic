@@ -1,0 +1,22 @@
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <ItemGroup Label="nuget.org">
+    <PackageVersion Include="LibVLCSharp" Version="3.7.0" />
+    <PackageVersion Include="LibVLCSharp.WPF" Version="3.7.0" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.128" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.354" />
+    <PackageVersion Include="VideoLAN.LibVLC.Windows" Version="3.0.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" />
+    <PackageReference Include="StyleCop.Analyzers" />
+  </ItemGroup>
+
+</Project>

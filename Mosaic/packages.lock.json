@@ -1,21 +1,21 @@
 {
-  "version": 1,
+  "version": 2,
   "dependencies": {
-    ".NETCoreApp,Version=v3.1": {
+    "net7.0-windows7.0": {
       "LibVLCSharp.WPF": {
         "type": "Direct",
-        "requested": "[3.6.1, )",
-        "resolved": "3.6.1",
-        "contentHash": "G/oSTcRl7qA+Z5H/9cVxvrRbkN8occxZPyur8w/uwxGWxUa9aunuCu1ypDDs4ATX4yNHpgVQYZrScbYyqfD7yg==",
+        "requested": "[3.7.0, )",
+        "resolved": "3.7.0",
+        "contentHash": "OQHaPjXFN+oq5ms5tnvRZ7LnP+yjd4MyvKpL6Wx0HMLt0AaIr50E6ew3vfsu+mwBkJn2nQTsxzdM20+Li1XJCw==",
         "dependencies": {
-          "LibVLCSharp": "3.6.1"
+          "LibVLCSharp": "3.7.0"
         }
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
-        "requested": "[3.4.240, )",
-        "resolved": "3.4.240",
-        "contentHash": "OLVIcTEKZCyUbF7+h6Lm+gU9V7wT+PPpYZ7sGtz3GfjNoB84drKxRh5qLrbLV6tqD/YWvvXZH2DAbCSQilGSGA=="
+        "requested": "[3.6.128, )",
+        "resolved": "3.6.128",
+        "contentHash": "zeA+Ho3XlPgt6P9MRALlkEvfOOzDQdNseV0xia/nSfC1lSrl0+gizlWyixaHvSYUw2ru7pBIKnK451bYOjPRjA=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -28,19 +28,9 @@
       },
       "VideoLAN.LibVLC.Windows": {
         "type": "Direct",
-        "requested": "[3.0.16, )",
-        "resolved": "3.0.16",
-        "contentHash": "2os7EGuroQnZxYzhiUWRcg3CcCII9xwMT1sOYsh32o9YSKwYirk+vf3MkcmQX4nHhUSRu6Gt3GG1pVSry6N5PA=="
-      },
-      "LibVLCSharp": {
-        "type": "Transitive",
-        "resolved": "3.6.1",
-        "contentHash": "hnu8orUMMpEx7ZjECGnpR5K3ccLuvj7YXCmYoyLrV3XOcvW90NU7sgp0GQzOcl66iJtcavjOhkz/IMaPKRNe5w=="
-      },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "13.0.1",
-        "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
+        "requested": "[3.0.18, )",
+        "resolved": "3.0.18",
+        "contentHash": "A7Fg86aSziadDxB4F8AWN6kHNgEYJqerdPG9SflPM0GDO9m/O2jnc60mfSa52xOh5EC4U62W0y4kdyw+FgB2iQ=="
       },
       "StyleCop.Analyzers.Unstable": {
         "type": "Transitive",
@@ -50,11 +40,25 @@
       "mosaic.infrastructure": {
         "type": "Project",
         "dependencies": {
-          "LibVLCSharp": "3.6.1",
-          "Newtonsoft.Json": "13.0.1"
+          "LibVLCSharp": "[3.7.0, )",
+          "Nerdbank.GitVersioning": "[3.6.128, )",
+          "Newtonsoft.Json": "[13.0.3, )",
+          "StyleCop.Analyzers": "[1.2.0-beta.354, )"
         }
+      },
+      "LibVLCSharp": {
+        "type": "CentralTransitive",
+        "requested": "[3.7.0, )",
+        "resolved": "3.7.0",
+        "contentHash": "N9NV+BamKr+1YiRktX9JroE4m9C+pEszUNW4qa3A5mychhCWBvvoDolZKWk2yxhZvHewgaXXahBcw5ivCXjKYA=="
+      },
+      "Newtonsoft.Json": {
+        "type": "CentralTransitive",
+        "requested": "[13.0.3, )",
+        "resolved": "13.0.3",
+        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       }
     },
-    ".NETCoreApp,Version=v3.1/win10-x64": {}
+    "net7.0-windows7.0/win10-x64": {}
   }
 }
