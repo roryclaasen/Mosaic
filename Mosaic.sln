@@ -22,20 +22,60 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B0111B
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mosaic.WinUI", "Mosaic.WinUI\Mosaic.WinUI.csproj", "{1C667D26-3396-49D8-90F2-43A52A5375D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Debug|ARM64.ActiveCfg = Debug|x64
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Debug|ARM64.Build.0 = Debug|x64
 		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Debug|x64.ActiveCfg = Debug|x64
 		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Debug|x64.Build.0 = Debug|x64
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Debug|x86.ActiveCfg = Debug|x64
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Debug|x86.Build.0 = Debug|x64
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Release|ARM64.ActiveCfg = Release|x64
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Release|ARM64.Build.0 = Release|x64
 		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Release|x64.ActiveCfg = Release|x64
 		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Release|x64.Build.0 = Release|x64
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Release|x86.ActiveCfg = Release|x64
+		{74115D18-A757-4B39-8CC0-3096A4C94AEA}.Release|x86.Build.0 = Release|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Debug|ARM64.ActiveCfg = Debug|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Debug|ARM64.Build.0 = Debug|x64
 		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Debug|x64.ActiveCfg = Debug|x64
 		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Debug|x64.Build.0 = Debug|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Debug|x86.ActiveCfg = Debug|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Debug|x86.Build.0 = Debug|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Release|ARM64.ActiveCfg = Release|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Release|ARM64.Build.0 = Release|x64
 		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Release|x64.ActiveCfg = Release|x64
 		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Release|x64.Build.0 = Release|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Release|x86.ActiveCfg = Release|x64
+		{4ADB87B1-56F8-4C70-AC37-1EFDFB2BC8FE}.Release|x86.Build.0 = Release|x64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|ARM64.Build.0 = Debug|ARM64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|x64.ActiveCfg = Debug|x64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|x64.Build.0 = Debug|x64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|x64.Deploy.0 = Debug|x64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|x86.ActiveCfg = Debug|x86
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|x86.Build.0 = Debug|x86
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Debug|x86.Deploy.0 = Debug|x86
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|ARM64.ActiveCfg = Release|ARM64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|ARM64.Build.0 = Release|ARM64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|ARM64.Deploy.0 = Release|ARM64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|x64.ActiveCfg = Release|x64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|x64.Build.0 = Release|x64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|x64.Deploy.0 = Release|x64
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|x86.ActiveCfg = Release|x86
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|x86.Build.0 = Release|x86
+		{1C667D26-3396-49D8-90F2-43A52A5375D7}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

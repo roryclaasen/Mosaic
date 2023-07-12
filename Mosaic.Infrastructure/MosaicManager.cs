@@ -60,7 +60,7 @@ namespace Mosaic.Infrastructure
             if (this.queueSwapper.CanSwap())
             {
                 var currentTileIndex = this.queueSwapper.NextSwapIndex;
-                var currentTile = this.videoTiles[currentTileIndex];
+                var currentTile = this.videoTiles.ElementAt(currentTileIndex);
 
                 var oldMedia = currentTile.MediaPlayer.Media;
                 var oldSource = this.config.Sources.FirstOrDefault(s => s.Source.Equals(oldMedia.Mrl));
@@ -114,6 +114,6 @@ namespace Mosaic.Infrastructure
             }
         }
 
-        private Media CreateMedia(SourceConfig config) => new Media(this.libVLC, config.Source, FromType.FromLocation);
+        private Media CreateMedia(SourceConfig config) => new(this.libVLC, config.Source, FromType.FromLocation);
     }
 }
