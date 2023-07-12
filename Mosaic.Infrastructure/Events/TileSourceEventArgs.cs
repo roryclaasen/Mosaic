@@ -4,10 +4,9 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure.Events
+namespace Mosaic.Infrastructure
 {
     using System;
-    using Mosaic.Infrastructure.Config;
 
     public class TileSourceEventArgs : EventArgs
     {

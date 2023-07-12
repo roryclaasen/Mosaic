@@ -4,7 +4,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure.Config.Loader
+namespace Mosaic.Infrastructure
 {
     public interface IConfigLoader<T>
     {

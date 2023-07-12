@@ -4,7 +4,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure.Config.Loader
+namespace Mosaic.Infrastructure
 {
     using System.IO;
     using Newtonsoft.Json;

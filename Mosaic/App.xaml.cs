@@ -11,8 +11,7 @@ namespace Mosaic
 {
     using System.IO;
     using Microsoft.UI.Xaml;
-    using Mosaic.Infrastructure.Config;
-    using Mosaic.Infrastructure.Config.Loader;
+    using Mosaic.Infrastructure;
     using Newtonsoft.Json;
     using Windows.ApplicationModel;
 

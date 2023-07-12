@@ -8,8 +8,6 @@ namespace Mosaic.Infrastructure
 {
     using System;
     using LibVLCSharp.Shared;
-    using Mosaic.Infrastructure.Config;
-    using Mosaic.Infrastructure.Events;
 
     public partial class MosaicManager
     {

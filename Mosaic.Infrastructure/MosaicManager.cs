@@ -10,8 +10,6 @@ namespace Mosaic.Infrastructure
     using System.Collections.Generic;
     using System.Linq;
     using LibVLCSharp.Shared;
-    using Mosaic.Infrastructure.Config;
-    using Mosaic.Infrastructure.Events;
 
     public partial class MosaicManager
     {

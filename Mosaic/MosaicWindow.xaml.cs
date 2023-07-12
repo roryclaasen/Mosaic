@@ -19,8 +19,6 @@ namespace Mosaic
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
     using Mosaic.Infrastructure;
-    using Mosaic.Infrastructure.Config;
-    using Mosaic.Infrastructure.Events;
     using Windows.UI.Core;
 
     /// <summary>
@@ -49,9 +47,6 @@ namespace Mosaic
                 Interval = TimeSpan.FromSeconds(5)
             };
             this.swapTimer.Tick += (o, e) => this.mosaicManager.SwapTiles(this.GetLibVLC);
-
-            // this.KeyUp += this.MosaicView_KeyUp;
-            // this.Closing += this.MosaicView_Closing;
 
             foreach (var tile in this.GetVideoTiles())
             {

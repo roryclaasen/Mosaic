@@ -4,7 +4,7 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure.Config
+namespace Mosaic.Infrastructure
 {
     using Newtonsoft.Json;
 

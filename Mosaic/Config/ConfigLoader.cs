@@ -4,8 +4,9 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure
+namespace Mosaic
 {
+    using Mosaic.Infrastructure;
     using Newtonsoft.Json;
 
     public class ConfigLoader : ConfigLoader<MosaicConfig>, IConfigLoader<MosaicConfig>
