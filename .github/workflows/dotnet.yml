@@ -28,8 +28,8 @@ jobs:
           cache-dependency-path: |
             **/packages.lock.json
       - name: Restore dependencies
-        run: dotnet restore --locked-mode /p:PublishReadyToRun=false
+        run: dotnet restore --locked-mode
       - name: Build
-        run: dotnet build --no-restore --configuration Release /p:PublishReadyToRun=false /p:Platform=${{ matrix.platform }}
+        run: dotnet build --no-restore -c Release -p:Platform=${{ matrix.platform }}
       # - name: Test
       #   run: dotnet test --no-build --verbosity normal

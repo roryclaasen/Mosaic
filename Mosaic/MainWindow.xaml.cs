@@ -41,7 +41,16 @@ namespace Mosaic
 
         public string GetAppTitleFromSystem()
         {
-            return Windows.ApplicationModel.Package.Current.DisplayName;
+#if MICROSOFT_WINDOWSAPPSDK_SELFCONTAINED
+            var title = "Mosaic Video Viewer";
+#else
+            var title = Windows.ApplicationModel.Package.Current.DisplayName;
+#endif
+
+#if DEBUG
+            title += " - Dev";
+#endif
+            return title;
         }
 
         private void NavigationViewControl_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

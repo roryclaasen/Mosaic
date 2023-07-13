@@ -2,8 +2,6 @@
 <Project>
 
   <PropertyGroup Label="Generic Properties">
-    <Configurations>Debug;Release</Configurations>
-    <Platforms>x64</Platforms>
     <DebugType>full</DebugType>
     <IsPublishable>false</IsPublishable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -12,7 +10,11 @@
   <PropertyGroup Label="Assembly Properties">
     <Authors>Rory Claasen (contact@roryclaasen.dev)</Authors>
     <Copyright>All rights reserved.</Copyright>
-    <Product>Mosaic</Product>
+    <Product>Mosaic Video Viewer</Product>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsMsixPackage>false</IsMsixPackage>
   </PropertyGroup>
 
   <PropertyGroup Label="Code Quality">
