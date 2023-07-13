@@ -6,11 +6,8 @@
 
 namespace Mosaic
 {
-    using System;
-    using Microsoft.UI;
     using Microsoft.UI.Composition;
     using Microsoft.UI.Composition.SystemBackdrops;
-    using Microsoft.UI.Windowing;
     using Microsoft.UI.Xaml;
     using Mosaic.Helper;
     using WinRT;
@@ -65,7 +62,10 @@ namespace Mosaic
 
         private void Window_Activated(object sender, WindowActivatedEventArgs args)
         {
-            this.configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+            if (this.configurationSource is not null)
+            {
+                this.configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+            }
         }
 
         private void Window_Closed(object sender, WindowEventArgs args)

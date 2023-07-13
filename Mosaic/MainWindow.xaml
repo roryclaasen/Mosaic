@@ -2,11 +2,7 @@
 <Window
     x:Class="Mosaic.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Mosaic"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,19 +16,6 @@
             <!--  NavView  -->
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="TitleBarStates">
-                <VisualState x:Name="Default" />
-                <VisualState x:Name="Compact">
-                    <VisualState.Setters>
-                        <Setter Target="AppTitleBar.Margin" Value="96,0,0,0" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Top">
-                    <VisualState.Setters>
-                        <Setter Target="AppTitleBar.Margin" Value="16,0,0,0" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="WindowActivationStates">
                 <VisualState x:Name="Activated" />
                 <VisualState x:Name="Deactivated">
@@ -42,16 +25,17 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        
         <Border
             x:Name="AppTitleBar"
-            Canvas.ZIndex="1"
             Grid.Column="1"
             Height="{Binding ElementName=NavigationViewControl, Path=CompactPaneLength}"
             Margin="48,0,0,0"
             VerticalAlignment="Stretch"
-            IsHitTestVisible="False">
+            Canvas.ZIndex="1"
+            IsHitTestVisible="True">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                <Image Width="18" Height="18" Source="/Assets/Square44x44Logo.png" />
+                <Image Width="18" Source="/Assets/Square44x44Logo.png" />
                 <TextBlock
                     Margin="12,0,0,0"
                     Grid.Column="1"
@@ -63,13 +47,14 @@
 
         <NavigationView
             x:Name="NavigationViewControl"
-            IsTitleBarAutoPaddingEnabled="False"
-            IsTabStop="False" 
             Grid.RowSpan="2"
             Grid.Column="1"
             Canvas.ZIndex="0"
+            IsTabStop="False"
+            IsTitleBarAutoPaddingEnabled="True"
             BackRequested="NavigationViewControl_BackRequested" 
-            ItemInvoked="NavigationViewControl_ItemInvoked">
+            ItemInvoked="NavigationViewControl_ItemInvoked"
+            AlwaysShowHeader="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Home" Content="Home" Tag="Mosaic.Views.HomePage" />
                 <!--NavigationViewItem Icon="Home" Content="Config" SelectsOnInvoked="False">
@@ -80,7 +65,7 @@
                     </NavigationViewItem.MenuItems>
                 </NavigationViewItem-->
             </NavigationView.MenuItems>
-            <Frame x:Name="ContentFrame" Navigated="ContentFrame_Navigated" Padding="55,10,0,0"/>
+            <Frame x:Name="ContentFrame" Navigated="ContentFrame_Navigated"/>
         </NavigationView>
     </Grid>
 </Window>

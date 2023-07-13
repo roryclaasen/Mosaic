@@ -27,13 +27,14 @@ namespace Mosaic
         public void SetAppTitleBar()
         {
             this.Title = this.GetAppTitleFromSystem();
-            if (AppWindowTitleBar.IsCustomizationSupported() && false)
+            if (AppWindowTitleBar.IsCustomizationSupported())
             {
                 this.ExtendsContentIntoTitleBar = true;
                 this.SetTitleBar(this.AppTitleBar);
             }
             else
             {
+                this.NavigationViewControl.Resources["NavigationViewContentMargin"] = new Thickness(0, 0, 0, 0);
                 this.AppTitleBar.Visibility = Visibility.Collapsed;
             }
         }
@@ -78,8 +79,6 @@ namespace Mosaic
                     .OfType<NavigationViewItem>()
                     .First(n => n.Tag.Equals(this.ContentFrame.SourcePageType.FullName.ToString()));
             }
-
-            this.NavigationViewControl.Header = ((NavigationViewItem)this.NavigationViewControl.SelectedItem)?.Content?.ToString();
         }
     }
 }
