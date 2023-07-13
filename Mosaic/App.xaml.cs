@@ -12,7 +12,7 @@ namespace Mosaic
     using Mosaic.Helper;
     using WinRT;
 
-    public partial class App : Application
+    public sealed partial class App : Application
     {
         private WindowsSystemDispatcherQueueHelper wsqdHelper;
         private MicaController micaController;
