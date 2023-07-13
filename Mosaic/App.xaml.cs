@@ -4,73 +4,101 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Mosaic
 {
     using System;
-    using System.IO;
+    using Microsoft.UI;
+    using Microsoft.UI.Composition;
+    using Microsoft.UI.Composition.SystemBackdrops;
+    using Microsoft.UI.Windowing;
     using Microsoft.UI.Xaml;
-    using Microsoft.UI.Xaml.Controls;
-    using Microsoft.UI.Xaml.Navigation;
     using Mosaic.Helper;
-    using Mosaic.Infrastructure;
-    using Mosaic.Pages;
-    using Newtonsoft.Json;
-    using Windows.ApplicationModel;
+    using WinRT;
 
     public partial class App : Application
     {
-        public static Window StartupWindow { get; private set; }
+        private WindowsSystemDispatcherQueueHelper wsqdHelper;
+        private MicaController micaController;
+        private SystemBackdropConfiguration configurationSource;
 
         public App()
         {
             this.InitializeComponent();
         }
 
+        public MainWindow StartupWindow { get; private set; }
+
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            StartupWindow = WindowHelper.CreateWindow();
-            StartupWindow.ExtendsContentIntoTitleBar = true;
-
-            var rootFrame = this.GetRootFrame();
-            
-            NavigationRootPage rootPage = StartupWindow.Content as NavigationRootPage;
-            rootPage.Navigate(typeof(MosaicMainPage), string.Empty);
-
-            StartupWindow.Activate();
+            this.StartupWindow = new MainWindow();
+            this.StartupWindow.SetAppTitleBar();
+            this.StartupWindow.Activate();
+            this.TrySetMicaBackdrop();
         }
 
-        public Frame GetRootFrame()
+        #region Mica
+
+        private bool TrySetMicaBackdrop()
         {
-            Frame rootFrame;
-            NavigationRootPage rootPage = StartupWindow.Content as NavigationRootPage;
-            if (rootPage == null)
+            if (MicaController.IsSupported())
             {
-                rootPage = new NavigationRootPage();
-                rootFrame = (Frame)rootPage.FindName("rootFrame");
-                if (rootFrame == null)
-                {
-                    throw new Exception("Root frame not found");
-                }
+                this.wsqdHelper = new WindowsSystemDispatcherQueueHelper();
+                this.wsqdHelper.EnsureWindowsSystemDispatcherQueueController();
 
-                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
-                rootFrame.NavigationFailed += this.OnNavigationFailed;
+                this.configurationSource = new SystemBackdropConfiguration();
+                this.StartupWindow.Activated += this.Window_Activated;
+                this.StartupWindow.Closed += this.Window_Closed;
+                ((FrameworkElement)this.StartupWindow.Content).ActualThemeChanged += this.Window_ThemeChanged;
 
-                StartupWindow.Content = rootPage;
-            }
-            else
-            {
-                rootFrame = (Frame)rootPage.FindName("rootFrame");
+                this.configurationSource.IsInputActive = true;
+                this.SetConfigurationSourceTheme();
+
+                this.micaController = new MicaController();
+
+                this.micaController.AddSystemBackdropTarget(this.StartupWindow.As<ICompositionSupportsSystemBackdrop>());
+                this.micaController.SetSystemBackdropConfiguration(this.configurationSource);
+                return true;
             }
 
-            return rootFrame;
+            return false;
         }
 
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void Window_Activated(object sender, WindowActivatedEventArgs args)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            this.configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
         }
+
+        private void Window_Closed(object sender, WindowEventArgs args)
+        {
+            if (this.micaController is not null)
+            {
+                this.micaController.Dispose();
+                this.micaController = null;
+            }
+
+            this.StartupWindow.Activated -= this.Window_Activated;
+            this.configurationSource = null;
+        }
+
+        private void Window_ThemeChanged(FrameworkElement sender, object args)
+        {
+            if (this.configurationSource is not null)
+            {
+                this.SetConfigurationSourceTheme();
+            }
+        }
+
+        private void SetConfigurationSourceTheme()
+        {
+            var actualTheme = ((FrameworkElement)this.StartupWindow.Content).ActualTheme;
+            this.configurationSource.Theme = actualTheme switch
+            {
+                ElementTheme.Dark => SystemBackdropTheme.Dark,
+                ElementTheme.Light => SystemBackdropTheme.Light,
+                _ => SystemBackdropTheme.Default
+            };
+        }
+
+        #endregion
     }
 }

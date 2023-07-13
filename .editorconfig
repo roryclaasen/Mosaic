@@ -7,13 +7,14 @@ root = true
 # Use spaces for indentation.
 [*]
 indent_style = space
-
-# Code files
-[*.{cs,csx,xaml,xml,yml}]
 charset = utf-8
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+# Code files
+[*.{yml,json}]
+indent_size = 2
 
 # C# files
 [*.cs]
@@ -170,3 +171,10 @@ dotnet_diagnostic.SA1203.severity = warning
 
 # Static elements should appear before instance elements
 dotnet_diagnostic.SA1204.severity = warning
+
+########################
+# Readability Rules
+########################
+
+# SA1124: Do not use regions
+dotnet_diagnostic.SA1124.severity = none
