@@ -43,7 +43,7 @@ namespace Mosaic
                 this.wsqdHelper.EnsureWindowsSystemDispatcherQueueController();
 
                 this.configurationSource = new SystemBackdropConfiguration();
-                this.StartupWindow.Activated += this.Window_Activated;
+                (this.StartupWindow as Window).Activated += this.Window_Activated;
                 this.StartupWindow.Closed += this.Window_Closed;
                 ((FrameworkElement)this.StartupWindow.Content).ActualThemeChanged += this.Window_ThemeChanged;
 
@@ -51,7 +51,6 @@ namespace Mosaic
                 this.SetConfigurationSourceTheme();
 
                 this.micaController = new MicaController();
-
                 this.micaController.AddSystemBackdropTarget(this.StartupWindow.As<ICompositionSupportsSystemBackdrop>());
                 this.micaController.SetSystemBackdropConfiguration(this.configurationSource);
                 return true;
@@ -76,7 +75,7 @@ namespace Mosaic
                 this.micaController = null;
             }
 
-            this.StartupWindow.Activated -= this.Window_Activated;
+            (this.StartupWindow as Window).Activated -= this.Window_Activated;
             this.configurationSource = null;
         }
 

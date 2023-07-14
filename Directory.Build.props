@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+  <PropertyGroup>
+    <IsMsixPackage>false</IsMsixPackage>
+  </PropertyGroup>
+
   <PropertyGroup Label="Generic Properties">
     <DebugType>full</DebugType>
     <IsPublishable>false</IsPublishable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Label="Assembly Properties">
     <Authors>Rory Claasen (contact@roryclaasen.dev)</Authors>
     <Copyright>All rights reserved.</Copyright>
     <Product>Mosaic Video Viewer</Product>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <IsMsixPackage>false</IsMsixPackage>
   </PropertyGroup>
 
   <PropertyGroup Label="Code Quality">
@@ -26,13 +31,10 @@
       <Link>stylecop.json</Link>
     </AdditionalFiles>
   </ItemGroup>
-
+  
   <PropertyGroup>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <Optimize>true</Optimize>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
 </Project>

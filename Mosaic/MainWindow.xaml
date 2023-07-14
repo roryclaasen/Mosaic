@@ -32,7 +32,18 @@
             </StackPanel>
         </Border>
 
-        <NavigationView x:Name="NavigationViewControl" Grid.RowSpan="2" Grid.Column="1" Canvas.ZIndex="0" IsTabStop="False" IsTitleBarAutoPaddingEnabled="True" BackRequested="NavigationViewControl_BackRequested" ItemInvoked="NavigationViewControl_ItemInvoked" AlwaysShowHeader="False">
+        <NavigationView
+            x:Name="NavigationViewControl"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Canvas.ZIndex="0"
+            IsTabStop="False"
+            IsTitleBarAutoPaddingEnabled="True"
+            BackRequested="NavigationViewControl_BackRequested"
+            ItemInvoked="NavigationViewControl_ItemInvoked"
+            AlwaysShowHeader="False"
+            PaneDisplayMode="Left"
+            IsPaneOpen="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Home" Content="Home" Tag="Mosaic.Views.HomePage" />
                 <!--NavigationViewItem Icon="Home" Content="Config" SelectsOnInvoked="False">
@@ -43,7 +54,9 @@
                     </NavigationViewItem.MenuItems>
                 </NavigationViewItem-->
             </NavigationView.MenuItems>
-            <Frame x:Name="ContentFrame" Navigated="ContentFrame_Navigated"/>
+            <Frame
+                x:Name="ContentFrame"
+                Navigated="ContentFrame_Navigated" />
         </NavigationView>
     </Grid>
 </Window>

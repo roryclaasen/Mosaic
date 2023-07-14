@@ -3,13 +3,24 @@
     x:Class="Mosaic.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Mosaic.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls">
 
     <Grid>
-        <TextBlock Text="Home"/>
+        <CommandBar IsOpen="False" DefaultLabelPosition="Right" Canvas.ZIndex="10">
+            <AppBarButton Label="Toggle Labels" Click="AppBar_ToggleLabels">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xED1E;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Setting" Label="Settings">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="I" />
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+
+        <toolkit:UniformGrid x:Name="MosaicGrid" />
     </Grid>
 </Page>

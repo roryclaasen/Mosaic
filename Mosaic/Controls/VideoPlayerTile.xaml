@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="Mosaic.Controls.VideoPlayerTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:lvs="using:LibVLCSharp.Platforms.Windows">
+
+    <Grid Background="Black" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <lvs:VideoView x:Name="VideoView" MediaPlayer="{x:Bind mediaPlayer}" Grid.Row="0" Background="Black" />
+        <TextBlock x:Name="Label" Foreground="Yellow" TextAlignment="Center" Text="{x:Bind VideoLabel}" Grid.Row="1" />
+    </Grid>
+</UserControl>

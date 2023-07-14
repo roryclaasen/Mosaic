@@ -12,6 +12,16 @@
           "Microsoft.WindowsAppSDK": "1.2.230118.102"
         }
       },
+      "CommunityToolkit.WinUI.UI.Controls.Primitives": {
+        "type": "Direct",
+        "requested": "[7.1.2, )",
+        "resolved": "7.1.2",
+        "contentHash": "mNtVRpBVnFzSywRzzLPXBIoYm4UWJPZkpNPNAu75lnl4KcnkfjjyQg90hkfF9MT/JkBJQG0z5XOdMCksn7EiMQ==",
+        "dependencies": {
+          "CommunityToolkit.WinUI.UI": "7.1.2",
+          "Microsoft.WindowsAppSDK": "1.0.0"
+        }
+      },
       "Microsoft.Windows.SDK.BuildTools": {
         "type": "Direct",
         "requested": "[10.0.22621.756, )",
