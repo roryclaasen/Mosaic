@@ -14,9 +14,9 @@ namespace Mosaic
 
     public sealed partial class App : Application
     {
-        private WindowsSystemDispatcherQueueHelper wsqdHelper;
-        private MicaController micaController;
-        private SystemBackdropConfiguration configurationSource;
+        private WindowsSystemDispatcherQueueHelper? wsqdHelper;
+        private MicaController? micaController;
+        private SystemBackdropConfiguration? configurationSource;
 
         public App()
         {
@@ -43,7 +43,7 @@ namespace Mosaic
                 this.wsqdHelper.EnsureWindowsSystemDispatcherQueueController();
 
                 this.configurationSource = new SystemBackdropConfiguration();
-                (this.StartupWindow as Window).Activated += this.Window_Activated;
+                this.StartupWindow.Activated += this.Window_Activated;
                 this.StartupWindow.Closed += this.Window_Closed;
                 ((FrameworkElement)this.StartupWindow.Content).ActualThemeChanged += this.Window_ThemeChanged;
 
@@ -75,7 +75,7 @@ namespace Mosaic
                 this.micaController = null;
             }
 
-            (this.StartupWindow as Window).Activated -= this.Window_Activated;
+            this.StartupWindow.Activated -= this.Window_Activated;
             this.configurationSource = null;
         }
 
@@ -90,7 +90,7 @@ namespace Mosaic
         private void SetConfigurationSourceTheme()
         {
             var actualTheme = ((FrameworkElement)this.StartupWindow.Content).ActualTheme;
-            this.configurationSource.Theme = actualTheme switch
+            this.configurationSource!.Theme = actualTheme switch
             {
                 ElementTheme.Dark => SystemBackdropTheme.Dark,
                 ElementTheme.Light => SystemBackdropTheme.Light,

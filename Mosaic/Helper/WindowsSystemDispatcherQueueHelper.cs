@@ -10,7 +10,7 @@ namespace Mosaic.Helper
 
     internal class WindowsSystemDispatcherQueueHelper
     {
-        private object dispatcherQueueController = null;
+        private object? dispatcherQueueController = null;
 
         public void EnsureWindowsSystemDispatcherQueueController()
         {
@@ -21,26 +21,15 @@ namespace Mosaic.Helper
 
             if (this.dispatcherQueueController is null)
             {
-                DispatcherQueueOptions options;
-                options.dwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
+                NativeMethods.DispatcherQueueOptions options;
+                options.dwSize = Marshal.SizeOf(typeof(NativeMethods.DispatcherQueueOptions));
                 options.threadType = 2;    // DQTYPE_THREAD_CURRENT
                 options.apartmentType = 2; // DQTAT_COM_STA
 
-                CreateDispatcherQueueController(options, ref this.dispatcherQueueController);
+#pragma warning disable CS8601 // Possible null reference assignment.
+                NativeMethods.CreateDispatcherQueueController(options, ref this.dispatcherQueueController);
+#pragma warning restore CS8601 // Possible null reference assignment.
             }
-        }
-
-        [DllImport("CoreMessaging.dll")]
-        private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct DispatcherQueueOptions
-        {
-#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
-            internal int dwSize;
-            internal int threadType;
-            internal int apartmentType;
-#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
         }
     }
 }

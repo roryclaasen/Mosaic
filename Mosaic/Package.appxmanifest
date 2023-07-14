@@ -1,18 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap rescap">
+    xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    IgnorableNamespaces="uap mp uap3">
 
+    <!--Note: package version and assembly version must be kept in sync-->
     <Identity Name="e6657e6a-d189-4452-895a-1aa605011ea8" Publisher="CN=roryclaasen" Version="1.0.0.0" />
 
     <mp:PhoneIdentity PhoneProductId="e6657e6a-d189-4452-895a-1aa605011ea8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
     <Properties>
         <DisplayName>Mosaic Video Viewer</DisplayName>
-        <PublisherDisplayName>roryclaasen</PublisherDisplayName>
+        <PublisherDisplayName>Rory Claasen</PublisherDisplayName>
         <Logo>Assets\StoreLogo.png</Logo>
+        <uap:SupportedUsers>multiple</uap:SupportedUsers>
     </Properties>
 
     <Dependencies>

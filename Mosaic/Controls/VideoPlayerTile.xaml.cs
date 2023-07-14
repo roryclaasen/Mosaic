@@ -27,13 +27,11 @@ namespace Mosaic.Controls
             this.Unloaded += this.VideoPlayerTile_Unloaded;
         }
 
-        public string VideoLabel { get; set; } = "testing";
-
         public void HideLabel() => this.Label.Visibility = Visibility.Collapsed;
 
         public void ShowLabel() => this.Label.Visibility = Visibility.Visible;
 
-        public bool PlayVideo(Uri video)
+        public bool PlayVideo(Uri video, string? label = null)
         {
             if (this.mediaPlayer is null)
             {
@@ -43,7 +41,14 @@ namespace Mosaic.Controls
             this.mediaPlayer.Stop();
 
             using var media = new Media(this.libVlc, video);
+            this.Label.Text = label ?? media.Meta(MetadataType.Title) ?? video.AbsoluteUri;
             return this.mediaPlayer.Play(media);
+        }
+
+        public void StopVideo()
+        {
+            this.mediaPlayer?.Stop();
+            this.Label.Text = string.Empty;
         }
 
         private void VideoView_Initialized(object sender, InitializedEventArgs e)
@@ -58,9 +63,6 @@ namespace Mosaic.Controls
             this.Initalized?.Invoke(this, EventArgs.Empty);
         }
 
-        private void VideoPlayerTile_Unloaded(object sender, RoutedEventArgs e)
-        {
-            this.mediaPlayer?.Stop();
-        }
+        private void VideoPlayerTile_Unloaded(object sender, RoutedEventArgs e) => this.StopVideo();
     }
 }

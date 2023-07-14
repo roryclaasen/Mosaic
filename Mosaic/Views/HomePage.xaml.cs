@@ -8,14 +8,16 @@ namespace Mosaic.Views
 {
     using System;
     using System.Linq;
-    using System.Threading;
     using LibVLCSharp.Shared;
     using Microsoft.UI.Xaml.Controls;
     using Mosaic.Controls;
+    using Windows.Foundation.Metadata;
 
     public sealed partial class HomePage : Page
     {
         private bool showLabels = true;
+
+        private bool canStartPlaying = false;
 
         public HomePage()
         {
@@ -24,13 +26,18 @@ namespace Mosaic.Views
 
             this.Loaded += (sender, args) =>
             {
-                var size = 3;
-                for (var i = 0; i < size * size; i++)
+                var totalTiles = this.MosaicWidth * this.MosaicHeight;
+                var initialzedCount = 0;
+                for (var i = 0; i < totalTiles; i++)
                 {
                     var newVideoPlayer = new VideoPlayerTile();
                     newVideoPlayer.Initalized += (sender, args) =>
                     {
-                        newVideoPlayer.PlayVideo(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
+                        initialzedCount++;
+                        if (initialzedCount >= totalTiles)
+                        {
+                            this.canStartPlaying = true;
+                        }
                     };
 
                     this.MosaicGrid.Children.Add(newVideoPlayer);
@@ -38,7 +45,11 @@ namespace Mosaic.Views
             };
         }
 
-        private void AppBar_ToggleLabels(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        public int MosaicWidth { get; set; } = 4;
+
+        public int MosaicHeight { get; set; } = 3;
+
+        private void CommandBar_ToggleLabels(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
             {
@@ -53,6 +64,33 @@ namespace Mosaic.Views
             }
 
             this.showLabels = !this.showLabels;
+        }
+
+        private async void CommandBar_ShowAbout(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            var dialog = new AboutDialog();
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                dialog.XamlRoot = this.XamlRoot;
+            }
+
+            await dialog.ShowAsync();
+        }
+
+        private void CommandBar_Play(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
+            {
+                videoPlayer.PlayVideo(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
+            }
+        }
+
+        private void CommandBar_Stop(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
+            {
+                videoPlayer.StopVideo();
+            }
         }
     }
 }

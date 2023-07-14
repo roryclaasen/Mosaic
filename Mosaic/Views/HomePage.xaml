@@ -6,21 +6,30 @@
     xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls">
 
     <Grid>
-        <CommandBar IsOpen="False" DefaultLabelPosition="Right" Canvas.ZIndex="10">
-            <AppBarButton Label="Toggle Labels" Click="AppBar_ToggleLabels">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xED1E;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <CommandBar Grid.Row="0"
+            Canvas.ZIndex="1"
+            Background="Transparent"
+            IsOpen="False"
+            DefaultLabelPosition="Right">
+            <AppBarButton Icon="Play" Click="CommandBar_Play" x:Uid="CommandBar_Play"/>
+            <AppBarButton Icon="Stop" Click="CommandBar_Stop" x:Uid="CommandBar_Stop"/>
+            <AppBarButton Icon="Caption" Click="CommandBar_ToggleLabels" x:Uid="CommandBar_ToggleLabels"/>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Setting" Label="Settings">
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Modifiers="Control" Key="I" />
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
+                <AppBarButton Icon="Help" Click="CommandBar_ShowAbout" x:Uid="CommandBar_About" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <toolkit:UniformGrid x:Name="MosaicGrid" />
+        <toolkit:UniformGrid
+            x:Name="MosaicGrid"
+            Grid.Row="1"
+            Canvas.ZIndex="0"
+            Columns="{x:Bind MosaicWidth}"
+            Rows="{x:Bind MosaicHeight}"
+            />
     </Grid>
 </Page>
