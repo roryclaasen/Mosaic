@@ -16,12 +16,45 @@
             Background="Transparent"
             IsOpen="False"
             DefaultLabelPosition="Right">
-            <AppBarButton Icon="Play" Click="CommandBar_Play" x:Uid="CommandBar_Play"/>
+            
+            <AppBarButton Icon="Play" Click="CommandBar_Play" x:Uid="CommandBar_Play" >
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Control" Key="Space" />
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
             <AppBarButton Icon="Stop" Click="CommandBar_Stop" x:Uid="CommandBar_Stop"/>
-            <AppBarButton Icon="Caption" Click="CommandBar_ToggleLabels" x:Uid="CommandBar_ToggleLabels"/>
+            
+            <AppBarSeparator />
+
+            <AppBarToggleButton Icon="Caption" Click="CommandBar_ToggleLabels" x:Uid="CommandBar_ToggleLabels" IsChecked="{x:Bind showLabels}">
+                <AppBarToggleButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Control" Key="L" />
+                </AppBarToggleButton.KeyboardAccelerators>
+            </AppBarToggleButton>
+
             <CommandBar.SecondaryCommands>
+                <AppBarButton IsCompact="True" Label="Change Theme">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE790;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <RadioMenuFlyoutItem Text="System" Tag="system" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" IsChecked="True" />
+                            <RadioMenuFlyoutItem Text="Light" Tag="light" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" />
+                            <RadioMenuFlyoutItem Text="Dark" Tag="dark" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" />
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarSeparator />
                 <AppBarButton Icon="Help" Click="CommandBar_ShowAbout" x:Uid="CommandBar_About" />
             </CommandBar.SecondaryCommands>
+
+
+            
+            <CommandBar.Content>
+                <TextBlock Text="Now playing..." Margin="12,12"/>
+            </CommandBar.Content>
+            
         </CommandBar>
 
         <toolkit:UniformGrid

@@ -23,7 +23,13 @@ namespace Mosaic
             this.InitializeComponent();
         }
 
-        public MainWindow StartupWindow { get; private set; }
+        /// <summary>
+        /// Gets the Application object for the current application.
+        /// </summary>
+        /// <returns>The Application object for the current application.</returns>
+        public static new App Current => Application.Current.As<App>();
+
+        public MainWindow? StartupWindow { get; private set; }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
@@ -43,7 +49,7 @@ namespace Mosaic
                 this.wsqdHelper.EnsureWindowsSystemDispatcherQueueController();
 
                 this.configurationSource = new SystemBackdropConfiguration();
-                this.StartupWindow.Activated += this.Window_Activated;
+                this.StartupWindow!.Activated += this.Window_Activated;
                 this.StartupWindow.Closed += this.Window_Closed;
                 ((FrameworkElement)this.StartupWindow.Content).ActualThemeChanged += this.Window_ThemeChanged;
 
@@ -75,7 +81,7 @@ namespace Mosaic
                 this.micaController = null;
             }
 
-            this.StartupWindow.Activated -= this.Window_Activated;
+            this.StartupWindow!.Activated -= this.Window_Activated;
             this.configurationSource = null;
         }
 
@@ -89,7 +95,7 @@ namespace Mosaic
 
         private void SetConfigurationSourceTheme()
         {
-            var actualTheme = ((FrameworkElement)this.StartupWindow.Content).ActualTheme;
+            var actualTheme = ((FrameworkElement)this.StartupWindow!.Content).ActualTheme;
             this.configurationSource!.Theme = actualTheme switch
             {
                 ElementTheme.Dark => SystemBackdropTheme.Dark,

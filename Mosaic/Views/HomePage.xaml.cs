@@ -9,6 +9,7 @@ namespace Mosaic.Views
     using System;
     using System.Linq;
     using LibVLCSharp.Shared;
+    using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
     using Mosaic.Controls;
     using Windows.Foundation.Metadata;
@@ -49,7 +50,9 @@ namespace Mosaic.Views
 
         public int MosaicHeight { get; set; } = 3;
 
-        private void CommandBar_ToggleLabels(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        public bool IsPlaying { get; private set; } = false;
+
+        private void CommandBar_ToggleLabels(object sender, RoutedEventArgs e)
         {
             foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
             {
@@ -66,7 +69,7 @@ namespace Mosaic.Views
             this.showLabels = !this.showLabels;
         }
 
-        private async void CommandBar_ShowAbout(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private async void CommandBar_ShowAbout(object sender, RoutedEventArgs e)
         {
             var dialog = new AboutDialog();
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -77,19 +80,39 @@ namespace Mosaic.Views
             await dialog.ShowAsync();
         }
 
-        private void CommandBar_Play(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void CommandBar_Play(object sender, RoutedEventArgs e)
         {
+            if (this.IsPlaying)
+            {
+                return;
+            }
+
+            this.IsPlaying = true;
             foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
             {
                 videoPlayer.PlayVideo(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
             }
         }
 
-        private void CommandBar_Stop(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void CommandBar_Stop(object sender, RoutedEventArgs e)
         {
+            this.IsPlaying = false;
             foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
             {
                 videoPlayer.StopVideo();
+            }
+        }
+
+        private void CommandBar_ChangeTheme(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioMenuFlyoutItem button && App.Current.StartupWindow?.Content is FrameworkElement frameworkElement)
+            {
+                frameworkElement.RequestedTheme = button.Tag switch
+                {
+                    "light" => ElementTheme.Light,
+                    "dark" => ElementTheme.Dark,
+                    _ => ElementTheme.Default,
+                };
             }
         }
     }
