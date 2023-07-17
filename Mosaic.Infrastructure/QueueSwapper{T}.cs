@@ -38,6 +38,8 @@ namespace Mosaic.Infrastructure
 
         public bool TryDequeue([MaybeNullWhen(false)] out T result) => this.entries.TryDequeue(out result);
 
+        public void Enqueue(T item) => this.entries.Enqueue(item);
+
         public T? Swap(T activeItem)
         {
             if (activeItem == null)

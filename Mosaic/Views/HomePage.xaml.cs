@@ -8,10 +8,9 @@ namespace Mosaic.Views
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using LibVLCSharp.Shared;
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
+    using Microsoft.UI.Xaml.Controls.Primitives;
     using Mosaic.Controls;
     using Mosaic.Infrastructure;
     using Windows.Foundation.Metadata;
@@ -19,8 +18,6 @@ namespace Mosaic.Views
     public sealed partial class HomePage : Page
     {
         private readonly MosaicManager mosaicManager;
-
-        private bool canStartPlaying = false;
 
         public HomePage()
         {
@@ -40,50 +37,6 @@ namespace Mosaic.Views
             });
 
             this.InitializeComponent();
-            Core.Initialize();
-
-            this.Loaded += (sender, args) =>
-            {
-                var totalTiles = this.MosaicWidth * this.MosaicHeight;
-                var initialzedCount = 0;
-                for (var i = 0; i < totalTiles; i++)
-                {
-                    var newVideoPlayer = new VideoPlayerTile
-                    {
-                        Tag = $"Tile {i}"
-                    };
-                    newVideoPlayer.SetLabelVisibility(this.ShowLabels);
-                    newVideoPlayer.Initalized += (sender, args) =>
-                    {
-                        initialzedCount++;
-                        if (initialzedCount >= totalTiles)
-                        {
-                            this.canStartPlaying = true;
-                        }
-                    };
-
-                    this.MosaicGrid.Children.Add(newVideoPlayer);
-                }
-            };
-        }
-
-        public int MosaicWidth { get; set; } = 4;
-
-        public int MosaicHeight { get; set; } = 3;
-
-        public bool IsPlaying { get; private set; } = false;
-
-        public bool ShowLabels { get; private set; } = false;
-
-        private IEnumerable<VideoPlayerTile> VideoPlayerTiles => this.MosaicGrid.Children.OfType<VideoPlayerTile>();
-
-        private void CommandBar_ToggleLabels(object sender, RoutedEventArgs e)
-        {
-            this.ShowLabels = !this.ShowLabels;
-            foreach (var videoPlayer in this.VideoPlayerTiles)
-            {
-                videoPlayer.SetLabelVisibility(this.ShowLabels);
-            }
         }
 
         private async void CommandBar_ShowAbout(object sender, RoutedEventArgs e)
@@ -98,27 +51,10 @@ namespace Mosaic.Views
         }
 
         private void CommandBar_Play(object sender, RoutedEventArgs e)
-        {
-            if (this.IsPlaying || !this.canStartPlaying)
-            {
-                return;
-            }
-
-            this.IsPlaying = true;
-            foreach (var videoTile in this.VideoPlayerTiles)
-            {
-                this.mosaicManager.StartTile(videoTile);
-            }
-        }
+            => this.MosaicGrid.Play();
 
         private void CommandBar_Stop(object sender, RoutedEventArgs e)
-        {
-            this.IsPlaying = false;
-            foreach (var videoTile in this.VideoPlayerTiles)
-            {
-                videoTile.StopVideo();
-            }
-        }
+            => this.MosaicGrid.Stop();
 
         private void CommandBar_ChangeTheme(object sender, RoutedEventArgs e)
         {
@@ -130,6 +66,36 @@ namespace Mosaic.Views
                     "dark" => ElementTheme.Dark,
                     _ => ElementTheme.Default,
                 };
+            }
+        }
+
+        private void CommandBar_SizeChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            var oldValue = (int)e.OldValue;
+            var newValue = (int)e.NewValue;
+            if (oldValue == newValue || this.MosaicGrid is null || sender is not Slider slider)
+            {
+                return;
+            }
+
+            switch (slider.Tag)
+            {
+                case "m_width":
+                    this.MosaicGrid.MosaicWidth = newValue;
+                    break;
+                case "m_height":
+                    this.MosaicGrid.MosaicHeight = newValue;
+                    break;
+                default:
+                    throw new Exception("Unknown slider tag");
+            }
+        }
+
+        private void CommandBar_ToggleLabels(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                this.MosaicGrid.SetShowLabels(toggleSwitch.IsOn);
             }
         }
     }

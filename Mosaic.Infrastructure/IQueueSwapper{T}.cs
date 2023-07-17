@@ -16,6 +16,8 @@ namespace Mosaic.Infrastructure
 
         bool TryDequeue([MaybeNullWhen(false)] out T result);
 
+        void Enqueue(T item);
+
         T? Swap(T activeItem);
 
         bool CanSwap();

@@ -143,7 +143,19 @@
   <data name="CommandBar_Stop.Label" xml:space="preserve">
     <value>Stop</value>
   </data>
-  <data name="CommandBar_ToggleLabels.Label" xml:space="preserve">
-    <value>Toggle Labels</value>
+  <data name="CommandBar_Flyout_ToggleLabels.Header" xml:space="preserve">
+    <value>Toggle Video Labels</value>
+  </data>
+  <data name="CommandBar_Flyout_Height.Header" xml:space="preserve">
+    <value>Mosaic Height</value>
+  </data>
+  <data name="CommandBar_Flyout_Size.Text" xml:space="preserve">
+    <value>Customize Video Size</value>
+  </data>
+  <data name="CommandBar_Flyout_Style.Text" xml:space="preserve">
+    <value>Customize Video Style</value>
+  </data>
+  <data name="CommandBar_Flyout_Width.Header" xml:space="preserve">
+    <value>Mosaic Width</value>
   </data>
 </root>
