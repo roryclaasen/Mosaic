@@ -3,15 +3,21 @@
     x:Class="Mosaic.Controls.VideoPlayerTile"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:lvs="using:LibVLCSharp.Platforms.Windows" Background="Black">
+    xmlns:lvs="using:LibVLCSharp.Platforms.Windows">
 
-    <Grid x:Name="Root" Background="Black">
+    <Grid x:Name="Root" Background="{ThemeResource ControlAltFillColorQuarternaryBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <lvs:VideoView x:Name="VideoView" MediaPlayer="{x:Bind mediaPlayer}" Grid.Row="0" Background="Transparent" />
-        <TextBlock x:Name="Label" Foreground="Yellow" TextAlignment="Center" Grid.Row="1" />
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+            <FontIcon Glyph="&#xEA39;" Foreground="{ThemeResource TextFillColorPrimaryBrush}" FontSize="40"/>
+            <TextBlock TextAlignment="Center" Text="No Media" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+        </StackPanel>
+        <lvs:VideoView x:Name="VideoView" MediaPlayer="{x:Bind mediaPlayer}" Grid.Column="0" Grid.Row="0" />
+        <Border Background="Black" Grid.Column="0" Grid.Row="1" >
+            <TextBlock x:Name="Label" Foreground="Yellow" TextAlignment="Center" />
+        </Border>
     </Grid>
 </UserControl>

@@ -34,7 +34,7 @@ namespace Mosaic.Controls
             this.regenerateGridTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
             this.sizingComplete += this.SizeUpdated;
-            this.Loaded += (_, _) => this.TriggerResize();
+            this.Loaded += (_, _) => this.regenerateGridTimer.Debounce(this.TriggerResize, TimeSpan.FromMilliseconds(400));
             this.Unloaded += (_, _) => this.Stop();
         }
 

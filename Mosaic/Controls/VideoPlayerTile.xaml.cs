@@ -26,6 +26,8 @@ namespace Mosaic.Controls
 
             this.VideoView.Initialized += this.VideoView_Initialized;
             this.Unloaded += this.VideoPlayerTile_Unloaded;
+
+            this.VideoView.Opacity = 0;
         }
 
         public string? Mrl => this.mediaPlayer?.Media?.Mrl;
@@ -41,7 +43,8 @@ namespace Mosaic.Controls
                 return false;
             }
 
-            this.mediaPlayer.Stop();
+            this.StopVideo();
+            this.VideoView.Opacity = 1;
 
             using var media = new Media(this.libVlc, mrl);
             this.Label.Text = label ?? media.Meta(MetadataType.Title) ?? mrl.AbsoluteUri;
@@ -53,7 +56,8 @@ namespace Mosaic.Controls
 
         public void StopVideo()
         {
-            this.mediaPlayer?.Stop();
+            this.VideoView.Opacity = 0;
+            this.mediaPlayer.Stop();
             this.Label.Text = string.Empty;
         }
 
