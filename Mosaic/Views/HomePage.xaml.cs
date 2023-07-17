@@ -7,21 +7,38 @@
 namespace Mosaic.Views
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using LibVLCSharp.Shared;
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
     using Mosaic.Controls;
+    using Mosaic.Infrastructure;
     using Windows.Foundation.Metadata;
 
     public sealed partial class HomePage : Page
     {
-        private bool showLabels = true;
+        private readonly MosaicManager mosaicManager;
 
         private bool canStartPlaying = false;
 
         public HomePage()
         {
+            this.mosaicManager = new MosaicManager();
+            var sources = new List<SourceConfig>();
+            for (var i = 0; i < 9; i++)
+            {
+                sources.Add(new SourceConfig
+                {
+                    Source = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                });
+            }
+
+            this.mosaicManager.SetConfig(new MosaicConfig
+            {
+                Sources = sources
+            });
+
             this.InitializeComponent();
             Core.Initialize();
 
@@ -31,7 +48,11 @@ namespace Mosaic.Views
                 var initialzedCount = 0;
                 for (var i = 0; i < totalTiles; i++)
                 {
-                    var newVideoPlayer = new VideoPlayerTile();
+                    var newVideoPlayer = new VideoPlayerTile
+                    {
+                        Tag = $"Tile {i}"
+                    };
+                    newVideoPlayer.SetLabelVisibility(this.ShowLabels);
                     newVideoPlayer.Initalized += (sender, args) =>
                     {
                         initialzedCount++;
@@ -52,21 +73,17 @@ namespace Mosaic.Views
 
         public bool IsPlaying { get; private set; } = false;
 
+        public bool ShowLabels { get; private set; } = false;
+
+        private IEnumerable<VideoPlayerTile> VideoPlayerTiles => this.MosaicGrid.Children.OfType<VideoPlayerTile>();
+
         private void CommandBar_ToggleLabels(object sender, RoutedEventArgs e)
         {
-            foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
+            this.ShowLabels = !this.ShowLabels;
+            foreach (var videoPlayer in this.VideoPlayerTiles)
             {
-                if (this.showLabels)
-                {
-                    videoPlayer.HideLabel();
-                }
-                else
-                {
-                    videoPlayer.ShowLabel();
-                }
+                videoPlayer.SetLabelVisibility(this.ShowLabels);
             }
-
-            this.showLabels = !this.showLabels;
         }
 
         private async void CommandBar_ShowAbout(object sender, RoutedEventArgs e)
@@ -82,24 +99,24 @@ namespace Mosaic.Views
 
         private void CommandBar_Play(object sender, RoutedEventArgs e)
         {
-            if (this.IsPlaying)
+            if (this.IsPlaying || !this.canStartPlaying)
             {
                 return;
             }
 
             this.IsPlaying = true;
-            foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
+            foreach (var videoTile in this.VideoPlayerTiles)
             {
-                videoPlayer.PlayVideo(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
+                this.mosaicManager.StartTile(videoTile);
             }
         }
 
         private void CommandBar_Stop(object sender, RoutedEventArgs e)
         {
             this.IsPlaying = false;
-            foreach (var videoPlayer in this.MosaicGrid.Children.OfType<VideoPlayerTile>())
+            foreach (var videoTile in this.VideoPlayerTiles)
             {
-                videoPlayer.StopVideo();
+                videoTile.StopVideo();
             }
         }
 

@@ -11,8 +11,9 @@ namespace Mosaic.Controls
     using LibVLCSharp.Shared;
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
+    using Mosaic.Infrastructure;
 
-    public sealed partial class VideoPlayerTile : UserControl
+    public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
     {
         private LibVLC libVlc;
         private MediaPlayer mediaPlayer;
@@ -27,11 +28,13 @@ namespace Mosaic.Controls
             this.Unloaded += this.VideoPlayerTile_Unloaded;
         }
 
-        public void HideLabel() => this.Label.Visibility = Visibility.Collapsed;
+        public string? Mrl => this.mediaPlayer?.Media?.Mrl;
 
-        public void ShowLabel() => this.Label.Visibility = Visibility.Visible;
+        public bool IsPlaying => this.mediaPlayer?.IsPlaying ?? false;
 
-        public bool PlayVideo(Uri video, string? label = null)
+        public void SetLabelVisibility(bool visible) => this.Label.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+
+        public bool PlayVideo(Uri mrl, string? label = null)
         {
             if (this.mediaPlayer is null)
             {
@@ -40,10 +43,13 @@ namespace Mosaic.Controls
 
             this.mediaPlayer.Stop();
 
-            using var media = new Media(this.libVlc, video);
-            this.Label.Text = label ?? media.Meta(MetadataType.Title) ?? video.AbsoluteUri;
+            using var media = new Media(this.libVlc, mrl);
+            this.Label.Text = label ?? media.Meta(MetadataType.Title) ?? mrl.AbsoluteUri;
             return this.mediaPlayer.Play(media);
         }
+
+        public void SetPause(bool pause)
+            => this.mediaPlayer?.SetPause(pause);
 
         public void StopVideo()
         {

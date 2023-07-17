@@ -6,13 +6,17 @@
 
 namespace Mosaic.Infrastructure
 {
+    using System.Diagnostics.CodeAnalysis;
+
     public interface IQueueSwapper<T>
     {
+        int ActiveLength { get; set; }
+
         int NextSwapIndex { get; }
 
-        bool TryDequeue(out T result);
+        bool TryDequeue([MaybeNullWhen(false)] out T result);
 
-        T Swap(T item);
+        T? Swap(T activeItem);
 
         bool CanSwap();
     }

@@ -8,41 +8,49 @@ namespace Mosaic.Infrastructure
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     public class QueueSwapper<T> : IQueueSwapper<T>
         where T : class
     {
-        private readonly int gridSize;
+        private const int DefaultActiveLength = 9;
         private readonly Queue<T> entries;
 
-        public QueueSwapper(int gridSize, IEnumerable<T> entries)
-            : this(gridSize, new Queue<T>(entries))
+        public QueueSwapper(IEnumerable<T> entries, int activeLength = DefaultActiveLength)
+            : this(new Queue<T>(entries), activeLength)
         {
         }
 
-        public QueueSwapper(int gridSize, Queue<T> entries)
+        public QueueSwapper(Queue<T> entries, int activeLength = DefaultActiveLength)
         {
-            this.gridSize = gridSize;
+            if (activeLength <= 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(activeLength), "Active length must be greater than 1");
+            }
+
+            this.ActiveLength = activeLength;
             this.entries = entries;
         }
 
+        public int ActiveLength { get; set; }
+
         public int NextSwapIndex { get; private set; } = 0;
 
-        public bool TryDequeue(out T result) => this.entries.TryDequeue(out result);
+        public bool TryDequeue([MaybeNullWhen(false)] out T result) => this.entries.TryDequeue(out result);
 
-        public T Swap(T item)
+        public T? Swap(T activeItem)
         {
-            if (item == null)
+            if (activeItem == null)
             {
-                throw new ArgumentNullException(nameof(item));
+                throw new ArgumentNullException(nameof(activeItem));
             }
 
             if (this.CanSwap())
             {
-                this.entries.Enqueue(item);
+                this.entries.Enqueue(activeItem);
 
                 this.NextSwapIndex++;
-                if (this.NextSwapIndex >= this.gridSize)
+                if (this.NextSwapIndex >= this.ActiveLength)
                 {
                     this.NextSwapIndex = 0;
                 }

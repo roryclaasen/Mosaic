@@ -26,7 +26,7 @@
             
             <AppBarSeparator />
 
-            <AppBarToggleButton Icon="Caption" Click="CommandBar_ToggleLabels" x:Uid="CommandBar_ToggleLabels" IsChecked="{x:Bind showLabels}">
+            <AppBarToggleButton Icon="Caption" Click="CommandBar_ToggleLabels" x:Uid="CommandBar_ToggleLabels" IsChecked="{x:Bind ShowLabels}">
                 <AppBarToggleButton.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="L" />
                 </AppBarToggleButton.KeyboardAccelerators>
