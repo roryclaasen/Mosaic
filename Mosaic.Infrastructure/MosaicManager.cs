@@ -8,17 +8,21 @@ namespace Mosaic.Infrastructure
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using Mosaic.Infrastructure.Collections;
 
     public partial class MosaicManager
     {
+        private readonly WeightedBag<SourceConfig> weightedBag = new();
+
         private MosaicConfig? config;
-        private IQueueSwapper<SourceConfig>? queueSwapper;
+
+        public int SourceCount => this.weightedBag.Count;
 
         public void SetConfig(MosaicConfig config)
         {
             this.config = config;
-            this.queueSwapper = new QueueSwapper<SourceConfig>(config.Sources);
+            this.weightedBag.Clear();
+            this.weightedBag.AddRange(config.Sources);
         }
 
         public void StartTile(IVideoPlayerTile tile)
@@ -28,7 +32,7 @@ namespace Mosaic.Infrastructure
                 return;
             }
 
-            if (this.queueSwapper?.TryDequeue(out var source) ?? false)
+            if (this.weightedBag?.TryGetNext(out var source) ?? false)
             {
                 tile.PlayVideo(new Uri(source.Source));
             }
@@ -36,29 +40,29 @@ namespace Mosaic.Infrastructure
 
         public void SwapTiles(IEnumerable<IVideoPlayerTile> videoPlayerTiles)
         {
-            if (!(this.queueSwapper?.CanSwap() ?? false))
-            {
-                return;
-            }
+            //if (!(this.weightedBag?.CanSwap() ?? false))
+            //{
+            //    return;
+            //}
 
-            var activeIndex = this.queueSwapper.NextSwapIndex;
-            var activeTile = videoPlayerTiles?.ElementAt(activeIndex);
-            if (activeTile is null)
-            {
-                return;
-            }
+            //var activeIndex = this.weightedBag.NextSwapIndex;
+            //var activeTile = videoPlayerTiles?.ElementAt(activeIndex);
+            //if (activeTile is null)
+            //{
+            //    return;
+            //}
 
-            var activeSource = this.config?.Sources.FirstOrDefault(s => s.Source.Equals(activeTile.Mrl));
-            if (activeSource is null)
-            {
-                return;
-            }
+            //var activeSource = this.config?.Sources.FirstOrDefault(s => s.Source.Equals(activeTile.Mrl));
+            //if (activeSource is null)
+            //{
+            //    return;
+            //}
 
-            var nextSource = this.queueSwapper.Swap(activeSource);
-            if (nextSource is not null)
-            {
-                activeTile.PlayVideo(new Uri(nextSource.Source));
-            }
+            //var nextSource = this.weightedBag.Swap(activeSource);
+            //if (nextSource is not null)
+            //{
+            //    activeTile.PlayVideo(new Uri(nextSource.Source));
+            //}
         }
     }
 }

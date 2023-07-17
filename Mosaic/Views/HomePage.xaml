@@ -6,9 +6,9 @@
     xmlns:local="using:Mosaic.Controls">
 
     <Page.Resources>
-        <Style x:Key="SizeSlider" TargetType="Slider">
-            <Setter Property="Minimum" Value="2"/>
-            <Setter Property="Maximum" Value="5"/>
+        <Style x:Key="CommandBar_Flyout_SizeSlider" TargetType="Slider">
+            <Setter Property="Minimum" Value="1"/>
+            <Setter Property="Maximum" Value="7"/>
             <Setter Property="StepFrequency" Value="1"/>
             <Setter Property="TickFrequency" Value="1"/>
             <Setter Property="TickPlacement" Value="Outside"/>
@@ -27,7 +27,7 @@
             Background="Transparent"
             IsOpen="False"
             DefaultLabelPosition="Right">
-            
+
             <AppBarButton Icon="Play" Click="CommandBar_Play" x:Uid="CommandBar_Play" >
                 <AppBarButton.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="Space" />
@@ -39,25 +39,25 @@
 
             <AppBarButton Label="Display Settings">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE790;" />
+                    <FontIcon Glyph="&#xEB3C;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
                         <StackPanel>
-                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" x:Uid="CommandBar_Flyout_Size" />
-                            <Slider Style="{StaticResource SizeSlider}"
-                                Value="{x:Bind MosaicGrid.MosaicWidth}"
-                                x:Uid="CommandBar_Flyout_Width"
-                                Tag="m_width"
-                                ValueChanged="CommandBar_SizeChanged" />
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" x:Uid="CommandBar_Flyout_Size" Margin="0,0,0,4" />
+                            <Slider Style="{StaticResource CommandBar_Flyout_SizeSlider}"
+                                    Value="{x:Bind MosaicGrid.MosaicWidth}"
+                                    x:Uid="CommandBar_Flyout_Width"
+                                    Tag="m_width"
+                                    ValueChanged="CommandBar_SizeChanged" />
 
-                            <Slider Style="{StaticResource SizeSlider}"
-                                Value="{x:Bind MosaicGrid.MosaicHeight}"
-                                x:Uid="CommandBar_Flyout_Height"
-                                Tag="m_height"
-                                ValueChanged="CommandBar_SizeChanged" />
+                            <Slider Style="{StaticResource CommandBar_Flyout_SizeSlider}"
+                                    Value="{x:Bind MosaicGrid.MosaicHeight}"
+                                    x:Uid="CommandBar_Flyout_Height"
+                                    Tag="m_height"
+                                    ValueChanged="CommandBar_SizeChanged" />
 
-                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" x:Uid="CommandBar_Flyout_Style" />
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" x:Uid="CommandBar_Flyout_Style" Margin="0,2,0,4" />
                             <ToggleSwitch x:Uid="CommandBar_Flyout_ToggleLabels" IsOn="{x:Bind MosaicGrid.ShowLabels}" Toggled="CommandBar_ToggleLabels" />
                         </StackPanel>
                     </Flyout>
@@ -82,9 +82,9 @@
             </CommandBar.SecondaryCommands>
 
             <CommandBar.Content>
-                <TextBlock Text="Now playing..." Margin="12,12"/>
+                <TextBlock Text="Now playing..." Margin="12,12" />
             </CommandBar.Content>
-            
+
         </CommandBar>
 
         <local:VideoMosaic

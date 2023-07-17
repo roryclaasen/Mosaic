@@ -35,7 +35,7 @@ namespace Mosaic.Controls
 
             this.sizingComplete += this.SizeUpdated;
             this.Loaded += (_, _) => this.TriggerResize();
-            this.Unloaded += (_, _) => this.regenerateGridTimer.Stop();
+            this.Unloaded += (_, _) => this.Stop();
         }
 
         public MosaicManager MosaicManager { get; set; }
@@ -102,8 +102,16 @@ namespace Mosaic.Controls
             //     return;
             // }
 
+            this.IsPlaying = true;
+
+            var i = 0;
             foreach (var videoTile in this.Tiles)
             {
+                if (i++ >= this.MosaicManager.SourceCount)
+                {
+                    break;
+                }
+
                 this.MosaicManager.StartTile(videoTile);
             }
         }
@@ -117,6 +125,8 @@ namespace Mosaic.Controls
             {
                 tile.StopVideo();
             }
+
+            this.regenerateGridTimer.Stop();
         }
 
         public void SetShowLabels(bool showLabels)
