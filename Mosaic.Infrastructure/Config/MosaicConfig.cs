@@ -11,13 +11,8 @@ namespace Mosaic.Infrastructure.Config
 
     public record MosaicConfig
     {
-        public IEnumerable<SourceConfig> Sources { get; set; } = Enumerable.Empty<SourceConfig>();
+        public IEnumerable<MediaEntry> Sources { get; set; } = Enumerable.Empty<MediaEntry>();
     }
 
-    public record SourceConfig
-    {
-        public string Source { get; set; } = string.Empty;
-
-        public string DisplayName { get; set; } = string.Empty;
-    }
+    public record MediaEntry(string Source, string? DisplayName = null);
 }

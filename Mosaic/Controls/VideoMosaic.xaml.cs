@@ -186,8 +186,7 @@ namespace Mosaic.Controls
                 {
                     if (sender is IVideoPlayerTile videoPlayerTile)
                     {
-                        // TODO: Trigger a new video to be played
-                        this.MosaicManager.StartTile(videoPlayerTile);
+                        this.MosaicManager.TriggerNextVideo(videoPlayerTile);
                     }
                 };
 

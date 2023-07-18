@@ -8,6 +8,7 @@ namespace Mosaic.Views
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
     using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,23 +19,31 @@ namespace Mosaic.Views
 
     public sealed partial class HomePage : Page
     {
+        private static readonly IReadOnlyList<string> ExampleVideos = new List<string>
+        {
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"
+        };
+
         private readonly MosaicManager mosaicManager;
 
         public HomePage()
         {
             this.mosaicManager = new MosaicManager();
-            var sources = new List<SourceConfig>();
-            for (var i = 0; i < 9; i++)
-            {
-                sources.Add(new SourceConfig
-                {
-                    Source = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                });
-            }
-
             this.mosaicManager.SetConfig(new MosaicConfig
             {
-                Sources = sources
+                Sources = ExampleVideos.Select(mrl => new MediaEntry(mrl))
             });
 
             this.InitializeComponent();

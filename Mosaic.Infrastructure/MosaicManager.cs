@@ -13,7 +13,7 @@ namespace Mosaic.Infrastructure
 
     public partial class MosaicManager
     {
-        private readonly WeightedBag<SourceConfig> weightedBag = new();
+        private readonly ConcurrentLoopingQueue<MediaEntry> weightedBag = new();
 
         private MosaicConfig? config;
 
@@ -23,7 +23,7 @@ namespace Mosaic.Infrastructure
         {
             this.config = config;
             this.weightedBag.Clear();
-            this.weightedBag.AddRange(config.Sources);
+            this.weightedBag.EnqueueRange(config.Sources);
         }
 
         public void StartTile(IVideoPlayerTile tile)
@@ -33,37 +33,15 @@ namespace Mosaic.Infrastructure
                 return;
             }
 
-            if (this.weightedBag?.TryGetNext(out var source) ?? false)
+            this.TriggerNextVideo(tile);
+        }
+
+        public void TriggerNextVideo(IVideoPlayerTile tile)
+        {
+            if (this.weightedBag?.TryDequeue(out var source) ?? false)
             {
                 tile.PlayVideo(new Uri(source.Source));
             }
-        }
-
-        public void SwapTiles(IEnumerable<IVideoPlayerTile> videoPlayerTiles)
-        {
-            //if (!(this.weightedBag?.CanSwap() ?? false))
-            //{
-            //    return;
-            //}
-
-            //var activeIndex = this.weightedBag.NextSwapIndex;
-            //var activeTile = videoPlayerTiles?.ElementAt(activeIndex);
-            //if (activeTile is null)
-            //{
-            //    return;
-            //}
-
-            //var activeSource = this.config?.Sources.FirstOrDefault(s => s.Source.Equals(activeTile.Mrl));
-            //if (activeSource is null)
-            //{
-            //    return;
-            //}
-
-            //var nextSource = this.weightedBag.Swap(activeSource);
-            //if (nextSource is not null)
-            //{
-            //    activeTile.PlayVideo(new Uri(nextSource.Source));
-            //}
         }
     }
 }
