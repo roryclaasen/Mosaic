@@ -7,6 +7,7 @@
 namespace Mosaic.Infrastructure
 {
     using System;
+    using System.Linq;
     using Mosaic.Infrastructure.Collections;
     using Mosaic.Infrastructure.Config;
 
@@ -22,7 +23,7 @@ namespace Mosaic.Infrastructure
         {
             this.config = config;
             this.loopingQueue.Clear();
-            this.loopingQueue.EnqueueRange(config.Sources);
+            this.loopingQueue.EnqueueRange(config.Sources ?? Enumerable.Empty<MediaEntry>());
         }
 
         public void StartTile(IVideoPlayerTile tile)

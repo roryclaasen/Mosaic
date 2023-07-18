@@ -7,12 +7,8 @@
 namespace Mosaic.Infrastructure.Config
 {
     using System.Collections.Generic;
-    using System.Linq;
 
-    public record MosaicConfig
-    {
-        public IEnumerable<MediaEntry> Sources { get; set; } = Enumerable.Empty<MediaEntry>();
-    }
+    public record MosaicConfig(IEnumerable<MediaEntry> Sources);
 
     public record MediaEntry(string Source, string? DisplayName = null);
 }

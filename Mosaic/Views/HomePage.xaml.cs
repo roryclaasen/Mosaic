@@ -41,10 +41,7 @@ namespace Mosaic.Views
         public HomePage()
         {
             this.mosaicManager = new MosaicManager();
-            this.mosaicManager.SetConfig(new MosaicConfig
-            {
-                Sources = ExampleVideos.Select(mrl => new MediaEntry(mrl))
-            });
+            this.mosaicManager.SetConfig(new MosaicConfig(ExampleVideos.Select(mrl => new MediaEntry(mrl))));
 
             this.InitializeComponent();
         }
