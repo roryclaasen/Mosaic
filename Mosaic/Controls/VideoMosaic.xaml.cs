@@ -21,7 +21,7 @@ namespace Mosaic.Controls
 
         private readonly DispatcherQueueTimer regenerateGridTimer;
 
-        private readonly EventHandler sizingComplete;
+        private event EventHandler? SizingComplete;
 
         public VideoMosaic()
         {
@@ -33,7 +33,7 @@ namespace Mosaic.Controls
 
             this.regenerateGridTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
-            this.sizingComplete += this.SizeUpdated;
+            this.SizingComplete += this.SizeUpdated;
             this.Loaded += (_, _) => this.regenerateGridTimer.Debounce(this.TriggerResize, TimeSpan.FromMilliseconds(400));
             this.Unloaded += (_, _) => this.Stop();
         }
@@ -145,7 +145,7 @@ namespace Mosaic.Controls
 
             if (countOfCurrentTiles == requiredTiles)
             {
-                this.OnSizingComplete();
+                this.SizingComplete?.Invoke(this, EventArgs.Empty);
             }
             else if (countOfCurrentTiles < requiredTiles)
             {
@@ -164,7 +164,7 @@ namespace Mosaic.Controls
                 this.Children.RemoveAt(this.Tiles.Count() - 1);
             }
 
-            this.OnSizingComplete();
+            this.SizingComplete?.Invoke(this, EventArgs.Empty);
         }
 
         private void AddTiles(int count)
@@ -182,7 +182,7 @@ namespace Mosaic.Controls
                     initialzedCount++;
                     if (initialzedCount == count)
                     {
-                        this.OnSizingComplete();
+                        this.SizingComplete?.Invoke(this, EventArgs.Empty);
                     }
                 };
 
@@ -190,9 +190,7 @@ namespace Mosaic.Controls
             }
         }
 
-        private void OnSizingComplete() => this.sizingComplete?.Invoke(this, EventArgs.Empty);
-
-        private void SizeUpdated(object sender, EventArgs e)
+        private void SizeUpdated(object? sender, EventArgs e)
         {
             this.UpdateLayout();
             if (this.regenerateGridTimer.IsRunning)

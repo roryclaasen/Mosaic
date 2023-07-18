@@ -15,10 +15,8 @@ namespace Mosaic.Controls
 
     public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
     {
-        private LibVLC libVlc;
-        private MediaPlayer mediaPlayer;
-
-        public EventHandler Initalized;
+        private LibVLC? libVlc;
+        private MediaPlayer? mediaPlayer;
 
         public VideoPlayerTile()
         {
@@ -29,6 +27,8 @@ namespace Mosaic.Controls
 
             this.VideoView.Opacity = 0;
         }
+
+        public event EventHandler? Initalized;
 
         public string? Mrl => this.mediaPlayer?.Media?.Mrl;
 
@@ -46,7 +46,7 @@ namespace Mosaic.Controls
             this.StopVideo();
             this.VideoView.Opacity = 1;
 
-            using var media = new Media(this.libVlc, mrl);
+            using var media = new Media(this.libVlc!, mrl);
             this.Label.Text = label ?? media.Meta(MetadataType.Title) ?? mrl.AbsoluteUri;
             return this.mediaPlayer.Play(media);
         }
@@ -56,12 +56,12 @@ namespace Mosaic.Controls
 
         public void StopVideo()
         {
+            this.mediaPlayer?.Stop();
             this.VideoView.Opacity = 0;
-            this.mediaPlayer.Stop();
             this.Label.Text = string.Empty;
         }
 
-        private void VideoView_Initialized(object sender, InitializedEventArgs e)
+        private void VideoView_Initialized(object? sender, InitializedEventArgs e)
         {
             this.libVlc = new LibVLC(e.SwapChainOptions);
             this.mediaPlayer = new MediaPlayer(this.libVlc)

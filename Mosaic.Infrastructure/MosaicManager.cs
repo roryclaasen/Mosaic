@@ -9,6 +9,7 @@ namespace Mosaic.Infrastructure
     using System;
     using System.Collections.Generic;
     using Mosaic.Infrastructure.Collections;
+    using Mosaic.Infrastructure.Config;
 
     public partial class MosaicManager
     {

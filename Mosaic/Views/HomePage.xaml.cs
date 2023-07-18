@@ -13,6 +13,7 @@ namespace Mosaic.Views
     using Microsoft.UI.Xaml.Controls.Primitives;
     using Mosaic.Controls;
     using Mosaic.Infrastructure;
+    using Mosaic.Infrastructure.Config;
     using Windows.Foundation.Metadata;
 
     public sealed partial class HomePage : Page

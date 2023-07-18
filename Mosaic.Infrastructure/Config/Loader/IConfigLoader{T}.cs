@@ -4,10 +4,10 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure
+namespace Mosaic.Infrastructure.Config.Loader
 {
     public interface IConfigLoader<T>
     {
-        T LoadConfigFile(string file);
+        T? LoadConfigFile(string file);
     }
 }

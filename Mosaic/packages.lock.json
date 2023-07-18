@@ -12,6 +12,16 @@
           "Microsoft.WindowsAppSDK": "1.0.0"
         }
       },
+      "LibVLCSharp": {
+        "type": "Direct",
+        "requested": "[3.7.0, )",
+        "resolved": "3.7.0",
+        "contentHash": "N9NV+BamKr+1YiRktX9JroE4m9C+pEszUNW4qa3A5mychhCWBvvoDolZKWk2yxhZvHewgaXXahBcw5ivCXjKYA==",
+        "dependencies": {
+          "Microsoft.WindowsAppSDK": "1.1.1",
+          "SharpDX.Direct3D11": "4.2.0"
+        }
+      },
       "Microsoft.Windows.SDK.BuildTools": {
         "type": "Direct",
         "requested": "[10.0.22621.756, )",
@@ -1004,27 +1014,9 @@
       "mosaic.infrastructure": {
         "type": "Project",
         "dependencies": {
-          "LibVLCSharp": "[3.7.0, )",
           "Nerdbank.GitVersioning": "[3.6.133, )",
-          "Newtonsoft.Json": "[13.0.3, )",
           "StyleCop.Analyzers": "[1.2.0-beta.354, )"
         }
-      },
-      "LibVLCSharp": {
-        "type": "CentralTransitive",
-        "requested": "[3.7.0, )",
-        "resolved": "3.7.0",
-        "contentHash": "N9NV+BamKr+1YiRktX9JroE4m9C+pEszUNW4qa3A5mychhCWBvvoDolZKWk2yxhZvHewgaXXahBcw5ivCXjKYA==",
-        "dependencies": {
-          "Microsoft.WindowsAppSDK": "1.1.1",
-          "SharpDX.Direct3D11": "4.2.0"
-        }
-      },
-      "Newtonsoft.Json": {
-        "type": "CentralTransitive",
-        "requested": "[13.0.3, )",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       }
     },
     "net7.0-windows10.0.19041/win-x64": {

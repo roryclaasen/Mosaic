@@ -4,28 +4,36 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-namespace Mosaic.Infrastructure
+namespace Mosaic.Infrastructure.Config.Loader
 {
     using System.IO;
-    using Newtonsoft.Json;
+    using System.Text.Json;
 
     public class ConfigLoader<T> : IConfigLoader<T>
         where T : MosaicConfig
     {
-        private readonly JsonSerializer serializer;
+        private readonly JsonSerializerOptions options;
 
-        public ConfigLoader(JsonSerializer serializer)
+        public ConfigLoader()
+            : this(null)
         {
-            this.serializer = serializer;
         }
 
-        public T LoadConfigFile(string file)
+        public ConfigLoader(JsonSerializerOptions? options)
+        {
+            this.options = options ?? new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = false,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+        }
+
+        public T? LoadConfigFile(string file)
         {
             using (var stream = File.Open(file, FileMode.Open, FileAccess.Read))
             using (var streamReader = new StreamReader(stream))
-            using (var jsonReader = new JsonTextReader(streamReader))
             {
-                return this.serializer.Deserialize<T>(jsonReader);
+                return JsonSerializer.Deserialize<T>(stream, this.options);
             }
         }
     }
