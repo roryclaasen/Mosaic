@@ -12,6 +12,7 @@ namespace Mosaic.Controls
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
     using Mosaic.Infrastructure;
+    using Windows.ApplicationModel.DataTransfer;
 
     public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
     {
@@ -29,6 +30,8 @@ namespace Mosaic.Controls
         }
 
         public event EventHandler? Initalized;
+
+        public event EventHandler? MediaChangeRequested;
 
         public string? Mrl => this.mediaPlayer?.Media?.Mrl;
 
@@ -48,7 +51,13 @@ namespace Mosaic.Controls
 
             using var media = new Media(this.libVlc!, mrl);
             this.Label.Text = label ?? media.Meta(MetadataType.Title) ?? mrl.AbsoluteUri;
-            return this.mediaPlayer.Play(media);
+            if (this.mediaPlayer.Play(media))
+            {
+                this.Root.ContextFlyout = this.TileFlyout;
+                return true;
+            }
+
+            return false;
         }
 
         public void SetPause(bool pause)
@@ -56,6 +65,8 @@ namespace Mosaic.Controls
 
         public void StopVideo()
         {
+            this.Root.ContextFlyout?.Hide();
+            this.Root.ContextFlyout = null;
             this.mediaPlayer?.Stop();
             this.VideoView.Opacity = 0;
             this.Label.Text = string.Empty;
@@ -74,5 +85,31 @@ namespace Mosaic.Controls
         }
 
         private void VideoPlayerTile_Unloaded(object sender, RoutedEventArgs e) => this.StopVideo();
+
+        private void AppBarButton_Copy(object sender, RoutedEventArgs e)
+        {
+            if (sender is AppBarButton button)
+            {
+                var copyData = button.Tag switch
+                {
+                    "label" => this.Label.Text,
+                    "source" => this.Mrl,
+                    _ => throw new Exception("Unknown tag")
+                };
+
+                if (!string.IsNullOrEmpty(copyData))
+                {
+                    var dataPackage = new DataPackage
+                    {
+                        RequestedOperation = DataPackageOperation.Copy
+                    };
+                    dataPackage.SetText(copyData);
+                    Clipboard.SetContent(dataPackage);
+                }
+            }
+        }
+
+        private void AppBarButton_Next(object sender, RoutedEventArgs e)
+            => this.MediaChangeRequested?.Invoke(this, EventArgs.Empty);
     }
 }

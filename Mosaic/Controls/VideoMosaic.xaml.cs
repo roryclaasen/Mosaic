@@ -172,10 +172,7 @@ namespace Mosaic.Controls
             var initialzedCount = 0;
             for (var i = 0; i < count; i++)
             {
-                var newVideoPlayer = new VideoPlayerTile
-                {
-                    Tag = $"Tile {i}"
-                };
+                var newVideoPlayer = new VideoPlayerTile();
                 newVideoPlayer.SetLabelVisibility(this.ShowLabels);
                 newVideoPlayer.Initalized += (sender, args) =>
                 {
@@ -183,6 +180,14 @@ namespace Mosaic.Controls
                     if (initialzedCount == count)
                     {
                         this.SizingComplete?.Invoke(this, EventArgs.Empty);
+                    }
+                };
+                newVideoPlayer.MediaChangeRequested += (sender, args) =>
+                {
+                    if (sender is IVideoPlayerTile videoPlayerTile)
+                    {
+                        // TODO: Trigger a new video to be played
+                        this.MosaicManager.StartTile(videoPlayerTile);
                     }
                 };
 

@@ -117,45 +117,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutDialog.Title" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="AboutDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Send Feedback</value>
+  <data name="ChangeTheme" xml:space="preserve">
+    <value>Change Theme</value>
   </data>
-  <data name="AboutDialog.CloseButtonText" xml:space="preserve">
-    <value>OK</value>
+  <data name="CopyLabel" xml:space="preserve">
+    <value>Copy Label</value>
   </data>
-  <data name="AboutDialog_VersionLabel.Text" xml:space="preserve">
-    <value>Version:</value>
-    <comment>This is the heading for a version number label</comment>
+  <data name="CopySource" xml:space="preserve">
+    <value>Copy Video Source</value>
   </data>
-  <data name="AboutDialog_SourceCodeLink.Content" xml:space="preserve">
-    <value>Source Code</value>
-    <comment>A hyperlink name for the app's documentation</comment>
+  <data name="Dark" xml:space="preserve">
+    <value>Dark</value>
   </data>
-  <data name="CommandBar_About.Label" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="CommandBar_Play.Label" xml:space="preserve">
-    <value>Play</value>
-  </data>
-  <data name="CommandBar_Stop.Label" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="CommandBar_Flyout_ToggleLabels.Header" xml:space="preserve">
-    <value>Toggle Video Labels</value>
-  </data>
-  <data name="CommandBar_Flyout_Height.Header" xml:space="preserve">
-    <value>Mosaic Height</value>
-  </data>
-  <data name="CommandBar_Flyout_Size.Text" xml:space="preserve">
+  <data name="EditVideoSize" xml:space="preserve">
     <value>Customize Video Size</value>
   </data>
-  <data name="CommandBar_Flyout_Style.Text" xml:space="preserve">
+  <data name="EditVideoStyle" xml:space="preserve">
     <value>Customize Video Style</value>
   </data>
-  <data name="CommandBar_Flyout_Width.Header" xml:space="preserve">
+  <data name="ForceNext" xml:space="preserve">
+    <value>Force Next Video</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="MosaicHeight" xml:space="preserve">
+    <value>Mosaic Height</value>
+  </data>
+  <data name="MosaicWidth" xml:space="preserve">
     <value>Mosaic Width</value>
+  </data>
+  <data name="NowPlaying" xml:space="preserve">
+    <value>Now Playing...</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="SendFeedback" xml:space="preserve">
+    <value>Send Feedback</value>
+  </data>
+  <data name="SourceCode" xml:space="preserve">
+    <value>Source Code</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="ToggleLabels" xml:space="preserve">
+    <value>Toggle Video Labels</value>
+  </data>
+  <data name="VersionLabel" xml:space="preserve">
+    <value>Version: </value>
   </data>
 </root>

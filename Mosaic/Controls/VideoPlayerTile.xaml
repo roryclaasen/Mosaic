@@ -3,7 +3,19 @@
     x:Class="Mosaic.Controls.VideoPlayerTile"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:lvs="using:LibVLCSharp.Platforms.Windows">
+    xmlns:lvs="using:LibVLCSharp.Platforms.Windows"
+    xmlns:str="using:Mosaic.Helper">
+
+    <UserControl.Resources>
+        <CommandBarFlyout Placement="Right" x:Name="TileFlyout">
+            <CommandBarFlyout.SecondaryCommands>
+                <AppBarButton Label="{str:ResourceString Name=ForceNext}" Click="AppBarButton_Next" />
+                <AppBarSeparator />
+                <AppBarButton Label="{str:ResourceString Name=CopyLabel}" Tag="label" Click="AppBarButton_Copy" />
+                <AppBarButton Label="{str:ResourceString Name=CopySource}" Tag="source" Click="AppBarButton_Copy" />
+            </CommandBarFlyout.SecondaryCommands>
+        </CommandBarFlyout>
+    </UserControl.Resources>
 
     <Grid x:Name="Root" Background="{ThemeResource ControlAltFillColorQuarternaryBrush}">
         <Grid.RowDefinitions>

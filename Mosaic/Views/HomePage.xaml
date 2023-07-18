@@ -3,7 +3,8 @@
     x:Class="Mosaic.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Mosaic.Controls">
+    xmlns:local="using:Mosaic.Controls"
+    xmlns:str="using:Mosaic.Helper">
 
     <Page.Resources>
         <Style x:Key="CommandBar_Flyout_SizeSlider" TargetType="Slider">
@@ -28,12 +29,12 @@
             IsOpen="False"
             DefaultLabelPosition="Right">
 
-            <AppBarButton Icon="Play" Click="CommandBar_Play" x:Uid="CommandBar_Play" >
+            <AppBarButton Icon="Play" Click="CommandBar_Play" Label="{str:ResourceString Name=Play}">
                 <AppBarButton.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="Space" />
                 </AppBarButton.KeyboardAccelerators>
             </AppBarButton>
-            <AppBarButton Icon="Stop" Click="CommandBar_Stop" x:Uid="CommandBar_Stop"/>
+            <AppBarButton Icon="Stop" Click="CommandBar_Stop" Label="{str:ResourceString Name=Stop}" />
 
             <AppBarSeparator />
 
@@ -44,45 +45,53 @@
                 <AppBarButton.Flyout>
                     <Flyout>
                         <StackPanel>
-                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" x:Uid="CommandBar_Flyout_Size" Margin="0,0,0,4" />
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+                                       Text="{str:ResourceString Name=EditVideoSize}"
+                                       Margin="0,0,0,4" />
+                            
                             <Slider Style="{StaticResource CommandBar_Flyout_SizeSlider}"
                                     Value="{x:Bind MosaicGrid.MosaicWidth}"
-                                    x:Uid="CommandBar_Flyout_Width"
+                                    Header="{str:ResourceString Name=MosaicWidth}"
                                     Tag="m_width"
                                     ValueChanged="CommandBar_SizeChanged" />
 
                             <Slider Style="{StaticResource CommandBar_Flyout_SizeSlider}"
                                     Value="{x:Bind MosaicGrid.MosaicHeight}"
-                                    x:Uid="CommandBar_Flyout_Height"
+                                    Header="{str:ResourceString Name=MosaicHeight}"
                                     Tag="m_height"
                                     ValueChanged="CommandBar_SizeChanged" />
 
-                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" x:Uid="CommandBar_Flyout_Style" Margin="0,2,0,4" />
-                            <ToggleSwitch x:Uid="CommandBar_Flyout_ToggleLabels" IsOn="{x:Bind MosaicGrid.ShowLabels}" Toggled="CommandBar_ToggleLabels" />
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+                                       Text="{str:ResourceString Name=EditVideoStyle}"
+                                       Margin="0,2,0,4" />
+                            
+                            <ToggleSwitch Header="{str:ResourceString Name=ToggleLabels}"
+                                          IsOn="{x:Bind MosaicGrid.ShowLabels}"
+                                          Toggled="CommandBar_ToggleLabels" />
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Change Theme">
+                <AppBarButton Label="{str:ResourceString Name=ChangeTheme}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE790;" />
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <RadioMenuFlyoutItem Text="System" Tag="system" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" IsChecked="True" />
-                            <RadioMenuFlyoutItem Text="Light" Tag="light" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" />
-                            <RadioMenuFlyoutItem Text="Dark" Tag="dark" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" />
+                            <RadioMenuFlyoutItem Text="{str:ResourceString Name=System}" Tag="system" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" IsChecked="True" />
+                            <RadioMenuFlyoutItem Text="{str:ResourceString Name=Light}" Tag="light" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" />
+                            <RadioMenuFlyoutItem Text="{str:ResourceString Name=Dark}" Tag="dark" GroupName="ColorTheme" Click="CommandBar_ChangeTheme" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarSeparator />
-                <AppBarButton Icon="Help" Click="CommandBar_ShowAbout" x:Uid="CommandBar_About" />
+                <AppBarButton Icon="Help" Click="CommandBar_ShowAbout" Label="{str:ResourceString Name=About}" />
             </CommandBar.SecondaryCommands>
 
             <CommandBar.Content>
-                <TextBlock Text="Now playing..." Margin="12,12" />
+                <TextBlock Margin="12,12" Text="{str:ResourceString Name=NowPlaying}"/>
             </CommandBar.Content>
 
         </CommandBar>
