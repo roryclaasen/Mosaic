@@ -6,9 +6,10 @@
 
 namespace Mosaic.Infrastructure.Config
 {
+    using System;
     using System.Collections.Generic;
 
     public record MosaicConfig(IEnumerable<MediaEntry> Sources);
 
-    public record MediaEntry(string Source, string? DisplayName = null);
+    public record MediaEntry(Uri Mrl, string? DisplayLabel = null);
 }

@@ -74,6 +74,8 @@ namespace Mosaic.Controls
 
         public bool ShowLabels { get; private set; } = false;
 
+        public bool MuteVideos { get; private set; } = true;
+
         public IEnumerable<VideoPlayerTile> Tiles => this.Children.OfType<VideoPlayerTile>();
 
         public void SetPause(bool pause)
@@ -82,6 +84,15 @@ namespace Mosaic.Controls
             foreach (var tile in this.Tiles)
             {
                 tile.SetPause(pause);
+            }
+        }
+
+        public void SetMute(bool mute)
+        {
+            this.MuteVideos = mute;
+            foreach (var tile in this.Tiles)
+            {
+                tile.SetMute(mute);
             }
         }
 
@@ -176,8 +187,8 @@ namespace Mosaic.Controls
                 newVideoPlayer.SetLabelVisibility(this.ShowLabels);
                 newVideoPlayer.Initalized += (sender, args) =>
                 {
-                    initialzedCount++;
-                    if (initialzedCount == count)
+                    newVideoPlayer.SetMute(this.MuteVideos);
+                    if (++initialzedCount == count)
                     {
                         this.SizingComplete?.Invoke(this, EventArgs.Empty);
                     }

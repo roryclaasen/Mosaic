@@ -132,6 +132,9 @@
   <data name="Dark" xml:space="preserve">
     <value>Dark</value>
   </data>
+  <data name="EditVideoPlayback" xml:space="preserve">
+    <value>Customize Video Playback</value>
+  </data>
   <data name="EditVideoSize" xml:space="preserve">
     <value>Customize Video Size</value>
   </data>
@@ -179,6 +182,9 @@
   </data>
   <data name="ToggleLabels" xml:space="preserve">
     <value>Toggle Video Labels</value>
+  </data>
+  <data name="ToggleMute" xml:space="preserve">
+    <value>Toggle Video Mute</value>
   </data>
   <data name="VersionLabel" xml:space="preserve">
     <value>Version: </value>

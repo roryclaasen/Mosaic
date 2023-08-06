@@ -6,7 +6,6 @@
 
 namespace Mosaic.Infrastructure
 {
-    using System;
     using System.Linq;
     using Mosaic.Infrastructure.Collections;
     using Mosaic.Infrastructure.Config;
@@ -40,7 +39,7 @@ namespace Mosaic.Infrastructure
         {
             if (this.loopingQueue.TryDequeue(out var source))
             {
-                tile.PlayVideo(new Uri(source.Source));
+                tile.PlayVideo(source);
             }
         }
     }

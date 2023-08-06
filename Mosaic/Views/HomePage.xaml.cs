@@ -41,7 +41,7 @@ namespace Mosaic.Views
         public HomePage()
         {
             this.mosaicManager = new MosaicManager();
-            this.mosaicManager.SetConfig(new MosaicConfig(ExampleVideos.Select(mrl => new MediaEntry(mrl))));
+            this.mosaicManager.SetConfig(new MosaicConfig(ExampleVideos.Select(mrl => new MediaEntry(new Uri(mrl)))));
 
             this.InitializeComponent();
         }
@@ -103,6 +103,14 @@ namespace Mosaic.Views
             if (sender is ToggleSwitch toggleSwitch)
             {
                 this.MosaicGrid.SetShowLabels(toggleSwitch.IsOn);
+            }
+        }
+
+        private void CommandBar_ToggleMute(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                this.MosaicGrid.SetMute(toggleSwitch.IsOn);
             }
         }
     }

@@ -6,7 +6,7 @@
 
 namespace Mosaic.Infrastructure
 {
-    using System;
+    using Mosaic.Infrastructure.Config;
 
     public interface IVideoPlayerTile
     {
@@ -14,9 +14,11 @@ namespace Mosaic.Infrastructure
 
         public bool IsPlaying { get; }
 
-        public bool PlayVideo(Uri mrl, string? label = null);
+        public bool PlayVideo(MediaEntry entry);
 
         public void SetPause(bool pause);
+
+        public void SetMute(bool mute);
 
         public void StopVideo();
 

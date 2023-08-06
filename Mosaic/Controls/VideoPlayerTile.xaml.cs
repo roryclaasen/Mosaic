@@ -7,11 +7,14 @@
 namespace Mosaic.Controls
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using LibVLCSharp.Platforms.Windows;
     using LibVLCSharp.Shared;
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
     using Mosaic.Infrastructure;
+    using Mosaic.Infrastructure.Config;
     using Windows.ApplicationModel.DataTransfer;
 
     public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
@@ -39,7 +42,7 @@ namespace Mosaic.Controls
 
         public void SetLabelVisibility(bool visible) => this.Label.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
 
-        public bool PlayVideo(Uri mrl, string? label = null)
+        public bool PlayVideo(MediaEntry entry)
         {
             if (this.mediaPlayer is null)
             {
@@ -49,8 +52,8 @@ namespace Mosaic.Controls
             this.StopVideo();
             this.VideoView.Opacity = 1;
 
-            using var media = new Media(this.libVlc!, mrl);
-            this.Label.Text = label ?? media.Meta(MetadataType.Title) ?? mrl.AbsoluteUri;
+            using var media = new Media(this.libVlc!, entry.Mrl);
+            this.Label.Text = entry.DisplayLabel ?? media.Meta(MetadataType.Title) ?? entry.Mrl.AbsoluteUri;
             if (this.mediaPlayer.Play(media))
             {
                 this.Root.ContextFlyout = this.TileFlyout;
@@ -63,6 +66,14 @@ namespace Mosaic.Controls
         public void SetPause(bool pause)
             => this.mediaPlayer?.SetPause(pause);
 
+        public void SetMute(bool mute)
+        {
+            if (this.mediaPlayer is not null)
+            {
+                this.mediaPlayer.Mute = mute;
+            }
+        }
+
         public void StopVideo()
         {
             this.Root.ContextFlyout?.Hide();
@@ -74,7 +85,12 @@ namespace Mosaic.Controls
 
         private void VideoView_Initialized(object? sender, InitializedEventArgs e)
         {
-            this.libVlc = new LibVLC(e.SwapChainOptions);
+            var options = new List<string>
+            {
+                "--aout=directsound"
+            };
+            options.AddRange(e.SwapChainOptions);
+            this.libVlc = new LibVLC(options.ToArray<string>());
             this.mediaPlayer = new MediaPlayer(this.libVlc)
             {
                 Mute = true,

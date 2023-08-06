@@ -68,6 +68,14 @@
                             <ToggleSwitch Header="{str:ResourceString Name=ToggleLabels}"
                                           IsOn="{x:Bind MosaicGrid.ShowLabels}"
                                           Toggled="CommandBar_ToggleLabels" />
+
+                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+                                       Text="{str:ResourceString Name=EditVideoPlayback}"
+                                       Margin="0,2,0,4" />
+
+                            <ToggleSwitch Header="{str:ResourceString Name=ToggleMute}"
+                                          IsOn="{x:Bind MosaicGrid.MuteVideos}"
+                                          Toggled="CommandBar_ToggleMute" />
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
