@@ -13,6 +13,7 @@ namespace Mosaic.Controls
     using CommunityToolkit.WinUI.UI.Controls;
     using LibVLCSharp.Shared;
     using Microsoft.UI.Dispatching;
+    using Microsoft.UI.Xaml;
     using Mosaic.Infrastructure;
 
     public sealed partial class VideoMosaic : UniformGrid
@@ -20,6 +21,7 @@ namespace Mosaic.Controls
         private const int DEFAULTSIZE = 3;
 
         private readonly DispatcherQueueTimer regenerateGridTimer;
+        private readonly DispatcherTimer swapTimer;
 
         private event EventHandler? SizingComplete;
 
@@ -32,6 +34,12 @@ namespace Mosaic.Controls
             Core.Initialize();
 
             this.regenerateGridTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            this.swapTimer = new DispatcherTimer
+            {
+                // TODO: Make this customizable
+                Interval = TimeSpan.FromSeconds(5)
+            };
+            this.swapTimer.Tick += (_, _) => this.TriggerNextTile();
 
             this.SizingComplete += this.SizeUpdated;
             this.Loaded += (_, _) => this.regenerateGridTimer.Debounce(this.TriggerResize, TimeSpan.FromMilliseconds(400));
@@ -85,6 +93,15 @@ namespace Mosaic.Controls
             {
                 tile.SetPause(pause);
             }
+
+            if (pause)
+            {
+                this.swapTimer.Stop();
+            }
+            else
+            {
+                this.swapTimer.Start();
+            }
         }
 
         public void SetMute(bool mute)
@@ -108,11 +125,6 @@ namespace Mosaic.Controls
                 this.SetPause(false);
             }
 
-            // if (!this.canStartPlaying)
-            // {
-            //     return;
-            // }
-
             this.IsPlaying = true;
 
             var i = 0;
@@ -125,6 +137,8 @@ namespace Mosaic.Controls
 
                 this.MosaicManager.StartTile(videoTile);
             }
+
+            this.swapTimer.Start();
         }
 
         public void Stop()
@@ -138,6 +152,7 @@ namespace Mosaic.Controls
             }
 
             this.regenerateGridTimer.Stop();
+            this.swapTimer.Stop();
         }
 
         public void SetShowLabels(bool showLabels)
@@ -172,7 +187,10 @@ namespace Mosaic.Controls
         {
             for (var i = 0; i < count; i++)
             {
-                this.Children.RemoveAt(this.Tiles.Count() - 1);
+                var index = this.Tiles.Count() - 1;
+                var tile = this.Tiles.ElementAt(index);
+                this.MosaicManager.RemoveTile(tile);
+                this.Children.Remove(tile);
             }
 
             this.SizingComplete?.Invoke(this, EventArgs.Empty);
@@ -216,6 +234,20 @@ namespace Mosaic.Controls
             if (this.IsPlaying && !this.IsPaused)
             {
                 this.Play();
+            }
+        }
+
+        private void TriggerNextTile()
+        {
+            if (!this.IsPlaying || this.IsPaused)
+            {
+                return;
+            }
+
+            var nextTileToSwap = this.Tiles.MinBy(this.MosaicManager.GetPlayCount);
+            if (nextTileToSwap is not null)
+            {
+                this.MosaicManager.TriggerNextVideo(nextTileToSwap);
             }
         }
     }

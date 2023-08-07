@@ -95,7 +95,12 @@ namespace Mosaic.Views
             }.Select(mrl => new MediaEntry(new Uri(mrl))));
 
         private void CommandBar_Play(object sender, RoutedEventArgs e)
-            => this.MosaicGrid.Play();
+        {
+            if (this.mosaicManager.SourceCount > 0)
+            {
+                this.MosaicGrid.Play();
+            }
+        }
 
         private void CommandBar_Stop(object sender, RoutedEventArgs e)
             => this.MosaicGrid.Stop();
@@ -160,10 +165,7 @@ namespace Mosaic.Views
             }
 
             this.mosaicManager.SetConfig(entries);
-            if (wasPlaying)
-            {
-                this.MosaicGrid.Play();
-            }
+            this.MosaicGrid.Play();
         }
     }
 }
