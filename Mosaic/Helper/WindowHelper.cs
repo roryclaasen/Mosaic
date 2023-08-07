@@ -8,12 +8,13 @@ namespace Mosaic.Helper
 {
     using System;
     using Microsoft.UI;
+    using WinRT.Interop;
 
     internal static partial class WindowHelper
     {
         public static IntPtr GetWindowHandleForCurrentWindow(object target)
         {
-            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(target);
+            var hWnd = WindowNative.GetWindowHandle(target);
             return hWnd;
         }
 

@@ -147,6 +147,15 @@
   <data name="Light" xml:space="preserve">
     <value>Light</value>
   </data>
+  <data name="LoadExample" xml:space="preserve">
+    <value>Load Example Videos</value>
+  </data>
+  <data name="LoadFile" xml:space="preserve">
+    <value>Open File</value>
+  </data>
+  <data name="LoadVideos" xml:space="preserve">
+    <value>Load Videos</value>
+  </data>
   <data name="MosaicHeight" xml:space="preserve">
     <value>Mosaic Height</value>
   </data>

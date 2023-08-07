@@ -29,6 +29,15 @@
             IsOpen="False"
             DefaultLabelPosition="Right">
 
+            <AppBarButton Label="{str:ResourceString Name=LoadVideos}" Icon="Setting">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="{str:ResourceString Name=LoadFile}" Click="CommandBar_OpenFile" />
+                        <MenuFlyoutItem Text="{str:ResourceString Name=LoadExample}" Click="CommandBar_LoadExampleVideos" />
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+
             <AppBarButton Icon="Play" Click="CommandBar_Play" Label="{str:ResourceString Name=Play}">
                 <AppBarButton.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="Space" />

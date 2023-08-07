@@ -8,40 +8,35 @@ namespace Mosaic.Views
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
+    using CsvHelper;
+    using CsvHelper.Configuration;
     using Microsoft.UI.Xaml;
     using Microsoft.UI.Xaml.Controls;
     using Microsoft.UI.Xaml.Controls.Primitives;
     using Mosaic.Controls;
+    using Mosaic.Helper;
     using Mosaic.Infrastructure;
     using Mosaic.Infrastructure.Config;
     using Windows.Foundation.Metadata;
+    using Windows.Storage.Pickers;
+    using WinRT.Interop;
 
     public sealed partial class HomePage : Page
     {
-        private static readonly IReadOnlyList<string> ExampleVideos = new List<string>
-        {
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"
-        };
-
         private readonly MosaicManager mosaicManager;
+        private readonly CsvConfiguration csvConfiguration;
 
         public HomePage()
         {
             this.mosaicManager = new MosaicManager();
-            this.mosaicManager.SetConfig(new MosaicConfig(ExampleVideos.Select(mrl => new MediaEntry(new Uri(mrl)))));
+            this.csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+                IgnoreBlankLines = true
+            };
 
             this.InitializeComponent();
         }
@@ -56,6 +51,48 @@ namespace Mosaic.Views
 
             await dialog.ShowAsync();
         }
+
+        private async void CommandBar_OpenFile(object sender, RoutedEventArgs e)
+        {
+            var filePicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.List,
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                FileTypeFilter = { ".csv" }
+            };
+
+            if (App.Current.StartupWindow is Window startupWindow)
+            {
+                InitializeWithWindow.Initialize(filePicker, WindowHelper.GetWindowHandleForCurrentWindow(startupWindow));
+            }
+
+            var file = await filePicker.PickSingleFileAsync();
+            if (file is not null)
+            {
+                using var steamReader = new StreamReader(await file.OpenStreamForReadAsync());
+                using var csvReader = new CsvReader(steamReader, this.csvConfiguration);
+
+                this.SetVideoSources(csvReader.GetRecords<MediaEntry>());
+            }
+        }
+
+        private void CommandBar_LoadExampleVideos(object sender, RoutedEventArgs e)
+            => this.SetVideoSources(new string[]
+            {
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"
+            }.Select(mrl => new MediaEntry(new Uri(mrl))));
 
         private void CommandBar_Play(object sender, RoutedEventArgs e)
             => this.MosaicGrid.Play();
@@ -111,6 +148,21 @@ namespace Mosaic.Views
             if (sender is ToggleSwitch toggleSwitch)
             {
                 this.MosaicGrid.SetMute(toggleSwitch.IsOn);
+            }
+        }
+
+        private void SetVideoSources(IEnumerable<MediaEntry> entries)
+        {
+            var wasPlaying = this.MosaicGrid.IsPlaying;
+            if (wasPlaying)
+            {
+                this.MosaicGrid.Stop();
+            }
+
+            this.mosaicManager.SetConfig(entries);
+            if (wasPlaying)
+            {
+                this.MosaicGrid.Play();
             }
         }
     }

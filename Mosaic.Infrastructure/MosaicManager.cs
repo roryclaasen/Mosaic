@@ -6,6 +6,7 @@
 
 namespace Mosaic.Infrastructure
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Mosaic.Infrastructure.Collections;
     using Mosaic.Infrastructure.Config;
@@ -14,15 +15,12 @@ namespace Mosaic.Infrastructure
     {
         private readonly ConcurrentLoopingQueue<MediaEntry> loopingQueue = new();
 
-        private MosaicConfig? config;
-
         public int SourceCount => this.loopingQueue.Count;
 
-        public void SetConfig(MosaicConfig config)
+        public void SetConfig(IEnumerable<MediaEntry>? entries = null)
         {
-            this.config = config;
             this.loopingQueue.Clear();
-            this.loopingQueue.EnqueueRange(config.Sources ?? Enumerable.Empty<MediaEntry>());
+            this.loopingQueue.EnqueueRange(entries ?? Enumerable.Empty<MediaEntry>());
         }
 
         public void StartTile(IVideoPlayerTile tile)

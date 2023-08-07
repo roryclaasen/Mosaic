@@ -1014,9 +1014,16 @@
       "mosaic.infrastructure": {
         "type": "Project",
         "dependencies": {
+          "CsvHelper": "[30.0.1, )",
           "Nerdbank.GitVersioning": "[3.6.133, )",
           "StyleCop.Analyzers": "[1.2.0-beta.354, )"
         }
+      },
+      "CsvHelper": {
+        "type": "CentralTransitive",
+        "requested": "[30.0.1, )",
+        "resolved": "30.0.1",
+        "contentHash": "rcZtgbWR+As4G3Vpgx0AMNmShGuQLFjkHAPIIflzrfkJCx8/AOd4m96ZRmiU1Wi39qS5UVjV0P8qdgqOo5Cwyg=="
       }
     },
     "net7.0-windows10.0.19041/win-x64": {
