@@ -4,56 +4,106 @@
 // </copyright>
 // ------------------------------------------------------------------------------
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Mosaic
 {
-    using System.IO;
+    using Microsoft.UI.Composition;
+    using Microsoft.UI.Composition.SystemBackdrops;
     using Microsoft.UI.Xaml;
-    using Mosaic.Infrastructure;
-    using Newtonsoft.Json;
-    using Windows.ApplicationModel;
+    using Mosaic.Helper;
+    using WinRT;
 
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    public partial class App : Application
+    public sealed partial class App : Application
     {
-        private MosaicWindow window;
+        private WindowsSystemDispatcherQueueHelper? wsqdHelper;
+        private MicaController? micaController;
+        private SystemBackdropConfiguration? configurationSource;
 
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
         public App()
         {
             this.InitializeComponent();
         }
 
         /// <summary>
-        /// Invoked when the application is launched.
+        /// Gets the Application object for the current application.
         /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
+        /// <returns>The Application object for the current application.</returns>
+        public static new App Current => Application.Current.As<App>();
+
+        public MainWindow? StartupWindow { get; private set; }
+
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            this.window = new MosaicWindow();
-            this.window.Activate();
-            this.window.InitializeConfig(this.LoadConfig());
+            this.StartupWindow = new MainWindow();
+            this.StartupWindow.SetAppTitleBar();
+            this.StartupWindow.Activate();
+            this.TrySetMicaBackdrop();
         }
 
-        private MosaicApplicationConfig LoadConfig()
+        #region Mica
+
+        private bool TrySetMicaBackdrop()
         {
-            var file = this.GetConfigFilePath();
-            var configLoader = new ConfigLoader<MosaicApplicationConfig>(new JsonSerializer());
-            return configLoader.LoadConfigFile(file);
+            if (MicaController.IsSupported())
+            {
+                this.wsqdHelper = new WindowsSystemDispatcherQueueHelper();
+                this.wsqdHelper.EnsureWindowsSystemDispatcherQueueController();
+
+                this.configurationSource = new SystemBackdropConfiguration();
+                this.StartupWindow!.Activated += this.Window_Activated;
+                this.StartupWindow.Closed += this.Window_Closed;
+                ((FrameworkElement)this.StartupWindow.Content).ActualThemeChanged += this.Window_ThemeChanged;
+
+                this.configurationSource.IsInputActive = true;
+                this.SetConfigurationSourceTheme();
+
+                this.micaController = new MicaController();
+                this.micaController.AddSystemBackdropTarget(this.StartupWindow.As<ICompositionSupportsSystemBackdrop>());
+                this.micaController.SetSystemBackdropConfiguration(this.configurationSource);
+                return true;
+            }
+
+            return false;
         }
 
-        private string GetConfigFilePath()
+        private void Window_Activated(object sender, WindowActivatedEventArgs args)
         {
-            var configFile = "config.json"; // TODO: Can we load it via other means?
-
-            return Path.Combine(Package.Current.InstalledLocation.Path, configFile);
+            if (this.configurationSource is not null)
+            {
+                this.configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+            }
         }
+
+        private void Window_Closed(object sender, WindowEventArgs args)
+        {
+            if (this.micaController is not null)
+            {
+                this.micaController.Dispose();
+                this.micaController = null;
+            }
+
+            this.StartupWindow!.Activated -= this.Window_Activated;
+            this.configurationSource = null;
+        }
+
+        private void Window_ThemeChanged(FrameworkElement sender, object args)
+        {
+            if (this.configurationSource is not null)
+            {
+                this.SetConfigurationSourceTheme();
+            }
+        }
+
+        private void SetConfigurationSourceTheme()
+        {
+            var actualTheme = ((FrameworkElement)this.StartupWindow!.Content).ActualTheme;
+            this.configurationSource!.Theme = actualTheme switch
+            {
+                ElementTheme.Dark => SystemBackdropTheme.Dark,
+                ElementTheme.Light => SystemBackdropTheme.Light,
+                _ => SystemBackdropTheme.Default
+            };
+        }
+
+        #endregion
     }
 }

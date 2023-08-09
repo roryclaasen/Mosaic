@@ -2,26 +2,46 @@
   "version": 2,
   "dependencies": {
     "net7.0-windows10.0.19041": {
+      "CommunityToolkit.WinUI.UI.Controls.Primitives": {
+        "type": "Direct",
+        "requested": "[7.1.2, )",
+        "resolved": "7.1.2",
+        "contentHash": "mNtVRpBVnFzSywRzzLPXBIoYm4UWJPZkpNPNAu75lnl4KcnkfjjyQg90hkfF9MT/JkBJQG0z5XOdMCksn7EiMQ==",
+        "dependencies": {
+          "CommunityToolkit.WinUI.UI": "7.1.2",
+          "Microsoft.WindowsAppSDK": "1.0.0"
+        }
+      },
+      "LibVLCSharp": {
+        "type": "Direct",
+        "requested": "[3.7.0, )",
+        "resolved": "3.7.0",
+        "contentHash": "N9NV+BamKr+1YiRktX9JroE4m9C+pEszUNW4qa3A5mychhCWBvvoDolZKWk2yxhZvHewgaXXahBcw5ivCXjKYA==",
+        "dependencies": {
+          "Microsoft.WindowsAppSDK": "1.1.1",
+          "SharpDX.Direct3D11": "4.2.0"
+        }
+      },
       "Microsoft.Windows.SDK.BuildTools": {
         "type": "Direct",
-        "requested": "[10.0.22621.755, )",
-        "resolved": "10.0.22621.755",
-        "contentHash": "zGXDCZc2/slVjpNtopNETCjnOqH9KiEdo9dPCcjtNWwK5W+EmOcEn7X5Ftj3tOE9kLvroga1s7WwLh2a5jQEEg=="
+        "requested": "[10.0.22621.756, )",
+        "resolved": "10.0.22621.756",
+        "contentHash": "7ZL2sFSioYm1Ry067Kw1hg0SCcW5kuVezC2SwjGbcPE61Nn+gTbH86T73G3LcEOVj0S3IZzNuE/29gZvOLS7VA=="
       },
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[1.3.230502000, )",
-        "resolved": "1.3.230502000",
-        "contentHash": "0blh8HpYYzhAImeCn6WrSPzx7PEm2O9KWIOz94b5qvgQssZ5TvINpxuIv9iDEf8Jdv9lnkvfpxQgduep378+KQ==",
+        "requested": "[1.3.230724000, )",
+        "resolved": "1.3.230724000",
+        "contentHash": "cCw26h8Uh8IjDMOUzHaR7/IKxEVJxuqEOgBlmLj0Pu1wDezZb9J0Wz53Vop10FQUOZaTfnwDcHavyPTxgkwbKQ==",
         "dependencies": {
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.1"
         }
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
-        "requested": "[3.6.128, )",
-        "resolved": "3.6.128",
-        "contentHash": "zeA+Ho3XlPgt6P9MRALlkEvfOOzDQdNseV0xia/nSfC1lSrl0+gizlWyixaHvSYUw2ru7pBIKnK451bYOjPRjA=="
+        "requested": "[3.6.133, )",
+        "resolved": "3.6.133",
+        "contentHash": "VZWMd5YAeDxpjWjAP/X6bAxnRMiEf6tES/ITN0X5CHJgkWLLeHGmEALivmTAfYM6P+P/3Szy6VCITUAkqjcHVw=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -37,6 +57,29 @@
         "requested": "[3.0.18, )",
         "resolved": "3.0.18",
         "contentHash": "A7Fg86aSziadDxB4F8AWN6kHNgEYJqerdPG9SflPM0GDO9m/O2jnc60mfSa52xOh5EC4U62W0y4kdyw+FgB2iQ=="
+      },
+      "CommunityToolkit.Common": {
+        "type": "Transitive",
+        "resolved": "7.1.2",
+        "contentHash": "KnHnukN+Sc26YT98OWYTp8mvaYlLc61lzDh0RrVRNQXm01hZ+iXAjCgKM59vAojqxNVrlbcXj22LYOyXWDItgg=="
+      },
+      "CommunityToolkit.WinUI": {
+        "type": "Transitive",
+        "resolved": "7.1.2",
+        "contentHash": "0O6hCHy+/adJygcROD3r3yA41gRq972i/r6uGUfo8lfEbr/I1YGePTClAh1P9JYT7DdoI2IqeUhX05lq+rwrHg==",
+        "dependencies": {
+          "CommunityToolkit.Common": "7.1.2",
+          "Microsoft.WindowsAppSDK": "1.0.0"
+        }
+      },
+      "CommunityToolkit.WinUI.UI": {
+        "type": "Transitive",
+        "resolved": "7.1.2",
+        "contentHash": "jF1GdEJsZX5o81ZfLjSjgC5RuYwQneuW2mdFIb7FDFzITsgqCn7mfn7BglpNiXvjExkocmAKbBgmCcbp0Nypmw==",
+        "dependencies": {
+          "CommunityToolkit.WinUI": "7.1.2",
+          "Microsoft.WindowsAppSDK": "1.0.0"
+        }
       },
       "Microsoft.NETCore.Platforms": {
         "type": "Transitive",
@@ -971,35 +1014,24 @@
       "mosaic.infrastructure": {
         "type": "Project",
         "dependencies": {
-          "LibVLCSharp": "[3.7.0, )",
-          "Nerdbank.GitVersioning": "[3.6.128, )",
-          "Newtonsoft.Json": "[13.0.3, )",
+          "CsvHelper": "[30.0.1, )",
+          "Nerdbank.GitVersioning": "[3.6.133, )",
           "StyleCop.Analyzers": "[1.2.0-beta.354, )"
         }
       },
-      "LibVLCSharp": {
+      "CsvHelper": {
         "type": "CentralTransitive",
-        "requested": "[3.7.0, )",
-        "resolved": "3.7.0",
-        "contentHash": "N9NV+BamKr+1YiRktX9JroE4m9C+pEszUNW4qa3A5mychhCWBvvoDolZKWk2yxhZvHewgaXXahBcw5ivCXjKYA==",
-        "dependencies": {
-          "Microsoft.WindowsAppSDK": "1.1.1",
-          "SharpDX.Direct3D11": "4.2.0"
-        }
-      },
-      "Newtonsoft.Json": {
-        "type": "CentralTransitive",
-        "requested": "[13.0.3, )",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
+        "requested": "[30.0.1, )",
+        "resolved": "30.0.1",
+        "contentHash": "rcZtgbWR+As4G3Vpgx0AMNmShGuQLFjkHAPIIflzrfkJCx8/AOd4m96ZRmiU1Wi39qS5UVjV0P8qdgqOo5Cwyg=="
       }
     },
-    "net7.0-windows10.0.19041/win10-arm64": {
+    "net7.0-windows10.0.19041/win-arm64": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[1.3.230502000, )",
-        "resolved": "1.3.230502000",
-        "contentHash": "0blh8HpYYzhAImeCn6WrSPzx7PEm2O9KWIOz94b5qvgQssZ5TvINpxuIv9iDEf8Jdv9lnkvfpxQgduep378+KQ==",
+        "requested": "[1.3.230724000, )",
+        "resolved": "1.3.230724000",
+        "contentHash": "cCw26h8Uh8IjDMOUzHaR7/IKxEVJxuqEOgBlmLj0Pu1wDezZb9J0Wz53Vop10FQUOZaTfnwDcHavyPTxgkwbKQ==",
         "dependencies": {
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.1"
         }
@@ -1120,16 +1152,6 @@
         "type": "Transitive",
         "resolved": "4.3.0",
         "contentHash": "c3YNH1GQJbfIPJeCnr4avseugSqPrxwIqzthYyZDN6EuOyNOzq+y2KSUfRcXauya1sF4foESTgwM5e1A8arAKw=="
-      },
-      "runtime.native.System.IO.Compression": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "INBPonS5QPEgn7naufQFXJEp3zX6L4bwHgJ/ZH78aBTpeNfQMtf7C6VrAFhlq2xxWBveIOWyFzQjJ8XzHMhdOQ==",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0",
-          "runtime.win10-arm64.runtime.native.System.IO.Compression": "4.3.0"
-        }
       },
       "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl": {
         "type": "Transitive",
@@ -1272,16 +1294,6 @@
         "dependencies": {
           "System.Private.Uri": "4.3.0"
         }
-      },
-      "runtime.win10-arm64.runtime.native.System.IO.Compression": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "OGYphGRKiMZCmld270yDGfDS5XtA3oTKPWPBUXy0RLm2jvPlgPvAKjpAlB4/DkcbvImI7SheY8Ar4FDVZ8sTpQ=="
-      },
-      "runtime.win7.System.Private.Uri": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "Q+IBgaPYicSQs2tBlmXqbS25c/JLIthWrgrpMwxKSOobW/OqIMVFruUGfuaz4QABVzV8iKdCAbN7APY7Tclbnw=="
       },
       "System.Buffers": {
         "type": "Transitive",
@@ -1525,8 +1537,7 @@
         "contentHash": "I4SwANiUGho1esj4V4oSlPllXjzCZDE+5XXso2P03LW2vOda2Enzh8DWOxwN6hnrJyp314c7KuVu31QYhRzOGg==",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0",
-          "runtime.win7.System.Private.Uri": "4.3.0"
+          "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
       "System.Reflection": {
@@ -1868,12 +1879,12 @@
         }
       }
     },
-    "net7.0-windows10.0.19041/win10-x64": {
+    "net7.0-windows10.0.19041/win-x64": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[1.3.230502000, )",
-        "resolved": "1.3.230502000",
-        "contentHash": "0blh8HpYYzhAImeCn6WrSPzx7PEm2O9KWIOz94b5qvgQssZ5TvINpxuIv9iDEf8Jdv9lnkvfpxQgduep378+KQ==",
+        "requested": "[1.3.230724000, )",
+        "resolved": "1.3.230724000",
+        "contentHash": "cCw26h8Uh8IjDMOUzHaR7/IKxEVJxuqEOgBlmLj0Pu1wDezZb9J0Wz53Vop10FQUOZaTfnwDcHavyPTxgkwbKQ==",
         "dependencies": {
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.1"
         }
@@ -1994,16 +2005,6 @@
         "type": "Transitive",
         "resolved": "4.3.0",
         "contentHash": "c3YNH1GQJbfIPJeCnr4avseugSqPrxwIqzthYyZDN6EuOyNOzq+y2KSUfRcXauya1sF4foESTgwM5e1A8arAKw=="
-      },
-      "runtime.native.System.IO.Compression": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "INBPonS5QPEgn7naufQFXJEp3zX6L4bwHgJ/ZH78aBTpeNfQMtf7C6VrAFhlq2xxWBveIOWyFzQjJ8XzHMhdOQ==",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0",
-          "runtime.win7-x64.runtime.native.System.IO.Compression": "4.3.0"
-        }
       },
       "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl": {
         "type": "Transitive",
@@ -2146,16 +2147,6 @@
         "dependencies": {
           "System.Private.Uri": "4.3.0"
         }
-      },
-      "runtime.win7-x64.runtime.native.System.IO.Compression": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "UamDlgSO/nIzc96M+g3wbvAGbAuXjvRYR5Ttm/FVJgt2iva8ouOqSJ0j6eGI7pZDLvD/ZISl9XRZOajE/Xvizg=="
-      },
-      "runtime.win7.System.Private.Uri": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "Q+IBgaPYicSQs2tBlmXqbS25c/JLIthWrgrpMwxKSOobW/OqIMVFruUGfuaz4QABVzV8iKdCAbN7APY7Tclbnw=="
       },
       "System.Buffers": {
         "type": "Transitive",
@@ -2399,8 +2390,7 @@
         "contentHash": "I4SwANiUGho1esj4V4oSlPllXjzCZDE+5XXso2P03LW2vOda2Enzh8DWOxwN6hnrJyp314c7KuVu31QYhRzOGg==",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0",
-          "runtime.win7.System.Private.Uri": "4.3.0"
+          "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
       "System.Reflection": {
@@ -2742,12 +2732,12 @@
         }
       }
     },
-    "net7.0-windows10.0.19041/win10-x86": {
+    "net7.0-windows10.0.19041/win-x86": {
       "Microsoft.WindowsAppSDK": {
         "type": "Direct",
-        "requested": "[1.3.230502000, )",
-        "resolved": "1.3.230502000",
-        "contentHash": "0blh8HpYYzhAImeCn6WrSPzx7PEm2O9KWIOz94b5qvgQssZ5TvINpxuIv9iDEf8Jdv9lnkvfpxQgduep378+KQ==",
+        "requested": "[1.3.230724000, )",
+        "resolved": "1.3.230724000",
+        "contentHash": "cCw26h8Uh8IjDMOUzHaR7/IKxEVJxuqEOgBlmLj0Pu1wDezZb9J0Wz53Vop10FQUOZaTfnwDcHavyPTxgkwbKQ==",
         "dependencies": {
           "Microsoft.Windows.SDK.BuildTools": "10.0.22621.1"
         }
@@ -2868,16 +2858,6 @@
         "type": "Transitive",
         "resolved": "4.3.0",
         "contentHash": "c3YNH1GQJbfIPJeCnr4avseugSqPrxwIqzthYyZDN6EuOyNOzq+y2KSUfRcXauya1sF4foESTgwM5e1A8arAKw=="
-      },
-      "runtime.native.System.IO.Compression": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "INBPonS5QPEgn7naufQFXJEp3zX6L4bwHgJ/ZH78aBTpeNfQMtf7C6VrAFhlq2xxWBveIOWyFzQjJ8XzHMhdOQ==",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0",
-          "runtime.win7-x86.runtime.native.System.IO.Compression": "4.3.0"
-        }
       },
       "runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl": {
         "type": "Transitive",
@@ -3020,16 +3000,6 @@
         "dependencies": {
           "System.Private.Uri": "4.3.0"
         }
-      },
-      "runtime.win7-x86.runtime.native.System.IO.Compression": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "99pM1ZhX7dPNnr/dOxuAxnVl/2XNWRh1WAUfesV3ZKwbR6mnEzpfbz2GX69zrpGvKbEytsjMKCD+auvvH6f7kA=="
-      },
-      "runtime.win7.System.Private.Uri": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "Q+IBgaPYicSQs2tBlmXqbS25c/JLIthWrgrpMwxKSOobW/OqIMVFruUGfuaz4QABVzV8iKdCAbN7APY7Tclbnw=="
       },
       "System.Buffers": {
         "type": "Transitive",
@@ -3273,8 +3243,7 @@
         "contentHash": "I4SwANiUGho1esj4V4oSlPllXjzCZDE+5XXso2P03LW2vOda2Enzh8DWOxwN6hnrJyp314c7KuVu31QYhRzOGg==",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.NETCore.Targets": "1.1.0",
-          "runtime.win7.System.Private.Uri": "4.3.0"
+          "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
       "System.Reflection": {

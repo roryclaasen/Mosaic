@@ -1,52 +1,43 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    IgnorableNamespaces="uap mp uap3">
 
-<Package
-  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+    <!--Note: package version and assembly version must be kept in sync-->
+    <Identity Name="e6657e6a-d189-4452-895a-1aa605011ea8" Publisher="CN=roryclaasen" Version="1.0.0.0" />
 
-  <Identity
-    Name="e6657e6a-d189-4452-895a-1aa605011ea8"
-    Publisher="CN=roryclaasen"
-    Version="1.0.0.0" />
+    <mp:PhoneIdentity PhoneProductId="e6657e6a-d189-4452-895a-1aa605011ea8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
-  <mp:PhoneIdentity PhoneProductId="e6657e6a-d189-4452-895a-1aa605011ea8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+    <Properties>
+        <DisplayName>Mosaic Video Viewer</DisplayName>
+        <PublisherDisplayName>Rory Claasen</PublisherDisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+        <uap:SupportedUsers>multiple</uap:SupportedUsers>
+    </Properties>
 
-  <Properties>
-    <DisplayName>Mosaic</DisplayName>
-    <PublisherDisplayName>roryclaasen</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
-  </Properties>
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    </Dependencies>
 
-  <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-  </Dependencies>
+    <Resources>
+        <Resource Language="x-generate"/>
+    </Resources>
 
-  <Resources>
-    <Resource Language="x-generate"/>
-  </Resources>
+    <Applications>
+        <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
+            <uap:VisualElements DisplayName="Mosaic" Description="Mosaic" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
+                <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+                <uap:SplashScreen Image="Assets\SplashScreen.png" />
+            </uap:VisualElements>
+        </Application>
+    </Applications>
 
-  <Applications>
-    <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="$targetentrypoint$">
-      <uap:VisualElements
-        DisplayName="Mosaic"
-        Description="Mosaic"
-        BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
-      </uap:VisualElements>
-    </Application>
-  </Applications>
-
-  <Capabilities>
-    <rescap:Capability Name="runFullTrust" />
-    <Capability Name="internetClient"/>
-  </Capabilities>
+    <Capabilities>
+        <rescap:Capability Name="runFullTrust" />
+        <Capability Name="internetClient"/>
+    </Capabilities>
 </Package>

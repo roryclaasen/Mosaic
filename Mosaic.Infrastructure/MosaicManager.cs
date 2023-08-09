@@ -7,103 +7,54 @@
 namespace Mosaic.Infrastructure
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
-    using LibVLCSharp.Shared;
+    using Mosaic.Infrastructure.Collections;
+    using Mosaic.Infrastructure.Config;
 
-    public partial class MosaicManager
+    public class MosaicManager
     {
-        private readonly IVideoView[] videoTiles;
+        private readonly ConcurrentLoopingQueue<MediaEntry> loopingQueue = new();
+        private readonly ConcurrentDictionary<IVideoPlayerTile, int> playCount = new();
 
-        private MosaicConfig config;
-        private IQueueSwapper<SourceConfig> queueSwapper;
+        public int SourceCount => this.loopingQueue.Count;
 
-        public MosaicManager(IEnumerable<IVideoView> videoTiles)
+        public int MinPlayCount => this.playCount.Any() ? this.playCount.Min(x => x.Value) : 0;
+
+        public void SetConfig(IEnumerable<MediaEntry>? entries = null)
         {
-            this.videoTiles = videoTiles?.ToArray() ?? throw new ArgumentNullException(nameof(videoTiles));
+            this.loopingQueue.Clear();
+            this.loopingQueue.EnqueueRange(entries ?? Enumerable.Empty<MediaEntry>());
         }
 
-        public bool Paused { get; private set; } = false;
-
-        public void Initialize(MosaicConfig config)
+        public void StartTile(IVideoPlayerTile tile)
         {
-            this.config = config;
-            this.queueSwapper = new QueueSwapper<SourceConfig>(this.videoTiles.Length, config.Sources);
-        }
-
-        public void StartTile(LibVLC libVLC, IVideoView tile)
-        {
-            if (this.queueSwapper.TryDequeue(out var source))
+            if (tile.IsPlaying)
             {
-                using (var media = this.CreateMedia(libVLC, source))
-                {
-                    tile.MediaPlayer.Play(media);
-                }
+                return;
+            }
 
-                this.OnTileStarted(this, tile, source);
+            this.TriggerNextVideo(tile);
+        }
+
+        public void TriggerNextVideo(IVideoPlayerTile tile)
+        {
+            if (this.loopingQueue.TryDequeue(out var source))
+            {
+                tile.PlayVideo(source);
+
+                var playCount = this.MinPlayCount;
+                this.playCount.AddOrUpdate(tile, playCount, (_, count) => count + 1);
             }
         }
 
-        public void SwapTiles(Func<IVideoView, LibVLC> getLibVlc)
+        public void RemoveTile(IVideoPlayerTile tile)
         {
-            if (this.queueSwapper.CanSwap())
-            {
-                var currentTileIndex = this.queueSwapper.NextSwapIndex;
-                var currentTile = this.videoTiles.ElementAt(currentTileIndex);
-                var libVlc = getLibVlc(currentTile);
-
-                var oldMedia = currentTile.MediaPlayer.Media;
-                var oldSource = this.config.Sources.FirstOrDefault(s => s.Source.Equals(oldMedia.Mrl));
-                if (oldSource is not null)
-                {
-                    var newSource = this.queueSwapper.Swap(oldSource);
-                    if (newSource is not null)
-                    {
-                        using (var media = this.CreateMedia(libVlc, newSource))
-                        {
-                            currentTile.MediaPlayer.Play(media);
-                        }
-
-                        var eventArgs = new TileSourceEventArgs(currentTileIndex, newSource);
-                        this.OnTileStarted(this, eventArgs);
-                        this.OnTileChanged(this, eventArgs);
-                    }
-                }
-            }
+            this.playCount.TryRemove(tile, out _);
         }
 
-        public void Pause()
-        {
-            this.Paused = true;
-
-            foreach (var tile in this.videoTiles)
-            {
-                tile.MediaPlayer.Pause();
-            }
-        }
-
-        public void Resume()
-        {
-            this.Paused = false;
-
-            foreach (var tile in this.videoTiles)
-            {
-                tile.MediaPlayer.Play();
-            }
-        }
-
-        public void TogglePause()
-        {
-            if (this.Paused)
-            {
-                this.Resume();
-            }
-            else
-            {
-                this.Pause();
-            }
-        }
-
-        private Media CreateMedia(LibVLC libVLC, SourceConfig config) => new(libVLC, config.Source, FromType.FromLocation);
+        public int GetPlayCount(IVideoPlayerTile tile)
+            => this.playCount.TryGetValue(tile, out var count) ? count : this.MinPlayCount;
     }
 }
