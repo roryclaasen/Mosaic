@@ -13,6 +13,8 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
     <IsPublishable>true</IsPublishable>
+
+    <DefaultLanguage>en</DefaultLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsMsixPackage)'!='true'">
