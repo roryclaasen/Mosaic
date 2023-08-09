@@ -50,9 +50,7 @@ namespace Mosaic.Infrastructure
         }
 
         public void RemoveTile(IVideoPlayerTile tile)
-        {
-            this.playCount.TryRemove(tile, out _);
-        }
+            => this.playCount.TryRemove(tile, out _);
 
         public int GetPlayCount(IVideoPlayerTile tile)
             => this.playCount.TryGetValue(tile, out var count) ? count : this.MinPlayCount;

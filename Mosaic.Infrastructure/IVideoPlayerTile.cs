@@ -14,6 +14,10 @@ namespace Mosaic.Infrastructure
 
         public bool IsPlaying { get; }
 
+        public double Progress { get; }
+
+        public void SetProgress(long currentValue, long maxValue);
+
         public bool PlayVideo(MediaEntry entry);
 
         public void SetPause(bool pause);

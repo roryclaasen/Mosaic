@@ -23,6 +23,8 @@ namespace Mosaic.Controls
         private readonly DispatcherQueueTimer regenerateGridTimer;
         private readonly DispatcherTimer swapTimer;
 
+        private DateTime lastIntervalChange = DateTime.MinValue;
+
         private event EventHandler? SizingComplete;
 
         public VideoMosaic()
@@ -34,12 +36,8 @@ namespace Mosaic.Controls
             Core.Initialize();
 
             this.regenerateGridTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            this.swapTimer = new DispatcherTimer
-            {
-                // TODO: Make this customizable
-                Interval = TimeSpan.FromSeconds(5)
-            };
-            this.swapTimer.Tick += (_, _) => this.TriggerNextTile();
+            this.swapTimer = new DispatcherTimer();
+            this.swapTimer.Tick += (_, _) => this.SwapTimerTick();
 
             this.SizingComplete += this.SizeUpdated;
             this.Loaded += (_, _) => this.regenerateGridTimer.Debounce(this.TriggerResize, TimeSpan.FromMilliseconds(400));
@@ -83,6 +81,8 @@ namespace Mosaic.Controls
         public bool ShowLabels { get; private set; } = false;
 
         public bool MuteVideos { get; private set; } = true;
+
+        public TimeSpan IntervalDelay { get; private set; } = TimeSpan.FromSeconds(5);
 
         public IEnumerable<VideoPlayerTile> Tiles => this.Children.OfType<VideoPlayerTile>();
 
@@ -153,6 +153,8 @@ namespace Mosaic.Controls
 
             this.regenerateGridTimer.Stop();
             this.swapTimer.Stop();
+
+            this.lastIntervalChange = DateTime.MinValue;
         }
 
         public void SetShowLabels(bool showLabels)
@@ -237,7 +239,18 @@ namespace Mosaic.Controls
             }
         }
 
-        private void TriggerNextTile()
+        private void TriggerNextTile(VideoPlayerTile? tile)
+        {
+            if (!this.IsPlaying || this.IsPaused || tile is null)
+            {
+                return;
+            }
+
+            this.lastIntervalChange = DateTime.UtcNow;
+            this.MosaicManager.TriggerNextVideo(tile);
+        }
+
+        private void SwapTimerTick()
         {
             if (!this.IsPlaying || this.IsPaused)
             {
@@ -247,7 +260,12 @@ namespace Mosaic.Controls
             var nextTileToSwap = this.Tiles.MinBy(this.MosaicManager.GetPlayCount);
             if (nextTileToSwap is not null)
             {
-                this.MosaicManager.TriggerNextVideo(nextTileToSwap);
+                var timeDiff = DateTime.UtcNow - this.lastIntervalChange;
+                nextTileToSwap.SetProgress(timeDiff.Ticks, this.IntervalDelay.Ticks);
+                if (timeDiff > this.IntervalDelay)
+                {
+                    this.TriggerNextTile(nextTileToSwap);
+                }
             }
         }
     }

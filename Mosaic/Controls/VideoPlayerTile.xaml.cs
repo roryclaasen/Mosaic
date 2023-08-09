@@ -40,6 +40,17 @@ namespace Mosaic.Controls
 
         public bool IsPlaying => this.mediaPlayer?.IsPlaying ?? false;
 
+        public double Progress { get; private set; }
+
+        public void SetProgress(double value)
+            => this.ProgressBar.Value = value;
+
+        public void SetProgress(long currentValue, long maxValue)
+        {
+            this.Progress = (currentValue * 100) / maxValue;
+            this.SetProgress(this.Progress);
+        }
+
         public void SetLabelVisibility(bool visible) => this.Label.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
 
         public bool PlayVideo(MediaEntry entry)
@@ -81,6 +92,7 @@ namespace Mosaic.Controls
             this.mediaPlayer?.Stop();
             this.VideoView.Opacity = 0;
             this.Label.Text = string.Empty;
+            this.SetProgress(0);
         }
 
         private void VideoView_Initialized(object? sender, InitializedEventArgs e)
