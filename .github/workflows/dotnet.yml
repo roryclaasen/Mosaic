@@ -37,6 +37,7 @@ jobs:
         run: dotnet publish --no-build -c Release -p:Platform=${{ matrix.platform }} -p:PublishDir=${{ github.workspace }}/publish
       - name: Upload artifact
         uses: actions/upload-artifact@v3
+        if: github.ref == 'refs/heads/main'
         with:
           name: ${{ matrix.platform }}
           path: ${{ github.workspace }}/publish
