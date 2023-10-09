@@ -33,3 +33,10 @@ jobs:
         run: dotnet build --no-restore -c Release -p:Platform=${{ matrix.platform }}
       # - name: Test
       #   run: dotnet test --no-build --verbosity normal
+      - name: Publish
+        run: dotnet publish --no-build -c Release -p:Platform=${{ matrix.platform }} -o ${{ github.workspace }}/publish
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.platform }}
+          path: ${{ github.workspace }}/publish
