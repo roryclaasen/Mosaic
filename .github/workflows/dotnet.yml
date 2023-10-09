@@ -34,7 +34,7 @@ jobs:
       # - name: Test
       #   run: dotnet test --no-build --verbosity normal
       - name: Publish
-        run: dotnet publish --no-build -c Release -p:Platform=${{ matrix.platform }} -o ${{ github.workspace }}/publish
+        run: dotnet publish --no-build -c Release -p:Platform=${{ matrix.platform }} -p:PublishDir=${{ github.workspace }}/publish
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
