@@ -14,9 +14,9 @@
       },
       "LibVLCSharp": {
         "type": "Direct",
-        "requested": "[3.7.0, )",
-        "resolved": "3.7.0",
-        "contentHash": "N9NV+BamKr+1YiRktX9JroE4m9C+pEszUNW4qa3A5mychhCWBvvoDolZKWk2yxhZvHewgaXXahBcw5ivCXjKYA==",
+        "requested": "[3.8.0, )",
+        "resolved": "3.8.0",
+        "contentHash": "vHHnH+nu3M8fb4jSt4Ad4aVOq7trW4ZBh85WFp7QaWPWDUX9SFVcgYc5IKOtyNh1IaBM/OmZV6NuvTz6eDv6tw==",
         "dependencies": {
           "Microsoft.WindowsAppSDK": "1.1.1",
           "SharpDX.Direct3D11": "4.2.0"
