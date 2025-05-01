@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-
   <PropertyGroup>
     <IsMsixPackage>false</IsMsixPackage>
   </PropertyGroup>
@@ -8,13 +7,12 @@
   <PropertyGroup Label="Generic Properties">
     <DebugType>full</DebugType>
     <IsPublishable>false</IsPublishable>
+
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <Optimize>true</Optimize>
+    <DefaultLanguage>en</DefaultLanguage>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Label="Assembly Properties">

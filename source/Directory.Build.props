@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <!-- This file simply redirects to the Source build props file -->
+  <Import Project="Source.Build.props" />
+
+</Project>

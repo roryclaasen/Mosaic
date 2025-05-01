@@ -6,20 +6,23 @@
   <ItemGroup Label="WinUI 3">
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
     <PackageVersion Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
-    <PackageVersion Include="CsvHelper" Version="30.0.1" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+    <PackageVersion Include="CsvHelper" Version="33.0.1" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
   </ItemGroup>
   <ItemGroup Label="Quality">
-    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.133" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.7.115" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.354" />
   </ItemGroup>
   <ItemGroup Label="nuget.org">
-    <PackageVersion Include="LibVLCSharp" Version="3.8.0" />
-    <PackageVersion Include="VideoLAN.LibVLC.Windows" Version="3.0.18" />
+    <PackageVersion Include="LibVLCSharp" Version="3.9.3" />
+    <PackageVersion Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" />
+    <PackageReference Include="Nerdbank.GitVersioning">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" />
   </ItemGroup>
 </Project>

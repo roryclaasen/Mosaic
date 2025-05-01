@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Mosaic (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Mosaic (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

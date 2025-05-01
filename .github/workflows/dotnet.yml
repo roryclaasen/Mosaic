@@ -17,13 +17,13 @@ jobs:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.x
+          dotnet-version: 9.x
           cache: true
           cache-dependency-path: |
             **/packages.lock.json
@@ -36,7 +36,7 @@ jobs:
       - name: Publish
         run: dotnet publish --no-build -c Release -p:Platform=${{ matrix.platform }} -p:PublishDir=${{ github.workspace }}/publish
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: github.ref == 'refs/heads/main'
         with:
           name: ${{ matrix.platform }}
