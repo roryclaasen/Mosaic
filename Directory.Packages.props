@@ -7,6 +7,8 @@
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
     <PackageVersion Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
     <PackageVersion Include="CsvHelper" Version="33.0.1" />
+    <PackageVersion Include="FFmpeg.AutoGen" Version="7.1.1" />
+    <PackageVersion Include="FlyleafLib.Controls.WinUI" Version="1.1.4" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
   </ItemGroup>

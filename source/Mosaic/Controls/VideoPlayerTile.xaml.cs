@@ -5,27 +5,64 @@ namespace Mosaic.Controls;
 
 using System;
 using System.Collections.Generic;
+using FlyleafLib.MediaPlayer;
+using FlyleafLib;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Mosaic.Infrastructure;
 using Mosaic.Infrastructure.Config;
 using Windows.ApplicationModel.DataTransfer;
+using System.Threading.Tasks;
+using System.Threading;
+using Microsoft.UI;
+using WinRT.Interop;
+using Microsoft.UI.Windowing;
+using Mosaic.Util;
+using FlyleafLib.Controls.WinUI;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using Windows.UI.WebUI;
 
 public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 {
     public VideoPlayerTile()
     {
+        this.Config = new Config();
+        this.Player = new Player(this.Config);
+
         this.InitializeComponent();
 
-        //this.VideoView.Initialized += this.VideoView_Initialized;
-        //this.Unloaded += this.VideoPlayerTile_Unloaded;
+        if (App.Current.Window is Window startupWindow)
+        {
+            IntPtr hWnd = WindowHelper.GetWindowHandleForCurrentWindow(startupWindow);
+            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            var MainAppWindow = AppWindow.GetFromWindowId(wndId);
 
-        //this.VideoView.Opacity = 0;
+            this.FSC.FullScreenEnter += (o, e) =>
+            {
+                MainAppWindow.IsShownInSwitchers = false;
+                this.flyleafHost.KFC.Focus(FocusState.Keyboard);
+            };
+
+            this.FSC.FullScreenExit += (o, e) =>
+            {
+                MainAppWindow.IsShownInSwitchers = true;
+                Task.Run(() => { Thread.Sleep(10); Utils.UIInvoke(() => this.flyleafHost.KFC.Focus(FocusState.Keyboard)); });
+            };
+        }
+
+        this.Root.PointerReleased += (o, e) =>
+        {
+            Task.Run(() => { Thread.Sleep(10); Utils.UIInvoke(() => flyleafHost.KFC.Focus(FocusState.Keyboard)); });
+        };
     }
 
     public event EventHandler? Initalized;
 
     public event EventHandler? MediaChangeRequested;
+
+    public Player Player { get; set; }
+
+    public Config Config { get; set; }
 
     public string? Mrl => null;
 
@@ -46,17 +83,28 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 
     public bool PlayVideo(MediaEntry entry)
     {
-                return false;
+        // TODO: Implement the logic to play the video using the Player instance
+        this.Player.Stop();
+
+        var result = this.Player.Open(entry.Mrl.ToString());
+        return result.Success;
     }
 
     public void SetPause(bool pause)
     {
-        // no-op
+        if (pause)
+        {
+            this.Player.Pause();
+        }
+        else
+        {
+            this.Player.Play();
+        }
     }
 
     public void SetMute(bool mute)
     {
-        // no-op
+        this.Player.Audio.Mute = mute;
     }
 
     public void StopVideo()
@@ -64,31 +112,11 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
         this.Root.ContextFlyout?.Hide();
         this.Root.ContextFlyout = null;
 
-        // this.mediaPlayer?.Stop();
-        // this.VideoView.Opacity = 0;
+        this.Player.Stop();
 
         this.Label.Text = string.Empty;
         this.SetProgress(0);
     }
-
-    //private void VideoView_Initialized(object? sender, InitializedEventArgs e)
-    //{
-    //    var options = new List<string>
-    //    {
-    //        "--aout=directsound"
-    //    };
-    //    options.AddRange(e.SwapChainOptions);
-    //    this.libVlc = new LibVLC([.. options]);
-    //    this.mediaPlayer = new MediaPlayer(this.libVlc)
-    //    {
-    //        Mute = true,
-    //        EnableHardwareDecoding = true
-    //    };
-
-    //    this.Initalized?.Invoke(this, EventArgs.Empty);
-    //}
-
-    private void VideoPlayerTile_Unloaded(object sender, RoutedEventArgs e) => this.StopVideo();
 
     private void AppBarButton_Copy(object sender, RoutedEventArgs e)
     {

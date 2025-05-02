@@ -59,6 +59,8 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+        <PackageReference Include="FFmpeg.AutoGen" />
+        <PackageReference Include="FlyleafLib.Controls.WinUI" />
     </ItemGroup>
 
     <ItemGroup>

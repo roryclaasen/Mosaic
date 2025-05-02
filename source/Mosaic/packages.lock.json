@@ -12,6 +12,23 @@
           "Microsoft.WindowsAppSDK": "1.0.0"
         }
       },
+      "FFmpeg.AutoGen": {
+        "type": "Direct",
+        "requested": "[7.1.1, )",
+        "resolved": "7.1.1",
+        "contentHash": "p4FGdG654zut4Iseg7PeYo7sxFMOTuLTEKl/vX+44UQ6NmezF3wHcR6JzjH8xzK4VDPLJe5Xz563kXamMQj7Jg=="
+      },
+      "FlyleafLib.Controls.WinUI": {
+        "type": "Direct",
+        "requested": "[1.1.4, )",
+        "resolved": "1.1.4",
+        "contentHash": "appkfFfdpXCyqfdgrbWjAbny7jcu9DOHrug1Vk05O9BJidf/biwwyMh0tyh73DW9YhZwwSAULuSbaKeZJ5rcJg==",
+        "dependencies": {
+          "FlyleafLib": "3.8.3",
+          "Microsoft.WindowsAppSDK": "1.7.250401001",
+          "Vortice.WinUI": "3.6.2"
+        }
+      },
       "Microsoft.Windows.SDK.BuildTools": {
         "type": "Direct",
         "requested": "[10.0.26100.1742, )",
@@ -66,15 +83,137 @@
           "Microsoft.WindowsAppSDK": "1.0.0"
         }
       },
+      "Flyleaf.FFmpeg.Bindings": {
+        "type": "Transitive",
+        "resolved": "7.1.1",
+        "contentHash": "EU4JLzurif8pkcxq03aARp2fYRAlQVU+Gpn30cjvTXc95NLmag1BbMMkHmiCBegOgnZOPZKt/WIEj8aery8uPA=="
+      },
+      "FlyleafLib": {
+        "type": "Transitive",
+        "resolved": "3.8.3",
+        "contentHash": "uIS6MugnXnq/b/gFIJWKe02XOuisBN+nf80CTDFP964ImxNpf0bsXKWh7X8Dc/mQSiCKn1JqaT+UzJwAXh2YRQ==",
+        "dependencies": {
+          "Flyleaf.FFmpeg.Bindings": "7.1.1",
+          "Vortice.D3DCompiler": "3.6.2",
+          "Vortice.Direct3D11": "3.6.2",
+          "Vortice.DirectComposition": "3.6.2",
+          "Vortice.Mathematics": "1.9.2",
+          "Vortice.MediaFoundation": "3.6.2",
+          "Vortice.XAudio2": "3.6.2"
+        }
+      },
       "Microsoft.Web.WebView2": {
         "type": "Transitive",
         "resolved": "1.0.2903.40",
         "contentHash": "THrzYAnJgE3+cNH+9Epr44XjoZoRELdVpXlWGPs6K9C9G6TqyDfVCeVAR/Er8ljLitIUX5gaSkPsy9wRhD1sgQ=="
       },
+      "SharpGen.Runtime": {
+        "type": "Transitive",
+        "resolved": "2.2.0-beta",
+        "contentHash": "pqf/lAf4jy1iWqkm37JmhoQhBMPVudI/F9qp2zVvzjWAPeSggRIuxGMVEZQ4UQiqtJ1Rf/+j3MVAONGYyCEDzQ=="
+      },
+      "SharpGen.Runtime.COM": {
+        "type": "Transitive",
+        "resolved": "2.2.0-beta",
+        "contentHash": "4vsXC8ohyVslcUDVBoVXLDkjKprqujh3GWy+DqqULjyZ3GCx7nwRAV5DdrXZxX70iEiKyI3TxW3Qhf/oOXeC1Q==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta"
+        }
+      },
       "StyleCop.Analyzers.Unstable": {
         "type": "Transitive",
         "resolved": "1.2.0.354",
         "contentHash": "/3RlM31XbJ02gaWh7dVumWOyMvGHswb/zygGJXd9oEJMRyyYc/HFJlAC5gBPxvi9cB4CMvIyyUTmZz5VLKwTvg=="
+      },
+      "Vortice.D3DCompiler": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "h5PSVwQpgUs5+4QP5bJEuVyEUd0liz7pVcSayZ5JRlT8veGiaosK3EdFwGqZ+vnj+dkjlyS7+sA+18w+hB9fcA==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DirectX": "3.6.2"
+        }
+      },
+      "Vortice.Direct2D1": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "axuDhGNPkdLwSzlcUAWr/Ju6s2tvnVKxM4MSl9zYcPePiUOTsKF39oByBZSjXllkQY01WG2o4+p00TZz/dL57Q==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DXGI": "3.6.2"
+        }
+      },
+      "Vortice.Direct3D11": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "+tXkwV4YVFgox3NjLGBOPmEHK8Jd/8ElI3X8aX7xq4JhsC3J9BqpUhpI+4LOKeCGN+XCORhyFq0ow+pB44YQTg==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DXGI": "3.6.2"
+        }
+      },
+      "Vortice.DirectComposition": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "5a/COL62pZ8alJ4uU45/OCVV0hJ6Anz9QuFanwx4X7jSUae7zNZa9OZOkRhFuRbeAXQLdBI+1l/chPfRJZMu0w==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DXGI": "3.6.2",
+          "Vortice.Direct2D1": "3.6.2",
+          "Vortice.DirectX": "3.6.2"
+        }
+      },
+      "Vortice.DirectX": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "pa/97U5IHascS/UJzMWFSKIs3wxh36zc8JpI+fzi/JLQk4wfTZur0n/Y9Lcp8i7hsf613Vu/6n6IImWSc9wupw==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "SharpGen.Runtime.COM": "2.2.0-beta",
+          "Vortice.Mathematics": "1.9.2"
+        }
+      },
+      "Vortice.DXGI": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "SPnBb1x3+CEqq7L5SEejElD2tMjkdE+bqN4c/eSNHj9WEpRPvAO0QFSEN8d9LiRDt9i9geD8m7E4s8sLMgz2qQ==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DirectX": "3.6.2"
+        }
+      },
+      "Vortice.Mathematics": {
+        "type": "Transitive",
+        "resolved": "1.9.2",
+        "contentHash": "+fS68BN4Kn1g+Roh7qnuBdXnVrfpr9DpwPMsqe27J04nDCFUuhEvo+T5PqXU1lZwn8sLlNayWCx/U6w4gWCvuA=="
+      },
+      "Vortice.MediaFoundation": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "zQOFjps5i8wyZ24WaTOoHjFs06nkobB1VO3yJzuV9x2CiFQ6pG2IhgyqFUuAeH3nFtHVZwOjflJem9Ajm/rfUQ==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DirectX": "3.6.2"
+        }
+      },
+      "Vortice.WinUI": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "v5LeosN9NuPHRBTa4dH0kIigxY2xYsQTEcqd/Sj5ytgEnp/V5Tzv2c8HNPy5t+qRYcRsoUBfhY+FbmItI7cgtw==",
+        "dependencies": {
+          "Microsoft.WindowsAppSDK": "1.6.240829007",
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DXGI": "3.6.2"
+        }
+      },
+      "Vortice.XAudio2": {
+        "type": "Transitive",
+        "resolved": "3.6.2",
+        "contentHash": "i0ZNEolel3NdvgpSRvpBuJSiwAaMqqyRdvBK2GSv4r8wQuWDyBC7qwgCj2d1ae7d6Xytzqb2RNbEX3DTe/acJg==",
+        "dependencies": {
+          "SharpGen.Runtime": "2.2.0-beta",
+          "Vortice.DirectX": "3.6.2"
+        }
       },
       "mosaic.infrastructure": {
         "type": "Project",
