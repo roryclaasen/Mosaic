@@ -4,6 +4,6 @@
   <Import Project="../Solution.Build.props" />
 
   <!-- This file simply redirects to the Source build props file -->
-  <Import Project="Source.Build.props" />
+  <Import Project="Tests.Build.props" />
 
 </Project>

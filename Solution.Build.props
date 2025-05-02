@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Label="Generic Properties">
+    <DebugType>full</DebugType>
+    <IsPublishable>false</IsPublishable>
+
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+    <DefaultLanguage>en</DefaultLanguage>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Assembly Properties">
+    <Authors>Rory Claasen (contact@roryclaasen.dev)</Authors>
+    <Copyright>All rights reserved.</Copyright>
+    <Product>Mosaic Video Viewer</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Code Quality">
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <ItemGroup Label="Code Quality">
+    <AdditionalFiles Include="$(SolutionDir)\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
+  </ItemGroup>
+</Project>

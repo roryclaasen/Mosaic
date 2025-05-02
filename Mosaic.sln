@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		Directory.Packages.props = Directory.Packages.props
+		Solution.Build.props = Solution.Build.props
 		version.json = version.json
 	EndProjectSection
 EndProject
@@ -19,11 +20,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B0111B
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mosaic", "source\Mosaic\Mosaic.csproj", "{57C1686D-DDC4-4158-B6C6-BA813E301DD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mosaic.VLC", "source\Mosaic.VLC\Mosaic.VLC.csproj", "{57C1686D-DDC4-4158-B6C6-BA813E301DD0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		source\Source.Build.props = source\Source.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DC96EA39-2AD5-4264-AE9F-EE964763ACDE}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Tests.Build.props = tests\Tests.Build.props
 	EndProjectSection
 EndProject
 Global

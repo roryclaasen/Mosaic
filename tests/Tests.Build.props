@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <EnableMSTestRunner>true</EnableMSTestRunner>
+    <OutputType>Exe</OutputType>
+    
+    <IsPublishable>false</IsPublishable>
+    <IsPackable>false</IsPackable>
+    
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableSourceLink>false</EnableSourceLink>
+  </PropertyGroup>
+</Project>
