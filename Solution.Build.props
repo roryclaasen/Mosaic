@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup Label="Generic Properties">
-    <DebugType>full</DebugType>
     <IsPublishable>false</IsPublishable>
 
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -9,10 +8,13 @@
 
     <DefaultLanguage>en</DefaultLanguage>
     <Nullable>enable</Nullable>
+
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <PropertyGroup Label="Assembly Properties">
-    <Authors>Rory Claasen (contact@roryclaasen.dev)</Authors>
+    <Authors>Rory Claasen</Authors>
+    <Owners>Rory Claasen (contact@roryclaasen.dev)</Owners>
     <Copyright>All rights reserved.</Copyright>
     <Product>Mosaic Video Viewer</Product>
   </PropertyGroup>

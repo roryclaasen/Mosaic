@@ -190,3 +190,6 @@ dotnet_diagnostic.SA1014.severity = warning
 
 # Closing generic bracket should not be followed by a space
 dotnet_diagnostic.SA1015.severity = none
+
+# Code Analysis Suppression Must Have Justification
+dotnet_diagnostic.SA1404.severity = none

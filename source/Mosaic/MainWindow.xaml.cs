@@ -43,15 +43,4 @@ public sealed partial class MainWindow : Window
 #endif
         return title;
     }
-
-    private async void myButton_Click(object sender, RoutedEventArgs e)
-    {
-        var dialog = new AboutDialog();
-        if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-        {
-            dialog.XamlRoot = this.Content.XamlRoot;
-        }
-
-        await dialog.ShowAsync();
-    }
 }

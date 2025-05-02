@@ -10,6 +10,9 @@ public partial class App : Application
 {
     public App() => this.InitializeComponent();
 
+    /// <inheritdoc cref="Application.Current"/>
+    public static new App Current => (App)Application.Current;
+
     public MainWindow? Window { get; private set; }
 
     [MemberNotNull(nameof(this.Window))]

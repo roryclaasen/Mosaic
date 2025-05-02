@@ -10,16 +10,19 @@
     CloseButtonText="{str:ResourceString Name=Ok}"
     PrimaryButtonText="{str:ResourceString Name=SendFeedback}"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+
     <StackPanel Orientation="Vertical">
         <TextBlock IsTextSelectionEnabled="True">
             <Run Text="{x:Bind ApplicationDisplayName}" />
             <LineBreak />
             <Run Text="{str:ResourceString Name=VersionLabel}" />
             <Run Text="{x:Bind ApplicationVersion}" />
+            <LineBreak />
         </TextBlock>
 
         <HyperlinkButton
             Content="{str:ResourceString Name=SourceCode}"
             NavigateUri="https://github.com/roryclaasen/Mosaic" />
     </StackPanel>
+
 </ContentDialog>

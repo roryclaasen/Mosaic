@@ -3,4 +3,8 @@
   <PropertyGroup>
     <IsMsixPackage>false</IsMsixPackage>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
 </Project>

@@ -9,5 +9,7 @@
     
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <EnableSourceLink>false</EnableSourceLink>
+
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 </Project>
