@@ -3,10 +3,13 @@
 
 namespace Mosaic;
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Mosaic.Controls;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 
 public sealed partial class MainWindow : Window
 {
@@ -41,8 +44,14 @@ public sealed partial class MainWindow : Window
         return title;
     }
 
-    private void myButton_Click(object sender, RoutedEventArgs e)
+    private async void myButton_Click(object sender, RoutedEventArgs e)
     {
-        myButton.Content = "Clicked";
+        var dialog = new AboutDialog();
+        if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+        {
+            dialog.XamlRoot = this.Content.XamlRoot;
+        }
+
+        await dialog.ShowAsync();
     }
 }

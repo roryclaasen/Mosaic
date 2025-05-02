@@ -6,6 +6,7 @@
     xmlns:local="using:Mosaic"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:str="using:Mosaic.Strings"
     mc:Ignorable="d">
 
     <Grid>
@@ -39,7 +40,7 @@
             Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}">
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+                <Button x:Name="myButton" Click="myButton_Click" Content="{str:ResourceString Name=About}" />
             </StackPanel>
         </Border>
     </Grid>
