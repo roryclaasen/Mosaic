@@ -8,15 +8,15 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="522f9e97-a1b5-4add-8d0e-7b4e61e98987"
+    Name="RoryClaasen.MosaicVideoViewer"
     Publisher="CN=rory"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="522f9e97-a1b5-4add-8d0e-7b4e61e98987" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Mosaic</DisplayName>
-    <PublisherDisplayName>rory</PublisherDisplayName>
+    <DisplayName>Mosaic Video Player</DisplayName>
+    <PublisherDisplayName>Rory Claasen</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -34,7 +34,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Mosaic"
+        DisplayName="Mosaic Video Viewer"
         Description="Mosaic"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -47,5 +47,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClient"/>
   </Capabilities>
 </Package>
