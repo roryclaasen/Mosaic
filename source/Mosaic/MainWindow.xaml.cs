@@ -1,30 +1,44 @@
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+// Copyright (c) Rory Claasen. All rights reserved.
+// Licensed under the MIT license. See LICENSE in the project root for license information.
 
 namespace Mosaic;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
-/// <summary>
-/// An empty window that can be used on its own or navigated to within a Frame.
-/// </summary>
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Windows.ApplicationModel;
+
 public sealed partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow() => this.InitializeComponent();
+
+    public void SetAppTitleBar()
     {
-        this.InitializeComponent();
+        this.Title = this.GetAppTitleFromSystem();
+        if (AppWindowTitleBar.IsCustomizationSupported())
+        {
+            this.ExtendsContentIntoTitleBar = true;
+            this.SetTitleBar(this.AppTitleBar);
+        }
+        else
+        {
+            this.AppTitleBar.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    [SuppressMessage("Performance", "CA1822:Mark members as static")]
+    public string GetAppTitleFromSystem()
+    {
+#if MICROSOFT_WINDOWSAPPSDK_SELFCONTAINED
+        var title = "Mosaic Video Viewer";
+#else
+        var title = Package.Current.DisplayName;
+#endif
+
+#if DEBUG
+        title += " (DEBUG)";
+#endif
+        return title;
     }
 
     private void myButton_Click(object sender, RoutedEventArgs e)
