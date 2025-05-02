@@ -3,13 +3,10 @@
 
 namespace Mosaic;
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Mosaic.Controls;
 using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
 
 public sealed partial class MainWindow : Window
 {

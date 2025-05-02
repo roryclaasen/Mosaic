@@ -22,13 +22,15 @@ public sealed partial class HomePage : Page
 
     private async void CommandBar_ShowAbout(object sender, RoutedEventArgs e)
     {
-        var dialog = new AboutDialog();
+        var dialog = new AboutDialog
+        {
+            RequestedTheme = this.RequestedTheme
+        };
+
         if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
         {
             dialog.XamlRoot = this.XamlRoot;
         }
-
-        dialog.RequestedTheme = this.RequestedTheme;
 
         await dialog.ShowAsync();
     }
