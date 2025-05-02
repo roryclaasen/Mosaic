@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="Mosaic.Controls.VideoPlayerTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:str="using:Mosaic.Strings">
+
+    <UserControl.Resources>
+        <CommandBarFlyout Placement="Right" x:Name="TileFlyout">
+            <CommandBarFlyout.SecondaryCommands>
+                <AppBarButton Label="{str:ResourceString Name=ForceNext}" Click="AppBarButton_Next" />
+                <AppBarSeparator />
+                <AppBarButton Label="{str:ResourceString Name=CopyLabel}" Tag="label" Click="AppBarButton_Copy" />
+                <AppBarButton Label="{str:ResourceString Name=CopySource}" Tag="source" Click="AppBarButton_Copy" />
+            </CommandBarFlyout.SecondaryCommands>
+        </CommandBarFlyout>
+    </UserControl.Resources>
+
+    <Grid x:Name="Root" Background="{ThemeResource ControlAltFillColorQuarternaryBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+            <FontIcon Glyph="&#xEA39;" Foreground="{ThemeResource TextFillColorPrimaryBrush}" FontSize="40"/>
+            <TextBlock TextAlignment="Center" Text="No Media" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+        </StackPanel>
+        
+        <Border Background="Black" Grid.Column="0" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" x:Name="Label" Foreground="Yellow" TextAlignment="Center" />
+                <ProgressBar Grid.Row="1" x:Name="ProgressBar" Value="0" Maximum="100" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -8,7 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="Transparent"
-    xmlns:str="using:Mosaic.Strings">
+    xmlns:str="using:Mosaic.Strings"
+    xmlns:controls="using:Mosaic.Controls">
 
     <Page.Resources>
         <Style x:Key="CommandBar_Flyout_SizeSlider" TargetType="Slider">
@@ -124,10 +125,10 @@
 
         </CommandBar>
 
-        <!--<local:VideoMosaic
+        <controls:VideoMosaic
             x:Name="MosaicGrid"
             Grid.Row="1"
             Canvas.ZIndex="0"
-            MosaicManager="{x:Bind mosaicManager}" />-->
+            MosaicManager="{x:Bind mosaicManager}" />
     </Grid>
 </Page>
