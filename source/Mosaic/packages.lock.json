@@ -12,12 +12,6 @@
           "Microsoft.WindowsAppSDK": "1.0.0"
         }
       },
-      "FFmpeg.AutoGen": {
-        "type": "Direct",
-        "requested": "[7.1.1, )",
-        "resolved": "7.1.1",
-        "contentHash": "p4FGdG654zut4Iseg7PeYo7sxFMOTuLTEKl/vX+44UQ6NmezF3wHcR6JzjH8xzK4VDPLJe5Xz563kXamMQj7Jg=="
-      },
       "FlyleafLib.Controls.WinUI": {
         "type": "Direct",
         "requested": "[1.1.4, )",

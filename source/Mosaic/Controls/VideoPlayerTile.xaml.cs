@@ -27,6 +27,8 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
     public VideoPlayerTile()
     {
         this.Config = new Config();
+        this.Config.Video.VideoAcceleration = true;
+        this.Config.Video.Enabled = true;
         this.Player = new Player(this.Config);
 
         this.InitializeComponent();
