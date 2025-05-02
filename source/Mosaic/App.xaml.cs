@@ -4,9 +4,7 @@
 namespace Mosaic;
 
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
-using Mosaic.Util;
 
 public partial class App : Application
 {

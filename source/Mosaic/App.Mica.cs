@@ -3,8 +3,8 @@
 
 namespace Mosaic;
 
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Mosaic.Util;
 using WinRT;

@@ -18,7 +18,6 @@ using Mosaic.Helper;
 using Mosaic.Infrastructure;
 using Mosaic.Infrastructure.Config;
 using Windows.Foundation.Metadata;
-using Windows.Security.Cryptography.Core;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
