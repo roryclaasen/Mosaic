@@ -7,10 +7,8 @@
   <ItemGroup Label="nuget.org">
     <PackageVersion Include="CsvHelper" Version="33.0.1" />
     <PackageVersion Include="FlyleafLib.Controls.WinUI" Version="1.1.4" />
-    <PackageVersion Include="LibVLCSharp" Version="3.9.3" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
-    <PackageVersion Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
   </ItemGroup>
 
   <ItemGroup Label="CommunityToolkit">
