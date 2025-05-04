@@ -67,13 +67,14 @@
 
                             <Slider
                                 Style="{StaticResource CommandBar_Flyout_SizeSlider}"
-                                Value="0"
+                                Value="{x:Bind MosaicGrid.MosaicWidth}"
                                 Header="{str:ResourceString Name=MosaicWidth}"
                                 Tag="m_width"
                                 ValueChanged="CommandBar_SizeChanged" />
 
-                            <Slider Style="{StaticResource CommandBar_Flyout_SizeSlider}"
-                                Value="0"
+                            <Slider
+                                Style="{StaticResource CommandBar_Flyout_SizeSlider}"
+                                Value="{x:Bind MosaicGrid.MosaicHeight}"
                                 Header="{str:ResourceString Name=MosaicHeight}"
                                 Tag="m_height"
                                 ValueChanged="CommandBar_SizeChanged" />
@@ -85,7 +86,7 @@
 
                             <ToggleSwitch
                                 Header="{str:ResourceString Name=ToggleLabels}"
-                                IsOn="True"
+                                IsOn="{x:Bind MosaicGrid.ShowLabels}"
                                 Toggled="CommandBar_ToggleLabels" />
 
                             <TextBlock
@@ -95,7 +96,7 @@
 
                             <ToggleSwitch
                                 Header="{str:ResourceString Name=ToggleMute}"
-                                IsOn="True"
+                                IsOn="{x:Bind MosaicGrid.MuteVideos}"
                                 Toggled="CommandBar_ToggleMute" />
                         </StackPanel>
                     </Flyout>

@@ -62,10 +62,7 @@ public sealed partial class HomePage : Page
             FileTypeFilter = { ".csv" }
         };
 
-        if (App.Current.Window is Window startupWindow)
-        {
-            InitializeWithWindow.Initialize(filePicker, WindowHelper.GetWindowHandleForCurrentWindow(startupWindow));
-        }
+        InitializeWithWindow.Initialize(filePicker, WindowHelper.GetWindowHandleForCurrentWindow(App.Current.Window!));
 
         var file = await filePicker.PickSingleFileAsync();
         if (file is not null)
