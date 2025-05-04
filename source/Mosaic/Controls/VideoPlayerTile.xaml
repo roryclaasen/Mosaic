@@ -16,30 +16,7 @@
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
 
-        <Style TargetType="fl:FlyleafHost" >
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="fl:FlyleafHost">
-                        <Grid>
-                            <SwapChainPanel x:Name="SCP">
-                                <fl:KeyboardFocusControl x:Name="KFC" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0"/>
-                            </SwapChainPanel>
-                            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
-        <Style TargetType="fl:FullScreenContainer" >
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="fl:FullScreenContainer">
-                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
 
     <Grid x:Name="Root">

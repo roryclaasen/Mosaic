@@ -4,23 +4,17 @@
 namespace Mosaic.Controls;
 
 using System;
-using System.Collections.Generic;
-using FlyleafLib.MediaPlayer;
+using System.Threading;
+using System.Threading.Tasks;
 using FlyleafLib;
+using FlyleafLib.MediaPlayer;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Mosaic.Infrastructure;
 using Mosaic.Infrastructure.Config;
-using Windows.ApplicationModel.DataTransfer;
-using System.Threading.Tasks;
-using System.Threading;
-using Microsoft.UI;
-using WinRT.Interop;
-using Microsoft.UI.Windowing;
 using Mosaic.Util;
-using FlyleafLib.Controls.WinUI;
-using FlyleafLib.MediaFramework.MediaPlaylist;
-using Windows.UI.WebUI;
+using Windows.ApplicationModel.DataTransfer;
 
 public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 {
@@ -33,32 +27,33 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 
         this.InitializeComponent();
 
-        if (App.Current.Window is Window startupWindow)
+        this.Root.DataContext = this;
+
+        var wndId = WindowHelper.GetWindowIdFromCurrentWindow(App.Current.Window!);
+        var mainAppWindow = AppWindow.GetFromWindowId(wndId);
+
+        this.FSC.FullScreenEnter += (o, e) =>
         {
-            IntPtr hWnd = WindowHelper.GetWindowHandleForCurrentWindow(startupWindow);
-            WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-            var MainAppWindow = AppWindow.GetFromWindowId(wndId);
-
-            this.FSC.FullScreenEnter += (o, e) =>
-            {
-                MainAppWindow.IsShownInSwitchers = false;
-                this.flyleafHost.KFC.Focus(FocusState.Keyboard);
-            };
-
-            this.FSC.FullScreenExit += (o, e) =>
-            {
-                MainAppWindow.IsShownInSwitchers = true;
-                Task.Run(() => { Thread.Sleep(10); Utils.UIInvoke(() => this.flyleafHost.KFC.Focus(FocusState.Keyboard)); });
-            };
-        }
-
-        this.Root.PointerReleased += (o, e) =>
-        {
-            Task.Run(() => { Thread.Sleep(10); Utils.UIInvoke(() => flyleafHost.KFC.Focus(FocusState.Keyboard)); });
+            mainAppWindow.IsShownInSwitchers = false;
+            this.flyleafHost.KFC?.Focus(FocusState.Keyboard);
         };
-    }
 
-    public event EventHandler? Initalized;
+        this.FSC.FullScreenExit += (o, e) =>
+        {
+            mainAppWindow.IsShownInSwitchers = true;
+            Task.Run(() =>
+            {
+                Thread.Sleep(10);
+                Utils.UIInvoke(() => this.flyleafHost.KFC?.Focus(FocusState.Keyboard));
+            });
+        };
+
+        this.Root.PointerReleased += (o, e) => Task.Run(() =>
+        {
+            Thread.Sleep(10);
+            Utils.UIInvoke(() => this.flyleafHost.KFC?.Focus(FocusState.Keyboard));
+        });
+    }
 
     public event EventHandler? MediaChangeRequested;
 
@@ -85,8 +80,7 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 
     public bool PlayVideo(MediaEntry entry)
     {
-        // TODO: Implement the logic to play the video using the Player instance
-        this.Player.Stop();
+        this.StopVideo();
 
         var result = this.Player.Open(entry.Mrl.ToString());
         return result.Success;
