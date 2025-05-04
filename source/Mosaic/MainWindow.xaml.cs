@@ -3,14 +3,42 @@
 
 namespace Mosaic;
 
+using System;
 using System.Diagnostics.CodeAnalysis;
+using FlyleafLib;
+using FlyleafLib.Controls.WinUI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 
 public sealed partial class MainWindow : Window
 {
-    public MainWindow() => this.InitializeComponent();
+    public MainWindow()
+    {
+        Engine.Start(new EngineConfig
+        {
+            // TODO: Add an option to somehow use a user-defined path for ffmpeg
+            FFmpegPath = @"D:\tools\ffmpeg\bin",
+
+            // FFmpegDevices = false,
+
+#if DEBUG
+            FFmpegLogLevel = Flyleaf.FFmpeg.LogLevel.Warn,
+            LogLevel = LogLevel.Debug,
+            LogOutput = ":debug",
+#else
+            FFmpegLogLevel = Flyleaf.FFmpeg.LogLevel.Quiet,
+            LogLevel = LogLevel.Quiet,
+#endif
+
+            UIRefresh = false
+        });
+
+
+        FullScreenContainer.CustomizeFullScreenWindow += FullScreenContainer_CustomizeFullScreenWindow;
+
+        this.InitializeComponent();
+    }
 
     public void SetAppTitleBar()
     {
@@ -39,5 +67,18 @@ public sealed partial class MainWindow : Window
         title += " (DEBUG)";
 #endif
         return title;
+    }
+
+    private void FullScreenContainer_CustomizeFullScreenWindow(object sender, EventArgs e)
+    {
+        if (FullScreenContainer.FSWApp is not null)
+        {
+            FullScreenContainer.FSWApp.Title = this.Title + " (FS)";
+        }
+
+        if (FullScreenContainer.FSW is not null)
+        {
+            FullScreenContainer.FSW.Closed += (o, e) => this.Close();
+        }
     }
 }
