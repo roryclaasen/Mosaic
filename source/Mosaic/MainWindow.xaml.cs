@@ -19,19 +19,16 @@ public sealed partial class MainWindow : Window
         {
             // TODO: Add an option to somehow use a user-defined path for ffmpeg
             FFmpegPath = @"D:\tools\ffmpeg\bin",
-
-            // FFmpegDevices = false,
+            UIRefresh = false,
 
 #if DEBUG
             FFmpegLogLevel = Flyleaf.FFmpeg.LogLevel.Warn,
             LogLevel = LogLevel.Debug,
-            LogOutput = ":debug",
+            LogOutput = ":debug"
 #else
             FFmpegLogLevel = Flyleaf.FFmpeg.LogLevel.Quiet,
-            LogLevel = LogLevel.Quiet,
+            LogLevel = LogLevel.Quiet
 #endif
-
-            UIRefresh = false
         });
 
         FullScreenContainer.CustomizeFullScreenWindow += this.FullScreenContainer_CustomizeFullScreenWindow;
