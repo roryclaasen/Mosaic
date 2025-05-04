@@ -6,6 +6,7 @@ namespace Mosaic.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Dispatching;
@@ -14,12 +15,6 @@ using Mosaic.Infrastructure;
 
 public sealed partial class VideoMosaic : UniformGrid
 {
-    public static readonly DependencyProperty MinMosaicSizeProperty =
-        DependencyProperty.Register(nameof(MinMosaicSize), typeof(int), typeof(VideoMosaic), new PropertyMetadata(1));
-
-    public static readonly DependencyProperty MaxMosaicSizeProperty =
-        DependencyProperty.Register(nameof(MaxMosaicSize), typeof(int), typeof(VideoMosaic), new PropertyMetadata(7));
-
     private const int DEFAULTSIZE = 3;
 
     private readonly DispatcherQueueTimer regenerateGridTimer;
@@ -47,17 +42,9 @@ public sealed partial class VideoMosaic : UniformGrid
 
     public MosaicManager? MosaicManager { get; set; }
 
-    public int MinMosaicSize
-    {
-        get => (int)this.GetValue(MinMosaicSizeProperty);
-        set => this.SetValue(MinMosaicSizeProperty, value);
-    }
+    public int MinMosaicSize => 1;
 
-    public int MaxMosaicSize
-    {
-        get => (int)this.GetValue(MaxMosaicSizeProperty);
-        set => this.SetValue(MaxMosaicSizeProperty, value);
-    }
+    public int MaxMosaicSize => 7;
 
     public int MosaicWidth
     {
@@ -182,7 +169,7 @@ public sealed partial class VideoMosaic : UniformGrid
         }
     }
 
-    public void TriggerResize()
+    public void TriggerResize() => this.DispatcherQueue.TryEnqueue(() =>
     {
         var requiredTiles = this.MosaicWidth * this.MosaicHeight;
         var countOfCurrentTiles = this.Tiles.Count();
@@ -199,7 +186,7 @@ public sealed partial class VideoMosaic : UniformGrid
         {
             this.RemoveTiles(countOfCurrentTiles - requiredTiles);
         }
-    }
+    });
 
     private void RemoveTiles(int count)
     {
@@ -221,11 +208,12 @@ public sealed partial class VideoMosaic : UniformGrid
         {
             var newVideoPlayer = new VideoPlayerTile();
             newVideoPlayer.SetLabelVisibility(this.ShowLabels);
+            newVideoPlayer.SetMute(this.MuteVideos);
             newVideoPlayer.Loaded += (sender, args) =>
             {
-                newVideoPlayer.SetMute(this.MuteVideos);
                 if (++initialzedCount == count)
                 {
+                    Thread.Sleep(1000);
                     this.SizingComplete?.Invoke(this, EventArgs.Empty);
                 }
             };
@@ -241,7 +229,7 @@ public sealed partial class VideoMosaic : UniformGrid
         }
     }
 
-    private void SizeUpdated(object? sender, EventArgs e)
+    private void SizeUpdated(object? sender, EventArgs e) => this.DispatcherQueue.TryEnqueue(() =>
     {
         this.UpdateLayout();
         if (this.regenerateGridTimer.IsRunning)
@@ -253,7 +241,7 @@ public sealed partial class VideoMosaic : UniformGrid
         {
             this.Play();
         }
-    }
+    });
 
     private void TriggerNextTile(VideoPlayerTile? tile)
     {

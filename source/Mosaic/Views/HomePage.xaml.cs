@@ -133,14 +133,14 @@ public sealed partial class HomePage : Page
             case "m_width":
                 if (this.MosaicGrid.MosaicWidth != newValue)
                 {
-                this.MosaicGrid.MosaicWidth = newValue;
+                    this.MosaicGrid.MosaicWidth = newValue;
                 }
 
                 break;
             case "m_height":
                 if (this.MosaicGrid.MosaicHeight != newValue)
                 {
-                this.MosaicGrid.MosaicHeight = newValue;
+                    this.MosaicGrid.MosaicHeight = newValue;
                 }
 
                 break;

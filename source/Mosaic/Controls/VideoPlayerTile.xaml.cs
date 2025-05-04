@@ -4,16 +4,12 @@
 namespace Mosaic.Controls;
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FlyleafLib;
 using FlyleafLib.MediaPlayer;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Mosaic.Infrastructure;
 using Mosaic.Infrastructure.Config;
-using Mosaic.Util;
 using Windows.ApplicationModel.DataTransfer;
 
 public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
@@ -23,11 +19,10 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
         this.Config = new Config();
         this.Config.Video.VideoAcceleration = true;
         this.Config.Video.Enabled = true;
+
         this.Player = new Player(this.Config);
 
         this.InitializeComponent();
-
-        this.Root.DataContext = this;
 
         App.Current.WindowCreated += (o, e) =>
         {

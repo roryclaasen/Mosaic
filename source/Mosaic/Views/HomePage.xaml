@@ -13,8 +13,6 @@
 
     <Page.Resources>
         <Style x:Key="CommandBar_Flyout_SizeSlider" TargetType="Slider">
-            <Setter Property="Minimum" Value="1"/>
-            <Setter Property="Maximum" Value="7"/>
             <Setter Property="StepFrequency" Value="1"/>
             <Setter Property="TickFrequency" Value="1"/>
             <Setter Property="TickPlacement" Value="Outside"/>
@@ -68,6 +66,8 @@
                             <Slider
                                 Style="{StaticResource CommandBar_Flyout_SizeSlider}"
                                 Value="{x:Bind MosaicGrid.MosaicWidth}"
+                                Minimum="{x:Bind MosaicGrid.MinMosaicSize}"
+                                Maximum="{x:Bind MosaicGrid.MaxMosaicSize}"
                                 Header="{str:ResourceString Name=MosaicWidth}"
                                 Tag="m_width"
                                 ValueChanged="CommandBar_SizeChanged" />
@@ -75,6 +75,8 @@
                             <Slider
                                 Style="{StaticResource CommandBar_Flyout_SizeSlider}"
                                 Value="{x:Bind MosaicGrid.MosaicHeight}"
+                                Minimum="{x:Bind MosaicGrid.MinMosaicSize}"
+                                Maximum="{x:Bind MosaicGrid.MaxMosaicSize}"
                                 Header="{str:ResourceString Name=MosaicHeight}"
                                 Tag="m_height"
                                 ValueChanged="CommandBar_SizeChanged" />
