@@ -6,7 +6,6 @@ namespace Mosaic.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Dispatching;
@@ -169,7 +168,7 @@ public sealed partial class VideoMosaic : UniformGrid
         }
     }
 
-    public void TriggerResize() => this.DispatcherQueue.TryEnqueue(() =>
+    public void TriggerResize() 
     {
         var requiredTiles = this.MosaicWidth * this.MosaicHeight;
         var countOfCurrentTiles = this.Tiles.Count();
@@ -186,7 +185,7 @@ public sealed partial class VideoMosaic : UniformGrid
         {
             this.RemoveTiles(countOfCurrentTiles - requiredTiles);
         }
-    });
+    }
 
     private void RemoveTiles(int count)
     {
@@ -213,7 +212,6 @@ public sealed partial class VideoMosaic : UniformGrid
             {
                 if (++initialzedCount == count)
                 {
-                    Thread.Sleep(1000);
                     this.SizingComplete?.Invoke(this, EventArgs.Empty);
                 }
             };
@@ -229,7 +227,7 @@ public sealed partial class VideoMosaic : UniformGrid
         }
     }
 
-    private void SizeUpdated(object? sender, EventArgs e) => this.DispatcherQueue.TryEnqueue(() =>
+    private void SizeUpdated(object? sender, EventArgs e)
     {
         this.UpdateLayout();
         if (this.regenerateGridTimer.IsRunning)
@@ -241,7 +239,7 @@ public sealed partial class VideoMosaic : UniformGrid
         {
             this.Play();
         }
-    });
+    }
 
     private void TriggerNextTile(VideoPlayerTile? tile)
     {

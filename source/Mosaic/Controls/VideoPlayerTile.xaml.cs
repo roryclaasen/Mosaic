@@ -24,18 +24,7 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 
         this.InitializeComponent();
 
-        App.Current.WindowCreated += (o, e) =>
-        {
-            var mainAppWindow = e.AppWindow;
-
-            this.FSC.FullScreenEnter += (o, e) =>
-            {
-                mainAppWindow.IsShownInSwitchers = false;
-                this.flyleafHost.KFC?.Focus(FocusState.Keyboard);
-            };
-
-            this.FSC.FullScreenExit += (o, e) => mainAppWindow.IsShownInSwitchers = true;
-        };
+        this.Unloaded += this.VideoPlayerTile_Unloaded;
     }
 
     public event EventHandler? MediaChangeRequested;
@@ -65,8 +54,16 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
     {
         this.StopVideo();
 
+        this.Label.Text = entry.DisplayLabel;
+
         var result = this.Player.Open(entry.Mrl.ToString());
-        return result.Success;
+        if (result.Success)
+        {
+            this.NoMedia.Opacity = 0;
+            return true;
+        }
+
+        return false;
     }
 
     public void SetPause(bool pause)
@@ -92,6 +89,8 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
         this.Root.ContextFlyout = null;
 
         this.Player.Stop();
+
+        this.NoMedia.Opacity = 1;
 
         this.Label.Text = string.Empty;
         this.SetProgress(0);
@@ -122,4 +121,6 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 
     private void AppBarButton_Next(object sender, RoutedEventArgs e)
         => this.MediaChangeRequested?.Invoke(this, EventArgs.Empty);
+
+    private void VideoPlayerTile_Unloaded(object sender, RoutedEventArgs e) => this.Player.Stop();
 }

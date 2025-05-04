@@ -4,12 +4,8 @@
 namespace Mosaic.Events;
 
 using System;
-using Microsoft.UI.Windowing;
-using Mosaic.Util;
 
 internal class WindowCreatedEventArgs(MainWindow window) : EventArgs
 {
     public MainWindow Window { get; } = window;
-
-    public AppWindow AppWindow => AppWindow.GetFromWindowId(WindowHelper.GetWindowIdFromCurrentWindow(this.Window));
 }

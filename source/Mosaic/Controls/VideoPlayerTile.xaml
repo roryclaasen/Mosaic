@@ -18,31 +18,29 @@
     </UserControl.Resources>
 
     <Grid x:Name="Root">
-        <fl:FullScreenContainer x:Name="FSC">
-            <fl:FlyleafHost x:Name="flyleafHost" Player="{x:Bind Player}">
-                <Grid VerticalAlignment="Bottom" Margin="0 0 0 0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    
-                    <StackPanel Orientation="Vertical" Grid.Row="0" VerticalAlignment="Center">
-                        <FontIcon Glyph="&#xEA39;" Foreground="White" FontSize="40"/>
-                        <TextBlock TextAlignment="Center" Text="No Media" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="White"/>
-                    </StackPanel>
+        <fl:FlyleafHost x:Name="flyleafHost" Player="{x:Bind Player}">
+            <Grid VerticalAlignment="Bottom" Margin="0 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
 
-                    <Border Background="Black" Grid.Row="1">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" x:Name="Label" Foreground="Yellow" TextAlignment="Center" />
-                            <ProgressBar Grid.Row="1" x:Name="ProgressBar" Value="0" Maximum="100" />
-                        </Grid>
-                    </Border>
-                </Grid>
-            </fl:FlyleafHost>
-        </fl:FullScreenContainer>
+                <StackPanel Orientation="Vertical" Grid.Row="0" VerticalAlignment="Center" Name="NoMedia">
+                    <FontIcon Glyph="&#xEA39;" Foreground="White" FontSize="40"/>
+                    <TextBlock TextAlignment="Center" Text="No Media" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="White"/>
+                </StackPanel>
+
+                <Border Background="Black" Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" x:Name="Label" Foreground="Yellow" TextAlignment="Center" />
+                        <ProgressBar Grid.Row="1" x:Name="ProgressBar" Value="0" Maximum="100" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </fl:FlyleafHost>
     </Grid>
 </UserControl>
