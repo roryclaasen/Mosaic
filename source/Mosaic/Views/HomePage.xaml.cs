@@ -131,10 +131,18 @@ public sealed partial class HomePage : Page
         switch (slider.Tag)
         {
             case "m_width":
+                if (this.MosaicGrid.MosaicWidth != newValue)
+                {
                 this.MosaicGrid.MosaicWidth = newValue;
+                }
+
                 break;
             case "m_height":
+                if (this.MosaicGrid.MosaicHeight != newValue)
+                {
                 this.MosaicGrid.MosaicHeight = newValue;
+                }
+
                 break;
             default:
                 throw new Exception("Unknown slider tag");
