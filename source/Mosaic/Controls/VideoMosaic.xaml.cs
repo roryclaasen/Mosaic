@@ -28,7 +28,7 @@ public sealed partial class VideoMosaic : UniformGrid
 
         this.InitializeComponent();
 
-        this.regenerateGridTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+        this.regenerateGridTimer = this.DispatcherQueue.CreateTimer();
         this.swapTimer = new DispatcherTimer();
         this.swapTimer.Tick += (_, _) => this.SwapTimerTick();
 
@@ -110,10 +110,7 @@ public sealed partial class VideoMosaic : UniformGrid
 
     public void Play()
     {
-        if (this.MosaicManager is null)
-        {
-            throw new Exception("MosaicManager is null");
-        }
+        ArgumentNullException.ThrowIfNull(this.MosaicManager, nameof(this.MosaicManager));
 
         if (this.IsPlaying && this.IsPaused)
         {
@@ -200,7 +197,7 @@ public sealed partial class VideoMosaic : UniformGrid
         {
             var newVideoPlayer = new VideoPlayerTile();
             newVideoPlayer.SetLabelVisibility(this.ShowLabels);
-            newVideoPlayer.Initalized += (sender, args) =>
+            newVideoPlayer.Loaded += (sender, args) =>
             {
                 newVideoPlayer.SetMute(this.MuteVideos);
                 if (++initialzedCount == count)
