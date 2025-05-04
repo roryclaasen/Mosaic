@@ -29,30 +29,18 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
 
         this.Root.DataContext = this;
 
-        var wndId = WindowHelper.GetWindowIdFromCurrentWindow(App.Current.Window!);
-        var mainAppWindow = AppWindow.GetFromWindowId(wndId);
-
-        this.FSC.FullScreenEnter += (o, e) =>
+        App.Current.WindowCreated += (o, e) =>
         {
-            mainAppWindow.IsShownInSwitchers = false;
-            this.flyleafHost.KFC?.Focus(FocusState.Keyboard);
-        };
+            var mainAppWindow = e.AppWindow;
 
-        this.FSC.FullScreenExit += (o, e) =>
-        {
-            mainAppWindow.IsShownInSwitchers = true;
-            Task.Run(() =>
+            this.FSC.FullScreenEnter += (o, e) =>
             {
-                Thread.Sleep(10);
-                Utils.UIInvoke(() => this.flyleafHost.KFC?.Focus(FocusState.Keyboard));
-            });
-        };
+                mainAppWindow.IsShownInSwitchers = false;
+                this.flyleafHost.KFC?.Focus(FocusState.Keyboard);
+            };
 
-        this.Root.PointerReleased += (o, e) => Task.Run(() =>
-        {
-            Thread.Sleep(10);
-            Utils.UIInvoke(() => this.flyleafHost.KFC?.Focus(FocusState.Keyboard));
-        });
+            this.FSC.FullScreenExit += (o, e) => mainAppWindow.IsShownInSwitchers = true;
+        };
     }
 
     public event EventHandler? MediaChangeRequested;

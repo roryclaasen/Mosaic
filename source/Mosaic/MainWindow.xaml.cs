@@ -34,8 +34,7 @@ public sealed partial class MainWindow : Window
             UIRefresh = false
         });
 
-
-        FullScreenContainer.CustomizeFullScreenWindow += FullScreenContainer_CustomizeFullScreenWindow;
+        FullScreenContainer.CustomizeFullScreenWindow += this.FullScreenContainer_CustomizeFullScreenWindow;
 
         this.InitializeComponent();
     }
@@ -69,7 +68,7 @@ public sealed partial class MainWindow : Window
         return title;
     }
 
-    private void FullScreenContainer_CustomizeFullScreenWindow(object sender, EventArgs e)
+    private void FullScreenContainer_CustomizeFullScreenWindow(object? sender, EventArgs e)
     {
         if (FullScreenContainer.FSWApp is not null)
         {
