@@ -14,6 +14,12 @@ using Mosaic.Infrastructure;
 
 public sealed partial class VideoMosaic : UniformGrid
 {
+    public static readonly DependencyProperty MinMosaicSizeProperty =
+        DependencyProperty.Register(nameof(MinMosaicSize), typeof(int), typeof(VideoMosaic), new PropertyMetadata(1));
+
+    public static readonly DependencyProperty MaxMosaicSizeProperty =
+        DependencyProperty.Register(nameof(MaxMosaicSize), typeof(int), typeof(VideoMosaic), new PropertyMetadata(7));
+
     private const int DEFAULTSIZE = 3;
 
     private readonly DispatcherQueueTimer regenerateGridTimer;
@@ -41,11 +47,26 @@ public sealed partial class VideoMosaic : UniformGrid
 
     public MosaicManager? MosaicManager { get; set; }
 
+    public int MinMosaicSize
+    {
+        get => (int)this.GetValue(MinMosaicSizeProperty);
+        set => this.SetValue(MinMosaicSizeProperty, value);
+    }
+
+    public int MaxMosaicSize
+    {
+        get => (int)this.GetValue(MaxMosaicSizeProperty);
+        set => this.SetValue(MaxMosaicSizeProperty, value);
+    }
+
     public int MosaicWidth
     {
         get => this.Columns;
         set
         {
+            ArgumentOutOfRangeException.ThrowIfLessThan(value, this.MinMosaicSize, nameof(value));
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, this.MaxMosaicSize, nameof(value));
+
             this.Columns = value;
             this.regenerateGridTimer.Debounce(this.TriggerResize, TimeSpan.FromMilliseconds(600));
             if (!this.regenerateGridTimer.IsRunning)
@@ -60,6 +81,9 @@ public sealed partial class VideoMosaic : UniformGrid
         get => this.Rows;
         set
         {
+            ArgumentOutOfRangeException.ThrowIfLessThan(value, this.MinMosaicSize, nameof(value));
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, this.MaxMosaicSize, nameof(value));
+
             this.Rows = value;
             this.regenerateGridTimer.Debounce(this.TriggerResize, TimeSpan.FromMilliseconds(600));
             if (!this.regenerateGridTimer.IsRunning)
