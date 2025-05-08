@@ -4,7 +4,7 @@
 namespace Mosaic.Controls;
 
 using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using LibVLCSharp.Platforms.Windows;
 using LibVLCSharp.Shared;
 using Microsoft.UI.Xaml;
@@ -93,14 +93,9 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
         this.SetProgress(0);
     }
 
-    private void VideoView_Initialized(object? sender, InitializedEventArgs e)
+    private void VideoView_Initialized(object? sender, InitializedEventArgs e) => Task.Run(() =>
     {
-        var options = new List<string>
-        {
-            "--aout=directsound"
-        };
-        options.AddRange(e.SwapChainOptions);
-        this.libVlc = new LibVLC([.. options]);
+        this.libVlc = new LibVLC(["--aout=directsound", .. e.SwapChainOptions]);
         this.mediaPlayer = new MediaPlayer(this.libVlc)
         {
             Mute = true,
@@ -108,7 +103,7 @@ public sealed partial class VideoPlayerTile : UserControl, IVideoPlayerTile
         };
 
         this.Initalized?.Invoke(this, EventArgs.Empty);
-    }
+    });
 
     private void VideoPlayerTile_Unloaded(object sender, RoutedEventArgs e) => this.StopVideo();
 
